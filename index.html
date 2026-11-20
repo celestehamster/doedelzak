@@ -17,16 +17,17 @@
 <style>
 html,body{-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
 body{-webkit-user-select:none;user-select:none;touch-action:manipulation}
-@media (display-mode:standalone){
- html,body{position:fixed;inset:0;width:100%;height:100%;overflow:hidden}
- body{justify-content:center}
- h1,#help,#stage>p{display:none!important}
- canvas{max-height:calc(100dvh - 96px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));box-shadow:0 10px 30px rgba(70,20,50,.3)}
-}
-html.sa,html.sa body{position:fixed;inset:0;width:100%;height:100%;overflow:hidden}
-html.sa body{justify-content:center}
+html.sa,html.sa body{position:fixed;inset:0;width:100%;height:100%;overflow:hidden;margin:0}
+html.sa body{display:flex;flex-direction:column;padding:0;gap:0}
 html.sa h1,html.sa #help,html.sa #stage>p{display:none!important}
-html.sa canvas{max-height:calc(100dvh - 96px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))}
+html.sa #stage{flex:1;min-height:0;width:100%;gap:0;justify-content:center;padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
+html.sa canvas{width:min(100vw,calc((100dvh - 64px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))*.75));height:auto;max-width:none;max-height:none;aspect-ratio:3/4;border-radius:0;box-shadow:none}
+html.sa #stage>canvas+div{position:fixed;left:0;right:0;bottom:0;height:calc(64px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box;flex-wrap:nowrap!important;align-items:center;gap:6px!important;padding-left:8px;padding-right:8px;background:rgba(20,8,34,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+html.sa #stage>canvas+div button{flex:1 1 0;min-width:0;padding:8px 2px;font-size:.78rem;line-height:1.05;white-space:nowrap;max-width:90px}
+html.sa #stage>canvas+div button .ic{width:1.5em;height:1.5em;margin:0}
+html.sa #b,html.sa #k{font-size:0!important}html.sa #b .ic,html.sa #k .ic{width:26px!important;height:26px!important;margin:0!important}
+html.sa,html.sa body{background:linear-gradient(#1e0c34,#3b1552 55%,#1e0c34)}
+html.sa body::before{display:none}
 #a2hs{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:60;max-width:440px;margin:0 auto;background:#2a1240;color:#fff;border:3px solid #ffd23f;border-radius:18px;padding:12px 14px;display:flex;gap:12px;align-items:center;font:600 .92rem/1.35 Fredoka,'Trebuchet MS',sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.45);touch-action:auto;-webkit-user-select:none}
 #a2hs img{width:44px;height:44px;border-radius:11px;flex:none}
 #a2hs b{color:#ffd23f}
@@ -34,7 +35,7 @@ html.sa canvas{max-height:calc(100dvh - 96px - env(safe-area-inset-top,0px) - en
 #a2hs .x{background:transparent;box-shadow:none;padding:6px 8px;font-size:1.2rem;opacity:.7}
 #a2hs svg{width:1.1em;height:1.1em;vertical-align:-.2em}
 </style>
-<script>try{if(navigator.standalone||matchMedia('(display-mode:standalone)').matches)document.documentElement.classList.add('sa')}catch(e){}</script>
+<script>try{if(navigator.standalone||matchMedia('(display-mode:standalone)').matches||matchMedia('(pointer:coarse) and (max-width:700px)').matches)document.documentElement.classList.add('sa')}catch(e){}</script>
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2064%2064%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20stroke%3D%22%232b1a0f%22%20stroke-width%3D%223%22%20stroke-linejoin%3D%22round%22%3E%3Ccircle%20cx%3D%2215%22%20cy%3D%2219%22%20r%3D%229%22%20fill%3D%22%23d99a54%22/%3E%3Ccircle%20cx%3D%2249%22%20cy%3D%2219%22%20r%3D%229%22%20fill%3D%22%23d99a54%22/%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2238%22%20r%3D%2222%22%20fill%3D%22%23e8b36a%22/%3E%3C/g%3E%3Ccircle%20cx%3D%2215%22%20cy%3D%2219%22%20r%3D%224%22%20fill%3D%22%23ffb3b3%22/%3E%3Ccircle%20cx%3D%2249%22%20cy%3D%2219%22%20r%3D%224%22%20fill%3D%22%23ffb3b3%22/%3E%3Cellipse%20cx%3D%2232%22%20cy%3D%2246%22%20rx%3D%2213%22%20ry%3D%229.5%22%20fill%3D%22%23fff3d9%22/%3E%3Ccircle%20cx%3D%2223%22%20cy%3D%2235%22%20r%3D%223.3%22%20fill%3D%22%23e02020%22/%3E%3Ccircle%20cx%3D%2241%22%20cy%3D%2235%22%20r%3D%223.3%22%20fill%3D%22%23e02020%22/%3E%3Cpath%20d%3D%22M17%2028l10%204M47%2028l-10%204%22%20stroke%3D%22%232b1a0f%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22/%3E%3Ccircle%20cx%3D%2232%22%20cy%3D%2242%22%20r%3D%222.8%22%20fill%3D%22%23ff8fa3%22/%3E%3Cg%20fill%3D%22%23fff%22%20stroke%3D%22%232b1a0f%22%20stroke-width%3D%221.6%22%3E%3Crect%20x%3D%2228%22%20y%3D%2247%22%20width%3D%224%22%20height%3D%226.5%22%20rx%3D%221%22/%3E%3Crect%20x%3D%2232.5%22%20y%3D%2247%22%20width%3D%224%22%20height%3D%226.5%22%20rx%3D%221%22/%3E%3C/g%3E%3Cpath%20d%3D%22M18%2017q14-14%2028%200z%22%20fill%3D%22%23b3261e%22%20stroke%3D%22%232b1a0f%22%20stroke-width%3D%223%22%20stroke-linejoin%3D%22round%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap">
@@ -326,7 +327,7 @@ const musicA=new Audio(TRK.a);let music=musicA;music.loop=true;music.preload='au
 const musicB=new Audio(TRK.b);musicB.loop=true;musicB.preload='auto';musicB.volume=.55;let primed=false;
 const musicC=new Audio(TRK.c);musicC.loop=true;musicC.preload='auto';musicC.volume=.6;
 const musicD=new Audio(TRK.d);musicD.loop=true;musicD.preload='auto';musicD.volume=.6;
-function primeB(){if(primed)return;primed=true;try{musicD.muted=true;const pd=musicD.play();if(pd&&pd.then)pd.then(()=>{musicD.pause();try{musicD.currentTime=0}catch(e){}}).catch(()=>{})}catch(e){}try{musicC.muted=true;const pc=musicC.play();if(pc&&pc.then)pc.then(()=>{musicC.pause();try{musicC.currentTime=0}catch(e){}}).catch(()=>{})}catch(e){}try{musicB.muted=true;const p=musicB.play();if(p&&p.then)p.then(()=>{musicB.pause();try{musicB.currentTime=0}catch(e){}}).catch(()=>{primed=false});else{musicB.pause()}}catch(e){primed=false}}
+let primeUntil=0;function primeB(){if(primed)return;primed=true;primeUntil=Date.now()+2500;try{musicD.muted=true;const pd=musicD.play();if(pd&&pd.then)pd.then(()=>{if(music!==musicD)musicD.pause();try{musicD.currentTime=0}catch(e){}}).catch(()=>{})}catch(e){}try{musicC.muted=true;const pc=musicC.play();if(pc&&pc.then)pc.then(()=>{if(music!==musicC)musicC.pause();try{musicC.currentTime=0}catch(e){}}).catch(()=>{})}catch(e){}try{musicB.muted=true;const p=musicB.play();if(p&&p.then)p.then(()=>{if(music!==musicB)musicB.pause();try{musicB.currentTime=0}catch(e){}}).catch(()=>{primed=false});else{musicB.pause()}}catch(e){primed=false}}
 let unlocked=false,userMuted=false,usingWA=false,failN=0,mStatus='wacht op tik',mBuf=null,mSrc=null,mGain=null;
 try{if(navigator.audioSession)navigator.audioSession.type='playback'}catch(e){}
 music.addEventListener('playing',()=>{if(!usingWA)mStatus='speelt'});
@@ -337,7 +338,7 @@ function fallbackWA(){
   try{initAudio()}catch(e){}
   if(!ac){mStatus='geen audio mogelijk';return}
   mStatus='andere methode laden...';
-  getBuf(music.currentSrc||music.src).then(b=>new Promise((ok,no)=>ac.decodeAudioData(b,ok,no))).then(buf=>{mBuf=buf;startWA()}).catch(e=>{mStatus='laden mislukt'});
+  {const k0=curTrk;getBuf(TRK[k0]).then(b=>new Promise((ok,no)=>ac.decodeAudioData(b,ok,no))).then(buf=>{if(curTrk!==k0)return;mBuf=buf;startWA()}).catch(e=>{mStatus='laden mislukt'})}
 }
 function startWA(){
   if(!mBuf||!ac||mSrc)return;
@@ -361,7 +362,7 @@ function unlockAudio(e){primeB();if(retryPlay&&!usingWA){try{music.muted=userMut
   ['pointerdown','pointerup','touchstart','touchend','click','keydown'].forEach(ev=>addEventListener(ev,unlockAudio,{capture:true,passive:true}))})();
 function setTrack(k){if(k===curTrk)return;curTrk=k;
   if(usingWA){try{mSrc&&mSrc.stop()}catch(e){}mSrc=null;mBuf=null;getBuf(TRK[k]).then(b=>new Promise((ok,no)=>ac.decodeAudioData(b,ok,no))).then(buf=>{if(curTrk!==k)return;mBuf=buf;startWA()}).catch(()=>{});return}
-  try{const old=music,nw=k==='b'?musicB:k==='c'?musicC:k==='d'?musicD:primedA();const was=!old.paused||unlocked;old.pause();music=nw;nw.muted=userMuted;try{nw.currentTime=0}catch(e){}nw.volume=old.volume;if(was){const p=nw.play();if(p&&p.catch)p.catch(()=>{retryPlay=true;mStatus='tik om muziek te starten'})}}catch(e){}}
+  try{const old=music,nw=k==='b'?musicB:k==='c'?musicC:k==='d'?musicD:primedA();const was=!old.paused||unlocked;[musicA,musicB,musicC,musicD].forEach(a=>{if(a!==nw)try{a.pause()}catch(e){}});music=nw;nw.muted=userMuted;try{nw.currentTime=0}catch(e){}nw.volume=old.volume;if(was){const p=nw.play();if(p&&p.catch)p.catch(()=>{retryPlay=true;mStatus='tik om muziek te starten'})}}catch(e){}}
 function primedA(){return musicA}
 const TNAME={a:'Doedelzak-thema',b:'Candyland',c:'Turkish Hamster',d:'Pou muziek'};let trkSel=null,trkMsgT=0;
 try{const s=localStorage.getItem('doedelzak-track');if(TNAME[s])trkSel=s}catch(e){}
@@ -369,6 +370,8 @@ function autoTrack(){return state==='pet'?'d':state==='makeup'?'b':(state==='run
 document.getElementById('m2').addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();if(state==='studio')return;unlockAudio();const cur=trkSel||autoTrack(),L=['a','b','c','d'];trkSel=L[(L.indexOf(cur)+1)%4];try{localStorage.setItem('doedelzak-track',trkSel)}catch(x){}setTrack(trkSel);trkMsgT=150;if(userMuted){userMuted=false;music.muted=false;if(mGain)mGain.gain.value=.5;const mb=document.getElementById('m');mb.innerHTML=SPK_ON}});
 function vol(v){try{music.volume=v}catch(e){}if(mGain)mGain.gain.value=userMuted?0:v*.9}
 document.getElementById('m').addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();userMuted=!userMuted;if(unlocked&&!usingWA)music.muted=userMuted;if(mGain)mGain.gain.value=userMuted?0:.5;e.currentTarget.innerHTML=userMuted?SPK_OFF:SPK_ON});
+// EEN centrale muziekbewaker: nooit meer dan een bron tegelijk
+setInterval(()=>{try{const pr=Date.now()<primeUntil;[musicA,musicB,musicC,musicD].forEach(a=>{if(a.paused)return;if(a===music&&!usingWA)return;if(pr&&a.muted)return;a.pause()})}catch(e){}},250);
 // startscherm met explosies
 let ex=[],rings=[],flash=0,stN=0;
 function boom(x,y,s=1){
@@ -418,7 +421,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v34 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v35 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -2491,7 +2494,7 @@ function drawPet(now){
     else petHand(x,y,'open',rot,1.15,P.v)}}
 function petBtn(x,y,w,h,label,col,fn,sz,tc){ctx.save();ctx.shadowColor='rgba(0,0,0,.3)';ctx.shadowBlur=8;ctx.shadowOffsetY=3;ctx.fillStyle=col;ctx.strokeStyle='rgba(255,255,255,.8)';ctx.lineWidth=2.5;ctx.beginPath();ctx.roundRect(x,y,w,h,Math.min(18,h/2));ctx.fill();ctx.shadowColor='transparent';ctx.stroke();ctx.restore();text(label,x+w/2,y+h/2+(sz||15)*.36,sz||15,tc||'#fff');PET.hits.push({x,y,w,h,fn})}
 
-(function loop(){if(mGain&&(state==='studio'||prevSt==='studio'))mGain.gain.value=state==='studio'||userMuted?0:.5;if(state==='studio'){if(!music.paused)music.pause()}else if(prevSt==='studio'){stLeave();try{music.muted=userMuted;const pp=music.play();if(pp&&pp.catch)pp.catch(()=>{})}catch(e){}}prevSt=state;setTrack(trkSel||autoTrack());if(mode==='fly'||mode==='shoot')syncCoins();if(state==='play')update();else if(state==='shoot')shUpdate();else if(state==='run')runUpdate();draw();petToastDraw();if(trkMsgT>0){trkMsgT--;ctx.save();ctx.globalAlpha=Math.min(1,trkMsgT/20);ctx.font='bold 15px '+FNT;ctx.textAlign='center';const w=ctx.measureText('Muziek: '+TNAME[trkSel||autoTrack()]).width+28;rrect(W/2-w/2,H-64,w,30,15,'rgba(40,10,60,.85)');ctx.fillStyle='#fff';ctx.fillText('Muziek: '+TNAME[trkSel||autoTrack()],W/2,H-44);ctx.restore()}requestAnimationFrame(loop)})();
+(function loop(){if(mGain&&(state==='studio'||prevSt==='studio'))mGain.gain.value=state==='studio'||userMuted?0:.5;if(state==='studio'){if(!music.paused)music.pause()}else if(prevSt==='studio'){stLeave();try{music.muted=userMuted;const pp=usingWA?null:music.play();if(pp&&pp.catch)pp.catch(()=>{})}catch(e){}}prevSt=state;setTrack(trkSel||autoTrack());if(mode==='fly'||mode==='shoot')syncCoins();if(state==='play')update();else if(state==='shoot')shUpdate();else if(state==='run')runUpdate();draw();petToastDraw();if(trkMsgT>0){trkMsgT--;ctx.save();ctx.globalAlpha=Math.min(1,trkMsgT/20);ctx.font='bold 15px '+FNT;ctx.textAlign='center';const w=ctx.measureText('Muziek: '+TNAME[trkSel||autoTrack()]).width+28;rrect(W/2-w/2,H-64,w,30,15,'rgba(40,10,60,.85)');ctx.fillStyle='#fff';ctx.fillText('Muziek: '+TNAME[trkSel||autoTrack()],W/2,H-44);ctx.restore()}requestAnimationFrame(loop)})();
 </script>
 <div id="a2hs" hidden><img src="icons/icon-192.png" alt=""><div id="a2t"></div><button id="a2b" hidden>INSTALLEER</button><button class="x" id="a2x" aria-label="Sluiten">&#10005;</button></div>
 <script>
