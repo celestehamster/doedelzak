@@ -1,0 +1,12 @@
+DOEDELZAK DE BIJTGRAGE HAMSTER - webapp (v34)
+
+Dit is een complete webapp (PWA). Zet de HELE map op een gewone website met https en iedereen kan het spelen:
+- Netlify Drop: sleep deze map naar https://app.netlify.com/drop  (je krijgt direct een https-link)
+- GitHub Pages: zet de bestanden in een repository, Settings > Pages > Deploy from branch
+- Cloudflare Pages / Vercel / eigen webhosting werkt ook; alleen statische bestanden nodig.
+
+Op iPhone/iPad: open de link in Safari > Deel > "Zet op beginscherm". Het spel opent dan als app
+zonder adresbalk en werkt daarna ook offline. (Android/Chrome: er verschijnt een INSTALLEER-knop.)
+
+Bijwerken: vervang de bestanden op de host; bij de volgende start haalt de app de nieuwe versie op.
+Bestanden: index.html, manifest.webmanifest, sw.js, 4 mp3's, map icons/.
