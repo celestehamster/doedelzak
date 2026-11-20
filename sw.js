@@ -1,4 +1,4 @@
-const V='doedelzak-v53';
+const V='doedelzak-v54';
 const CORE=['./','index.html','manifest.webmanifest','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png','icons/apple-touch-icon.png'];
 const MEDIA=['theme2.mp3','stardew.mp3','turk.mp3','pou.mp3','ac.mp3','mulab.mp3'];
 self.addEventListener('install',e=>{e.waitUntil((async()=>{const c=await caches.open(V);await c.addAll(CORE);await Promise.all(MEDIA.map(u=>c.add(u).catch(()=>{})));self.skipWaiting()})())});
@@ -11,6 +11,7 @@ async function ranged(req){const c=await caches.open(V);let r=await c.match(req.
 self.addEventListener('fetch',e=>{const q=e.request;if(q.method!=='GET')return;const u=new URL(q.url);
   if(u.origin===location.origin){
     if(q.headers.has('range')){e.respondWith(ranged(q));return}
+    if(q.mode==='navigate'){e.respondWith((async()=>{const c=await caches.open(V);try{const r=await Promise.race([fetch(q,{cache:'no-store'}),new Promise((_,no)=>setTimeout(()=>no(0),4000))]);if(r&&r.ok){c.put('index.html',r.clone());return r}}catch(x){}return (await c.match('index.html'))||(await c.match(q,{ignoreSearch:true}))||new Response('Offline',{status:503})})());return}
     e.respondWith((async()=>{const c=await caches.open(V),hit=await c.match(q,{ignoreSearch:true});
       const net=fetch(q).then(r=>{if(r&&r.ok&&r.type==='basic')c.put(q,r.clone());return r}).catch(()=>null);
       if(hit){e.waitUntil(net);return hit}

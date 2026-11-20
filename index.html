@@ -452,7 +452,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v53 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v54 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -3029,7 +3029,7 @@ function petBtn(x,y,w,h,label,col,fn,sz,tc){ctx.save();ctx.shadowColor='rgba(0,0
 <div id="a2hs" hidden><img src="icons/icon-192.png" alt=""><div id="a2t"></div><button id="a2b" hidden>INSTALLEER</button><button class="x" id="a2x" aria-label="Sluiten">&#10005;</button></div>
 <script>
 (function(){
- if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){})});
+ if('serviceWorker' in navigator&&/^https?:$/.test(location.protocol))addEventListener('load',function(){var had=!!navigator.serviceWorker.controller,rl=false;navigator.serviceWorker.addEventListener('controllerchange',function(){if(had&&!rl){rl=true;location.reload()}});navigator.serviceWorker.register('sw.js').then(function(r){r.update();document.addEventListener('visibilitychange',function(){if(document.visibilityState==='visible')r.update().catch(function(){})})}).catch(function(){})});
  var K='doedelzak-a2hs',box=document.getElementById('a2hs'),tx=document.getElementById('a2t'),bt=document.getElementById('a2b'),x=document.getElementById('a2x'),dp=null;
  function seen(){try{return localStorage.getItem(K)}catch(e){return null}}
  function hide(){box.hidden=true;try{localStorage.setItem(K,'1')}catch(e){}}
