@@ -452,7 +452,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v55 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v56 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -2444,6 +2444,9 @@ addEventListener('pointerup',e=>{if(state!=='pet')return;PET.ptr.down=false;PET.
 addEventListener('pointercancel',()=>{PET.drag=null;PET.ptr.down=false});
 cv.addEventListener('pointerdown',e=>{if(state!=='pet')return;const[px,py]=petPtr(e),P=PET.ptr;P.x=px;P.y=py;P.v=1;P.down=true;P.touch=e.pointerType==='touch'});
 // ===== DOEDELZAK'S PIZZERIA (Papa's-stijl: stations, ticketrail, geduld, meerdere pizza's tegelijk)
+function pzT(str,x,y,sz,col='#fff'){ctx.save();ctx.font='600 '+sz+'px '+FNT;ctx.textAlign='center';ctx.textBaseline='alphabetic';const h=col.replace('#','');let L=1;if(/^[0-9a-f]{6}$/i.test(h)){const r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16);L=(.299*r+.587*g+.114*b)/255}
+  if(L>.6){ctx.shadowColor='rgba(0,0,0,.45)';ctx.shadowBlur=3;ctx.shadowOffsetY=1;if(sz>=18){ctx.lineJoin='round';ctx.lineWidth=Math.min(3,sz*.1);ctx.strokeStyle='rgba(40,15,30,.35)';ctx.strokeText(str,x,y)}}
+  ctx.fillStyle=col;ctx.fillText(str,x,y);ctx.restore()}
 const PZ_TOPS=[{k:'pep',n:'pepperoni'},{k:'mus',n:'champignon'},{k:'oni',n:'ui'},{k:'pap',n:'paprika'},{k:'oli',n:'olijf'},{k:'ana',n:'ananas'},{k:'keb',n:'kebab'}];
 const PZ_HUM=[
  {id:'pim',n:'Pim',hair:'blond',skin:'#f3cfa9',shirt:'#3f7cc4',lines:{g:['"Dit is echt heel erg goed!"','"Ik kom morgen weer."'],o:['"Best oké. Een beetje scheef."','"Eetbaar. Ik eet het toch op."'],b:['"Eh... dit klopt niet."','"Ik heb wel eens beter gegeten."']}},
@@ -2524,7 +2527,7 @@ function pzTop(k,x,y,rot,sc){ctx.save();ctx.translate(x,y);ctx.rotate(rot||0);ct
   else if(k==='ana'){ctx.fillStyle='#f6d445';ctx.strokeStyle='#bf931a';ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(-10,6);ctx.lineTo(10,6);ctx.lineTo(7,-8);ctx.lineTo(-7,-8);ctx.closePath();ctx.fill();ctx.stroke();ctx.fillStyle='rgba(255,255,255,.4)';ctx.fillRect(-6,-6,12,3);ctx.strokeStyle='rgba(190,150,30,.55)';ctx.beginPath();ctx.moveTo(-3,-2);ctx.lineTo(-3,5);ctx.moveTo(3,-2);ctx.lineTo(3,5);ctx.stroke()}
   else{ctx.fillStyle='#a8663a';ctx.strokeStyle='#6a3a1c';ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(-9,-2);ctx.quadraticCurveTo(-8,-10,0,-8);ctx.quadraticCurveTo(10,-9,9,0);ctx.quadraticCurveTo(10,9,0,8);ctx.quadraticCurveTo(-10,9,-9,-2);ctx.fill();ctx.stroke();ctx.fillStyle='rgba(60,25,10,.45)';[[-3,-2,2],[3,2,1.8],[2,-4,1.4]].forEach(([a,b,c])=>{ctx.beginPath();ctx.arc(a,b,c,0,7);ctx.fill()});ctx.fillStyle='rgba(255,220,180,.3)';ctx.beginPath();ctx.ellipse(-3,-5,3.4,1.6,0,0,7);ctx.fill()}
   ctx.restore()}
-function pzBtn(label,x,y,w,h,col,fn,sz){PZ.btns.push({x,y,w,h,fn});ctx.save();ctx.shadowColor='rgba(0,0,0,.3)';ctx.shadowBlur=8;ctx.shadowOffsetY=3;const g=ctx.createLinearGradient(0,y,0,y+h);g.addColorStop(0,pzMix(col,'#ffffff',.18));g.addColorStop(1,col);ctx.fillStyle=g;ctx.strokeStyle='rgba(255,255,255,.8)';ctx.lineWidth=2.5;ctx.beginPath();ctx.roundRect(x,y,w,h,Math.min(20,h/2));ctx.fill();ctx.shadowColor='transparent';ctx.stroke();ctx.restore();text(label,x+w/2,y+h/2+(sz||18)*.35,sz||18)}
+function pzBtn(label,x,y,w,h,col,fn,sz){PZ.btns.push({x,y,w,h,fn});ctx.save();ctx.shadowColor='rgba(0,0,0,.3)';ctx.shadowBlur=8;ctx.shadowOffsetY=3;const g=ctx.createLinearGradient(0,y,0,y+h);g.addColorStop(0,pzMix(col,'#ffffff',.18));g.addColorStop(1,col);ctx.fillStyle=g;ctx.strokeStyle='rgba(255,255,255,.8)';ctx.lineWidth=2.5;ctx.beginPath();ctx.roundRect(x,y,w,h,Math.min(20,h/2));ctx.fill();ctx.shadowColor='transparent';ctx.stroke();ctx.restore();pzT(label,x+w/2,y+h/2+(sz||18)*.35,sz||18)}
 function pzWrap(s,max){const w=s.split(' ');const L=[];let c='';w.forEach(x=>{if((c+' '+x).trim().length>max){L.push(c);c=x}else c=(c+' '+x).trim()});if(c)L.push(c);return L}
 function pzBubble(x,y,w,lines,tailX){const h=14+lines.length*20;ctx.save();ctx.shadowColor='rgba(0,0,0,.25)';ctx.shadowBlur=10;ctx.fillStyle='#fffdf6';ctx.strokeStyle='#8a6a4a';ctx.lineWidth=2.5;ctx.beginPath();ctx.roundRect(x,y,w,h,16);ctx.fill();ctx.shadowColor='transparent';ctx.stroke();ctx.beginPath();ctx.moveTo(tailX-10,y+h-1);ctx.lineTo(tailX,y+h+16);ctx.lineTo(tailX+10,y+h-1);ctx.fillStyle='#fffdf6';ctx.fill();ctx.restore();ctx.save();ctx.font='600 15px '+FNT;ctx.fillStyle='#4a2f1f';ctx.textAlign='center';lines.forEach((l,i)=>ctx.fillText(l,x+w/2,y+26+i*20));ctx.restore()}
 // ---- hamsterklanten
@@ -2601,9 +2604,9 @@ function pzBg(kind){const now=performance.now();ctx.save();
     for(let i=0;i<12;i++){const x=i*40+8,c=['#2fa14a','#fff','#d8352a'][i%3];ctx.fillStyle=c;ctx.strokeStyle='rgba(0,0,0,.25)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,186);ctx.lineTo(x+26,186);ctx.lineTo(x+13,212);ctx.closePath();ctx.fill();ctx.stroke()}
     // krijtbord
     ctx.save();ctx.shadowColor='rgba(0,0,0,.3)';ctx.shadowBlur=8;ctx.shadowOffsetY=3;ctx.fillStyle='#2c4a3a';ctx.strokeStyle='#9a5f2c';ctx.lineWidth=6;ctx.beginPath();ctx.roundRect(14,236,96,110,6);ctx.fill();ctx.shadowColor='transparent';ctx.stroke();ctx.restore();
-    text('MENU',62,262,16,'#fff3dc');ctx.fillStyle='#f3d27a';ctx.beginPath();ctx.arc(62,300,22,0,7);ctx.fill();ctx.fillStyle='#e0452f';ctx.beginPath();ctx.arc(62,300,17,0,7);ctx.fill();ctx.fillStyle='#fff3dc';[[-6,-4],[5,-6],[0,6],[7,5]].forEach(([a,b])=>{ctx.beginPath();ctx.arc(62+a,300+b,3,0,7);ctx.fill()});text('pizza  8 munten',62,338,10,'#fff3dc');
+    pzT('MENU',62,262,16,'#fff3dc');ctx.fillStyle='#f3d27a';ctx.beginPath();ctx.arc(62,300,22,0,7);ctx.fill();ctx.fillStyle='#e0452f';ctx.beginPath();ctx.arc(62,300,17,0,7);ctx.fill();ctx.fillStyle='#fff3dc';[[-6,-4],[5,-6],[0,6],[7,5]].forEach(([a,b])=>{ctx.beginPath();ctx.arc(62+a,300+b,3,0,7);ctx.fill()});pzT('pizza  8 munten',62,338,10,'#fff3dc');
     // neonbord
-    ctx.save();ctx.shadowColor='rgba(216,53,42,.7)';ctx.shadowBlur=16;ctx.fillStyle='#fff3dc';ctx.strokeStyle='#9a5f2c';ctx.lineWidth=6;ctx.beginPath();ctx.roundRect(326,236,140,70,10);ctx.fill();ctx.shadowColor='transparent';ctx.stroke();ctx.restore();text('Doedelzak’s',396,264,17,'#d8352a');text('PIZZERIA',396,290,22,'#2f8f4a');
+    ctx.save();ctx.shadowColor='rgba(216,53,42,.7)';ctx.shadowBlur=16;ctx.fillStyle='#fff3dc';ctx.strokeStyle='#9a5f2c';ctx.lineWidth=6;ctx.beginPath();ctx.roundRect(326,236,140,70,10);ctx.fill();ctx.shadowColor='transparent';ctx.stroke();ctx.restore();pzT('Doedelzak’s',396,264,17,'#d8352a');pzT('PIZZERIA',396,290,22,'#2f8f4a');
     // houtoven
     ctx.save();ctx.fillStyle='#b5532f';ctx.strokeStyle='#7a2f14';ctx.lineWidth=3;ctx.beginPath();ctx.roundRect(344,318,118,66,[40,40,0,0]);ctx.fill();ctx.stroke();ctx.fillStyle='#2a0f06';ctx.beginPath();ctx.roundRect(366,334,74,50,[30,30,0,0]);ctx.fill();const f=ctx.createRadialGradient(403,382,2,403,372,36);f.addColorStop(0,'rgba(255,230,110,'+(.9+.1*Math.sin(now/90))+')');f.addColorStop(.5,'rgba(255,120,30,.8)');f.addColorStop(1,'rgba(255,60,10,0)');ctx.fillStyle=f;ctx.beginPath();ctx.roundRect(366,334,74,50,[30,30,0,0]);ctx.fill();ctx.restore();
     // planten
@@ -2624,14 +2627,14 @@ function pzTick(tk,x,y,w,sel,now){ctx.save();ctx.shadowColor='rgba(0,0,0,.3)';ct
   const q=Math.max(0,tk.pat/tk.patMax);ctx.fillStyle='rgba(0,0,0,.15)';ctx.fillRect(x+8,y+46,w-16,6);ctx.fillStyle=q>.5?'#4cc46a':q>.25?'#ffd23f':'#ff5a5a';ctx.fillRect(x+8,y+46,(w-16)*q,6);ctx.restore()}
 function pzRail(now){ctx.save();ctx.fillStyle='rgba(122,28,22,.88)';ctx.fillRect(0,44,W,66);ctx.fillStyle='#ffd23f';ctx.fillRect(0,108,W,3);ctx.restore();
   PZ.tix.slice(0,6).forEach((tk,i)=>{const x=6+i*79,y=48;pzTick(tk,x,y,74,PZ.sel===tk.id,now);PZ.btns.push({x,y,w:74,h:58,fn:()=>{PZ.sel=tk.id;PZ.st=tk.stage==='build'?'build':tk.stage==='bake'?'oven':'cut';blip(700,'triangle',.05,.05)}})});
-  if(!PZ.tix.length)text('hier komen de bestellingen te hangen',W/2,82,13,'#ffe9c2')}
+  if(!PZ.tix.length)pzT('hier komen de bestellingen te hangen',W/2,82,13,'#ffe9c2')}
 function pzCoin(x,y,r){ctx.save();ctx.fillStyle='#ffd23f';ctx.strokeStyle='#b88a00';ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill();ctx.stroke();ctx.strokeStyle='#e0a800';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(x,y,r*.62,0,7);ctx.stroke();ctx.fillStyle='rgba(255,255,255,.55)';ctx.beginPath();ctx.ellipse(x-r*.3,y-r*.35,r*.22,r*.12,-.6,0,7);ctx.fill();ctx.restore()}
-function pzHud(){ctx.save();ctx.fillStyle='rgba(122,28,22,.92)';ctx.beginPath();ctx.roundRect(6,6,116,30,15);ctx.fill();ctx.beginPath();ctx.roundRect(W-176,6,170,30,15);ctx.fill();ctx.restore();pzCoin(24,21,10);text(String(PZ.money),70,27,16,'#ffe28a');text('DAG '+PZ.day,W/2,27,18,'#ffd23f');
-  text('klanten '+Math.min(PZ.N,PZ.spawned)+'/'+PZ.N,W-91,27,13,'#ffe9c2');ctx.save();ctx.fillStyle='rgba(255,255,255,.2)';ctx.fillRect(W-160,32,140,3);ctx.fillStyle='#4cc46a';ctx.fillRect(W-160,32,140*(PZ.stats.served+PZ.stats.lost)/PZ.N,3);ctx.restore()}
+function pzHud(){ctx.save();ctx.fillStyle='rgba(122,28,22,.92)';ctx.beginPath();ctx.roundRect(6,6,116,30,15);ctx.fill();ctx.beginPath();ctx.roundRect(W-176,6,170,30,15);ctx.fill();ctx.restore();pzCoin(24,21,10);pzT(String(PZ.money),70,27,16,'#ffe28a');pzT('DAG '+PZ.day,W/2,27,18,'#ffd23f');
+  pzT('klanten '+Math.min(PZ.N,PZ.spawned)+'/'+PZ.N,W-91,27,13,'#ffe9c2');ctx.save();ctx.fillStyle='rgba(255,255,255,.2)';ctx.fillRect(W-160,32,140,3);ctx.fillStyle='#4cc46a';ctx.fillRect(W-160,32,140*(PZ.stats.served+PZ.stats.lost)/PZ.N,3);ctx.restore()}
 function pzTabs(){const names=[['order','BESTELLEN'],['build','BOUWEN'],['oven','OVEN'],['cut','SNIJDEN']];const cnt={order:PZ.queue.length,build:PZ.tix.filter(t=>t.stage==='build').length,oven:PZ.slots.filter(s=>s.tk&&s.ding).length||0,cut:PZ.tix.filter(t=>t.stage==='cut').length};
-  names.forEach(([k,l],i)=>{const x=6+i*118,sel=PZ.st===k;PZ.btns.push({x,y:594,w:112,h:42,fn:()=>{PZ.st=k;PZ.tool=PZ.tool;blip(600,'triangle',.05,.05)}});ctx.save();ctx.fillStyle=sel?'#ffd23f':'#8f2a1d';ctx.strokeStyle='#fff3dc';ctx.lineWidth=2.5;ctx.beginPath();ctx.roundRect(x,594,112,42,14);ctx.fill();ctx.stroke();ctx.restore();text(l,x+56,621,13,sel?'#3a1a00':'#fff');
-    if(cnt[k]>0&&!sel){ctx.save();ctx.fillStyle=k==='oven'?'#4cc46a':'#ff4d5e';ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(x+100,600,10,0,7);ctx.fill();ctx.stroke();ctx.restore();text(String(cnt[k]),x+100,605,12)}})}
-function pzEmpty(a,b){ctx.save();ctx.fillStyle='rgba(30,12,40,.6)';ctx.beginPath();ctx.roundRect(40,260,400,110,20);ctx.fill();ctx.restore();text(a,W/2,308,20,'#ffe9c2');text(b,W/2,338,14,'#fff')}
+  names.forEach(([k,l],i)=>{const x=6+i*118,sel=PZ.st===k;PZ.btns.push({x,y:594,w:112,h:42,fn:()=>{PZ.st=k;PZ.tool=PZ.tool;blip(600,'triangle',.05,.05)}});ctx.save();ctx.fillStyle=sel?'#ffd23f':'#8f2a1d';ctx.strokeStyle='#fff3dc';ctx.lineWidth=2.5;ctx.beginPath();ctx.roundRect(x,594,112,42,14);ctx.fill();ctx.stroke();ctx.restore();pzT(l,x+56,621,13,sel?'#3a1a00':'#fff');
+    if(cnt[k]>0&&!sel){ctx.save();ctx.fillStyle=k==='oven'?'#4cc46a':'#ff4d5e';ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(x+100,600,10,0,7);ctx.fill();ctx.stroke();ctx.restore();pzT(String(cnt[k]),x+100,605,12)}})}
+function pzEmpty(a,b){ctx.save();ctx.fillStyle='rgba(30,12,40,.6)';ctx.beginPath();ctx.roundRect(40,260,400,110,20);ctx.fill();ctx.restore();pzT(a,W/2,308,20,'#ffe9c2');pzT(b,W/2,338,14,'#fff')}
 function pzDetail(tk,now,counts){const o=tk.ord,y=114;ctx.save();ctx.shadowColor='rgba(0,0,0,.25)';ctx.shadowBlur=8;ctx.shadowOffsetY=3;ctx.fillStyle='#fffbe8';ctx.strokeStyle='#c9b27a';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(8,y,464,58,10);ctx.fill();ctx.shadowColor='transparent';ctx.stroke();ctx.restore();
   ctx.save();ctx.font='bold 12px '+FNT;ctx.fillStyle='#7a4a22';ctx.textAlign='left';ctx.fillText('#'+tk.no+' '+tk.c.def.n.toUpperCase(),16,y+16);ctx.restore();
   const placed={},L={},R={};tk.pz.tops.forEach(t=>{placed[t.k]=(placed[t.k]||0)+1;if(t.x<0)L[t.k]=(L[t.k]||0)+1;else R[t.k]=(R[t.k]||0)+1});
@@ -2644,7 +2647,7 @@ function pzDrawOrder(now){pzBg('shop');
   ctx.save();pzChk(0,466,W,34,34,'#d8352a','#fff3dc');const wd=ctx.createLinearGradient(0,500,0,H);wd.addColorStop(0,'#c98a4f');wd.addColorStop(1,'#7a4522');ctx.fillStyle=wd;ctx.fillRect(0,500,W,H-500);ctx.fillStyle='rgba(0,0,0,.2)';ctx.fillRect(0,498,W,4);ctx.fillStyle='rgba(255,255,255,.25)';ctx.fillRect(0,466,W,3);ctx.strokeStyle='rgba(60,30,10,.2)';ctx.lineWidth=2;for(let i=0;i<7;i++){ctx.beginPath();ctx.moveTo(i*80+20,502);ctx.lineTo(i*80+20,H);ctx.stroke()}ctx.restore();
   const c=PZ.queue[0];
   if(c&&Math.abs(c.x-240)<10){const o=c.ord,L=pzOrdLines(o);const ln=['Hoi! Ik wil graag:'].concat(L);pzBubble(70,120,340,ln,240);pzBtn('BESTELLING OPNEMEN',90,504,300,56,'#2f9e57',()=>pzTake(),19)}
-  else if(!c){text('even wachten op de volgende klant...',W/2,250,16,'#7a4a22')}}
+  else if(!c){pzT('even wachten op de volgende klant...',W/2,250,16,'#7a4a22')}}
 function pzDrawBuild(now){pzBg('kitchen');const tk=pzActive('build');
   if(!tk){pzEmpty('Geen pizza om te bouwen','neem eerst een bestelling op');return}
   pzDetail(tk,now,true);
@@ -2657,9 +2660,9 @@ function pzDrawBuild(now){pzBg('kitchen');const tk=pzActive('build');
     if(k==='sauce'){ctx.save();ctx.translate(mx,my+2);ctx.fillStyle='#d23a24';ctx.strokeStyle='#8f1f12';ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(-9,10);ctx.lineTo(-9,-2);ctx.lineTo(-4,-9);ctx.lineTo(4,-9);ctx.lineTo(9,-2);ctx.lineTo(9,10);ctx.closePath();ctx.fill();ctx.stroke();ctx.fillStyle='#f3f3f3';ctx.fillRect(-3,-15,6,7);ctx.strokeRect(-3,-15,6,7);ctx.fillStyle='rgba(255,255,255,.35)';ctx.fillRect(-6,-2,3,10);ctx.restore()}
     else if(k==='cheese'){ctx.save();ctx.translate(mx,my+3);ctx.fillStyle='#f6dc7a';ctx.strokeStyle='#c99a10';ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(-14,8);ctx.lineTo(14,8);ctx.lineTo(0,-10);ctx.closePath();ctx.fill();ctx.stroke();ctx.fillStyle='#e0b83a';[[-3,0],[4,4],[0,-4]].forEach(([a,b])=>{ctx.beginPath();ctx.arc(a,b,2,0,7);ctx.fill()});ctx.restore()}
     else{for(let j=0;j<4;j++)pzTop(k,mx-13+(j%2)*17+(j>1?4:0),my-6+Math.floor(j/2)*13,j*1.3,.78)}
-    text(nm[k]||PZ_TOPS.find(o=>o.k===k).n,mx,y+h-7,11,'#6a3a1a')});
+    pzT(nm[k]||PZ_TOPS.find(o=>o.k===k).n,mx,y+h-7,11,'#6a3a1a')});
   const d=PZ.drag;if(d&&d.from){ctx.save();ctx.globalAlpha=.92;if(d.k==='sauce'){ctx.fillStyle='#d23a24';ctx.beginPath();ctx.roundRect(d.x-8,d.y-14,16,26,5);ctx.fill()}else if(d.k==='cheese'){ctx.fillStyle='#f6dc7a';ctx.beginPath();ctx.moveTo(d.x-14,d.y+8);ctx.lineTo(d.x+14,d.y+8);ctx.lineTo(d.x,d.y-10);ctx.fill()}else pzTop(d.k,d.x,d.y,0,1.2);ctx.restore()}
-  if(PZ.tool&&!d)text(PZ.tool==='sauce'?'tik op de pizza om saus te pleuren':PZ.tool==='cheese'?'tik op de pizza voor kaas':'tik of sleep over de pizza voor beleg',W/2,408,12,'#fff');
+  if(PZ.tool&&!d)pzT(PZ.tool==='sauce'?'tik op de pizza om saus te pleuren':PZ.tool==='cheese'?'tik op de pizza voor kaas':'tik of sleep over de pizza voor beleg',W/2,408,12,'#fff');
   pzBtn('OPNIEUW',8,548,120,40,'#a86a3a',()=>{tk.pz={sauce:[],chl:0,cheese:[],tops:[]};blip(300,'triangle',.1,.06)},14);
   pzBtn('NAAR DE OVEN',136,548,336,40,'#d9531e',()=>pzToOven(tk),18)}
 function pzInPizza(px,py,cx,cy,r){const dx=(px-cx)*130/r,dy=(py-cy)*130/r;return Math.hypot(dx,dy)<130-18?[dx,dy]:null}
@@ -2701,15 +2704,15 @@ function pzDrawOven(now){pzBg('kitchen');const n=PZ.slots.length,gap=8,w=(464-(n
     if(ready){ctx.save();ctx.globalAlpha=.5+.5*Math.sin(T*10);ctx.strokeStyle=over?'#ff4d3a':'#8dff9a';ctx.lineWidth=5;arch();ctx.stroke();ctx.restore()}
     // houtblokken
     ctx.fillStyle='#6a3f1c';ctx.strokeStyle='#3a200c';ctx.lineWidth=2;[[.3,0],[.5,3],[.7,0]].forEach(([a,b])=>{ctx.beginPath();ctx.ellipse(x+w*a,y+258+b,w*.1,8,0,0,7);ctx.fill();ctx.stroke()});
-    ctx.fillStyle='#e8c46a';ctx.strokeStyle='#8a6a20';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(cx-34,y+272,68,16,8);ctx.fill();ctx.stroke();text('OVEN '+(i+1),cx,y+285,12,'#5a3a10');
+    ctx.fillStyle='#e8c46a';ctx.strokeStyle='#8a6a20';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(cx-34,y+272,68,16,8);ctx.fill();ctx.stroke();pzT('OVEN '+(i+1),cx,y+285,12,'#5a3a10');
     // paneel
     const py=y+296;
     ctx.save();ctx.fillStyle='rgba(60,20,12,.82)';ctx.strokeStyle='#fff3dc';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(x,py,w,172,16);ctx.fill();ctx.stroke();ctx.restore();
-    if(tk){const T2=tk.ord.T;ctx.save();ctx.fillStyle='#fffbe8';ctx.beginPath();ctx.roundRect(x+8,py+8,w-16,26,8);ctx.fill();ctx.restore();text('#'+tk.no+' '+tk.c.def.n,cx,py+26,12,'#7a4a22');
-      text(s.t.toFixed(1)+' s',cx,py+66,w>200?28:22,ready?(over?'#ff6a5a':'#8dff9a'):'#ffe9c2');
-      if(!run){pzBtn('−',x+8,py+78,40,34,'#6a7480',()=>{s.set=Math.max(4,s.set-1);blip(500,'triangle',.04,.05)},22);pzBtn('+',x+w-48,py+78,40,34,'#6a7480',()=>{s.set=Math.min(30,s.set+1);blip(600,'triangle',.04,.05)},22);text('timer '+s.set+' s',cx,py+101,12,'#fff');pzBtn('START',x+8,py+120,w-16,44,'#2f9e57',()=>{s.run=true;s.t=0;s.ding=false;blip(300,'sawtooth',.2,.06)},19)}
-      else{text('timer '+s.set+' s'+(ready?' · DING!':''),cx,py+98,12,ready?'#8dff9a':'#fff');pzBtn('UIT DE OVEN',x+8,py+120,w-16,44,'#d9531e',()=>pzOut(s),w>200?18:14)}}
-    else{text('LEEG',cx,py+70,22,'#ffb48a');text('bouw eerst',cx,py+98,12,'#fff3dc');text('een pizza',cx,py+114,12,'#fff3dc')}
+    if(tk){const T2=tk.ord.T;ctx.save();ctx.fillStyle='#fffbe8';ctx.beginPath();ctx.roundRect(x+8,py+8,w-16,26,8);ctx.fill();ctx.restore();pzT('#'+tk.no+' '+tk.c.def.n,cx,py+26,12,'#7a4a22');
+      pzT(s.t.toFixed(1)+' s',cx,py+66,w>200?28:22,ready?(over?'#ff6a5a':'#8dff9a'):'#ffe9c2');
+      if(!run){pzBtn('−',x+8,py+78,40,34,'#6a7480',()=>{s.set=Math.max(4,s.set-1);blip(500,'triangle',.04,.05)},22);pzBtn('+',x+w-48,py+78,40,34,'#6a7480',()=>{s.set=Math.min(30,s.set+1);blip(600,'triangle',.04,.05)},22);pzT('timer '+s.set+' s',cx,py+101,12,'#fff');pzBtn('START',x+8,py+120,w-16,44,'#2f9e57',()=>{s.run=true;s.t=0;s.ding=false;blip(300,'sawtooth',.2,.06)},19)}
+      else{pzT('timer '+s.set+' s'+(ready?' · DING!':''),cx,py+98,12,ready?'#8dff9a':'#fff');pzBtn('UIT DE OVEN',x+8,py+120,w-16,44,'#d9531e',()=>pzOut(s),w>200?18:14)}}
+    else{pzT('LEEG',cx,py+70,22,'#ffb48a');pzT('bouw eerst',cx,py+98,12,'#fff3dc');pzT('een pizza',cx,py+114,12,'#fff3dc')}
   })}
 let pzTkOnly=null;
 function pzDrawCut(now){pzBg('kitchen');const tk=pzActive('cut');
@@ -2718,7 +2721,7 @@ function pzDrawCut(now){pzBg('kitchen');const tk=pzActive('cut');
   ctx.save();ctx.shadowColor='rgba(0,0,0,.3)';ctx.shadowBlur=14;ctx.shadowOffsetY=6;const wg=ctx.createLinearGradient(0,176,0,414);wg.addColorStop(0,'#b97c45');wg.addColorStop(1,'#8d5a2e');ctx.fillStyle=wg;ctx.beginPath();ctx.roundRect(88,178,304,236,24);ctx.fill();ctx.restore();
   pzPizza2(240,296,106,tk.pz,tk.bake/tk.ord.T,tk.cuts,now,null);
   const cd=PZ.cd;if(cd){ctx.save();ctx.strokeStyle='rgba(255,255,255,.9)';ctx.lineWidth=3;ctx.setLineDash([8,6]);ctx.beginPath();ctx.moveTo(cd.x0,cd.y0);ctx.lineTo(cd.x1,cd.y1);ctx.stroke();ctx.restore();ctx.save();ctx.translate(cd.x1,cd.y1);ctx.rotate(Math.atan2(cd.y1-cd.y0,cd.x1-cd.x0));ctx.fillStyle='#d8dde1';ctx.strokeStyle='#7d8892';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,20,0,7);ctx.fill();ctx.stroke();ctx.restore()}
-  const L=tk.ord.slices/2;ctx.save();ctx.fillStyle='rgba(30,12,40,.7)';ctx.beginPath();ctx.roundRect(60,430,360,66,16);ctx.fill();ctx.restore();text('Snij in '+tk.ord.slices+' punten',W/2,458,19,'#ffe9c2');text('sleep '+L+' keer dwars door het midden ('+tk.cuts.length+'/'+L+')',W/2,482,13,'#fff');
+  const L=tk.ord.slices/2;ctx.save();ctx.fillStyle='rgba(30,12,40,.7)';ctx.beginPath();ctx.roundRect(60,430,360,66,16);ctx.fill();ctx.restore();pzT('Snij in '+tk.ord.slices+' punten',W/2,458,19,'#ffe9c2');pzT('sleep '+L+' keer dwars door het midden ('+tk.cuts.length+'/'+L+')',W/2,482,13,'#fff');
   pzBtn('OPNIEUW',8,548,120,40,'#a86a3a',()=>{tk.cuts=[];blip(300,'triangle',.1,.06)},14);
   pzBtn(tk.cuts.length>=L?'SERVEER!':'SERVEER (niet af)',136,548,336,40,tk.cuts.length>=L?'#2f9e57':'#8a7a8a',()=>pzServe(tk),18)}
 function pzServe(tk){const o=tk.ord,p=tk.pz;let ts=0;const ex={};p.tops.forEach(t=>{ex[t.k]=ex[t.k]||{a:0,l:0,r:0};ex[t.k].a++;t.x<0?ex[t.k].l++:ex[t.k].r++});let pen=0;
@@ -2735,29 +2738,29 @@ function pzDrawModal(now){const m=PZ.modal,r=m.res,tk=m.tk,e=Math.min(1,(now-m.t
   pzCust(110,330,1.15,tk.c,r.mood);pzPizza2(344,270,78,tk.pz,tk.bake/tk.ord.T,tk.cuts,now,null);pzBubble(36,112,408,pzWrap(tk.c.def.n+': '+r.say,38),150);
   ctx.save();ctx.fillStyle='rgba(30,12,40,.82)';ctx.strokeStyle='#ffd23f';ctx.lineWidth=2.5;ctx.beginPath();ctx.roundRect(20,376,440,172,18);ctx.fill();ctx.stroke();ctx.restore();
   const rows=[['Beleg',r.tops],['Saus & kaas',r.sc],['Bakken',r.bake],['Snijden',r.cut]];
-  rows.forEach(([n,v],i)=>{const x=36+(i%2)*214,y=398+Math.floor(i/2)*38;text(n,x+42,y+3,12,'#ffe9c2');ctx.fillStyle='rgba(255,255,255,.2)';ctx.fillRect(x,y+9,180,9);ctx.fillStyle=v>.8?'#4cc46a':v>.5?'#ffd23f':'#ff6a5a';ctx.fillRect(x,y+9,180*Math.min(1,v)*e,9)});
-  text('★'.repeat(r.stars)+'☆'.repeat(5-r.stars),W/2,502,26,'#ffd23f');text('+ '+r.earn+' munten'+(r.tip?'  (waarvan '+r.tip+' fooi)':''),W/2+12,534,16,'#8dff9a');pzCoin(W/2-86-(r.tip?34:0),528,9);
+  rows.forEach(([n,v],i)=>{const x=36+(i%2)*214,y=398+Math.floor(i/2)*38;pzT(n,x+42,y+3,12,'#ffe9c2');ctx.fillStyle='rgba(255,255,255,.2)';ctx.fillRect(x,y+9,180,9);ctx.fillStyle=v>.8?'#4cc46a':v>.5?'#ffd23f':'#ff6a5a';ctx.fillRect(x,y+9,180*Math.min(1,v)*e,9)});
+  pzT('★'.repeat(r.stars)+'☆'.repeat(5-r.stars),W/2,502,26,'#ffd23f');pzT('+ '+r.earn+' munten'+(r.tip?'  (waarvan '+r.tip+' fooi)':''),W/2+12,534,16,'#8dff9a');pzCoin(W/2-86-(r.tip?34:0),528,9);
   ctx.restore();pzBtn('DOORGAAN',100,560,280,44,'#2f9e57',()=>{PZ.modal=null;PZ.dtp=performance.now()},19)}
 function pzDayEnd(){const s=PZ.stats,avg=s.served?Math.round(s.pct/s.served):0,old=pzUnl();PZ.day++;const nu=pzUnl();PZ.best=Math.max(PZ.best,avg);PZ.sum={avg,stars:Math.max(1,Math.min(5,Math.round(avg/20))),earn:s.earn,served:s.served,lost:s.lost,unl:nu>old?PZ_TOPS[nu-1].n:null};pzSave();PZ.ph='day'}
 function pzDrawDay(now){pzBg('shop');const s=PZ.sum;ctx.save();ctx.fillStyle='rgba(30,12,40,.8)';ctx.beginPath();ctx.roundRect(30,90,420,440,26);ctx.fill();ctx.strokeStyle='#ffd23f';ctx.lineWidth=3;ctx.stroke();ctx.restore();
-  text('DAG '+(PZ.day-1)+' KLAAR!',W/2,148,32,'#ffd23f');text('gemiddeld '+s.avg+'%',W/2,196,22);text('★'.repeat(s.stars)+'☆'.repeat(5-s.stars),W/2,244,34,'#ffd23f');
-  text(s.served+' pizza’s geserveerd'+(s.lost?', '+s.lost+' klant'+(s.lost>1?'en':'')+' weggelopen':''),W/2,284,15,'#ffe9c2');text('verdiend: '+s.earn+' munten',W/2+12,322,20,'#8dff9a');pzCoin(W/2-92,315,10);text('totaal in de pizzeria: '+PZ.money,W/2,352,16,'#ffe28a');
-  if(s.unl)text('Nieuw beleg: '+s.unl+'!',W/2,396,20,'#ffb0d0');text('Morgen: meer klanten en lastiger bestellingen',W/2,436,13,'#ffe9c2');
+  pzT('DAG '+(PZ.day-1)+' KLAAR!',W/2,148,32,'#ffd23f');pzT('gemiddeld '+s.avg+'%',W/2,196,22);pzT('★'.repeat(s.stars)+'☆'.repeat(5-s.stars),W/2,244,34,'#ffd23f');
+  pzT(s.served+' pizza’s geserveerd'+(s.lost?', '+s.lost+' klant'+(s.lost>1?'en':'')+' weggelopen':''),W/2,284,15,'#ffe9c2');pzT('verdiend: '+s.earn+' munten',W/2+12,322,20,'#8dff9a');pzCoin(W/2-92,315,10);pzT('totaal in de pizzeria: '+PZ.money,W/2,352,16,'#ffe28a');
+  if(s.unl)pzT('Nieuw beleg: '+s.unl+'!',W/2,396,20,'#ffb0d0');pzT('Morgen: meer klanten en lastiger bestellingen',W/2,436,13,'#ffe9c2');
   PZ.btns=[];pzBtn('VOLGENDE DAG',80,462,320,56,'#d9531e',()=>{startPizza()},22)}
 function pzRstBtn(x,y){ctx.save();ctx.fillStyle='rgba(122,28,22,.92)';ctx.strokeStyle='#fff3dc';ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,y,14,0,7);ctx.fill();ctx.stroke();ctx.strokeStyle='#fff';ctx.lineWidth=2.6;ctx.lineCap='round';ctx.beginPath();ctx.arc(x,y,6.5,-.6,4.4);ctx.stroke();ctx.fillStyle='#fff';ctx.beginPath();ctx.moveTo(x+7.5,y-9);ctx.lineTo(x+8,y-1.5);ctx.lineTo(x+1.5,y-5);ctx.closePath();ctx.fill();ctx.restore();PZ.btns.push({x:x-16,y:y-16,w:32,h:32,fn:()=>{PZ.rst=1;PZ.drag=null;PZ.cd=null;blip(400,'triangle',.08,.06)}})}
 function pzDoReset(){PZ.day=1;PZ.money=0;PZ.best=0;PZ.slots.length=2;PZ.rst=0;pzSave();startPizza();pzMsg('De pizzeria is gereset. Dag 1!',3);blip(300,'sawtooth',.3,.08)}
 function pzDrawReset(now){PZ.btns=[];ctx.save();ctx.fillStyle='rgba(20,8,30,.78)';ctx.fillRect(0,0,W,H);ctx.restore();
   ctx.save();ctx.fillStyle='#fff7ee';ctx.strokeStyle=PZ.rst===1?'#ffb300':'#e8453c';ctx.lineWidth=5;ctx.beginPath();ctx.roundRect(40,170,400,280,26);ctx.fill();ctx.stroke();ctx.restore();
-  if(PZ.rst===1){text('Pizzeria resetten?',W/2,222,26,'#c2381f');text('Weet je het zeker?',W/2,264,20,'#5a3a1a');text('Je gaat terug naar dag 1, je pizzeria-',W/2,300,14,'#6b5646');text('geld, record en extra oven zijn weg.',W/2,320,14,'#6b5646');
+  if(PZ.rst===1){pzT('Pizzeria resetten?',W/2,222,26,'#c2381f');pzT('Weet je het zeker?',W/2,264,20,'#5a3a1a');pzT('Je gaat terug naar dag 1, je pizzeria-',W/2,300,14,'#6b5646');pzT('geld, record en extra oven zijn weg.',W/2,320,14,'#6b5646');
     pzBtn('NEE',64,360,160,56,'#2f9e57',()=>{PZ.rst=0},20);pzBtn('JA',256,360,160,56,'#d9531e',()=>{PZ.rst=2;blip(300,'triangle',.1,.07)},20)}
-  else{const sh=Math.sin(now/40)*2;text('Weet je het écht',W/2+sh,226,26,'#e8453c');text('zeker? Wola?',W/2-sh,260,26,'#e8453c');text('Dit kan niet ongedaan worden gemaakt!',W/2,302,14,'#6b5646');text('Je munten in de winkel blijven wel.',W/2,322,14,'#6b5646');
+  else{const sh=Math.sin(now/40)*2;pzT('Weet je het écht',W/2+sh,226,26,'#e8453c');pzT('zeker? Wola?',W/2-sh,260,26,'#e8453c');pzT('Dit kan niet ongedaan worden gemaakt!',W/2,302,14,'#6b5646');pzT('Je munten in de winkel blijven wel.',W/2,322,14,'#6b5646');
     pzBtn('NEE, TOCH NIET',64,360,180,56,'#2f9e57',()=>{PZ.rst=0},16);pzBtn('JA, WOLA',256,360,160,56,'#b3261e',()=>pzDoReset(),18)}}
 function drawPizza(now){PZ.btns=[];const dt=Math.min(.05,(now-PZ.dtp)/1000);PZ.dtp=now;
   if(PZ.ph==='day'){pzDrawDay(now);pzRstBtn(W-30,30);if(PZ.rst)pzDrawReset(now);return}
   pzUpdate(dt);const st=PZ.st;if(st==='order')pzDrawOrder(now);else if(st==='build')pzDrawBuild(now);else if(st==='oven')pzDrawOven(now);else pzDrawCut(now);
   if(!PZ.modal){pzRail(now);}else{pzRail(now)}pzHud();if(!PZ.modal)pzRstBtn(290,21);pzTabs();
   if(PZ.modal)pzDrawModal(now);
-  if(PZ.modal)PZ.msgT=0;if(PZ.msgT>0){PZ.msgT-=dt;ctx.save();ctx.globalAlpha=Math.min(1,PZ.msgT*2);rrect(W/2-160,H/2-30,320,38,19,'rgba(30,12,40,.88)');ctx.restore();text(PZ.msg,W/2,H/2-5,14,'#fff')}
+  if(PZ.modal)PZ.msgT=0;if(PZ.msgT>0){PZ.msgT-=dt;ctx.save();ctx.globalAlpha=Math.min(1,PZ.msgT*2);rrect(W/2-160,H/2-30,320,38,19,'rgba(30,12,40,.88)');ctx.restore();pzT(PZ.msg,W/2,H/2-5,14,'#fff')}
   if(PZ.rst)pzDrawReset(now)}
 // ---- invoer
 function pzPtr(e){const r=cv.getBoundingClientRect();return[(e.clientX-r.left)*W/r.width,(e.clientY-r.top)*H/r.height]}
