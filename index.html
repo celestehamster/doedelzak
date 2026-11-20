@@ -450,7 +450,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v43 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v44 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -2670,6 +2670,20 @@ function petDirt(now,here){if(!here||PET.clean>=70)return;const sc=PET.sc,n=Math
   ctx.save();ctx.fillStyle='rgba(92,62,34,'+a+')';for(let i=0;i<n;i++){const dx=((i*37)%60-30)*sc/3,dy=((i*53)%46-18)*sc/3,r=(2.4+(i%3))*sc/3;ctx.beginPath();ctx.ellipse(PET.hx+dx,PET.hy+dy,r*1.3,r,i,0,7);ctx.fill()}
   if(PET.clean<25){ctx.strokeStyle='rgba(120,170,60,'+(.5+.2*Math.sin(now/200))+')';ctx.lineWidth=3;ctx.lineCap='round';for(let i=0;i<3;i++){const x=PET.hx-34*sc/3+i*34*sc/3,k=(now/900+i/3)%1;ctx.beginPath();for(let q=0;q<=10;q++){const yy=PET.hy-sc*34-q*5-k*10,xx=x+Math.sin(q*.9+now/260+i)*6;q?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy)}ctx.stroke()}}
   ctx.restore()}
+function petOpera(now,sc){
+  // spotlight
+  ctx.save();const sw=Math.sin(now/1100);const sg=ctx.createLinearGradient(0,0,0,430);sg.addColorStop(0,'rgba(255,240,170,.42)');sg.addColorStop(1,'rgba(255,240,170,.03)');ctx.fillStyle=sg;ctx.globalCompositeOperation='lighter';ctx.beginPath();ctx.moveTo(210,0);ctx.lineTo(270,0);ctx.lineTo(PET.hx+170,430);ctx.lineTo(PET.hx-170,430);ctx.closePath();ctx.fill();ctx.restore();
+  const mx=PET.hx+sw*14+40*sc/3,my=PET.hy+8*sc/3;
+  // microfoon + pootje
+  ctx.save();ctx.translate(mx,my);ctx.rotate(-.5);ctx.strokeStyle='#2a2a30';ctx.lineWidth=7;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(24,46);ctx.stroke();
+  const mg=ctx.createRadialGradient(-3,-4,2,0,0,13);mg.addColorStop(0,'#e6e8ec');mg.addColorStop(1,'#6a707a');ctx.fillStyle=mg;ctx.strokeStyle='#333';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,-2,12,0,7);ctx.fill();ctx.stroke();ctx.strokeStyle='rgba(40,40,50,.55)';ctx.lineWidth=1;for(let i=-8;i<=8;i+=4){ctx.beginPath();ctx.moveTo(i,-12);ctx.lineTo(i,8);ctx.stroke()}
+  ctx.fillStyle='#f0c58a';ctx.strokeStyle='rgba(90,50,20,.6)';ctx.lineWidth=1.6;ctx.beginPath();ctx.ellipse(12,22,8,10,.3,0,7);ctx.fill();ctx.stroke();ctx.restore();
+  // dramatisch opgeheven pootje
+  ctx.save();ctx.translate(PET.hx-62*sc/3-sw*6,PET.hy+10*sc/3);ctx.rotate(-.9+Math.sin(now/700)*.25);ctx.fillStyle='#f0c58a';ctx.strokeStyle='rgba(90,50,20,.6)';ctx.lineWidth=1.8;ctx.beginPath();ctx.ellipse(0,-14,8,20,0,0,7);ctx.fill();ctx.stroke();ctx.restore();
+  // muzieknoten
+  ctx.save();ctx.textAlign='center';for(let i=0;i<9;i++){const ph=(now/2600+i*.111)%1,x=PET.hx+(i%2?1:-1)*(40+ph*(70+(i*23)%60))+Math.sin(ph*9+i)*14,y=PET.hy-10-ph*230,al=Math.sin(ph*Math.PI);ctx.globalAlpha=al*.95;ctx.fillStyle=['#ffd23f','#ff7ab8','#9be7ff','#c8a2ff'][i%4];ctx.font='bold '+(26+(i*7)%16)+'px serif';ctx.save();ctx.translate(x,y);ctx.rotate(Math.sin(ph*6+i)*.35);ctx.fillText(['♪','♫','♬','♩'][i%4],0,0);ctx.restore()}ctx.restore();
+  // glitters
+  for(let i=0;i<10;i++){ctx.save();const t=(now/900+i*.37)%1,x=PET.hx+Math.cos(i*2.1)*130,y=PET.hy-80+Math.sin(i*3.3)*110;ctx.globalAlpha=Math.sin(t*Math.PI)*.9;ctx.fillStyle='#fff6b0';ctx.translate(x,y);ctx.rotate(t*3);ctx.fillRect(-1.5,-7,3,14);ctx.fillRect(-7,-1.5,14,3);ctx.restore()}}
 function petBathDraw(now,ms){
   // douchekop
   ctx.save();ctx.strokeStyle='#aab6be';ctx.lineWidth=7;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(240,104);ctx.lineTo(240,156);ctx.stroke();ctx.strokeStyle='#e8eef2';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(238,106);ctx.lineTo(238,152);ctx.stroke();
@@ -2788,18 +2802,18 @@ function drawPet(now){
   const sm=1-Math.exp(-ms/(bedPos?200:150));const ox=PET.cx,oy=PET.cy;PET.cx+=(tx-PET.cx)*sm;PET.cy+=(ty-PET.cy)*sm;PET.csc+=(ts-PET.csc)*sm;const mv=Math.hypot(tx-PET.cx,ty-PET.cy);
   const hopY=mv>2?-Math.abs(Math.sin(now/95))*Math.min(22,mv*.35):0+(PET.hop>0?-Math.sin(PET.hop*Math.PI)*14:0);
   const shk=PET.shake?Math.sin(PET.shake*.05)*7:0,sc=PET.csc;PET.hx=PET.cx+shk;PET.hy=PET.cy;PET.sc=sc;
-  const here=!sl||rm==='slaap',happy=PET.happyMs>0||(PET.eatMs>0&&PET.eatI!==5)||(PET.shower&&PET.sing);
+  const OP=!!(PET.shower&&PET.sing&&rm==='bad'),here=!sl||rm==='slaap',happy=PET.happyMs>0||(PET.eatMs>0&&PET.eatI!==5)||(PET.shower&&PET.sing);
   if(now>PET.blinkAt){PET.blinkEnd=now+130;PET.blinkAt=now+2200+Math.random()*3200}
   const blink=now<PET.blinkEnd;let mood=sl?'z':happy?'h':blink?'z':(PET.food<20||PET.joy<12)?0:'n';if(PET.bed==='dark')mood='z';
   if(here){const onBed=bedPos;
     if(!onBed){ctx.save();ctx.translate(PET.hx,424);ctx.scale(1,.2);ctx.fillStyle=RGd(ctx,0,0,0,62*sc/3,[[0,'rgba(10,0,20,.4)'],[1,'rgba(10,0,20,0)']]);ctx.beginPath();ctx.arc(0,0,62*sc/3,0,7);ctx.fill();ctx.restore()}
-    const br=Math.sin(now/520)*.018,bob=happy&&!sl?-Math.abs(Math.sin(now/120))*10:0;
-    ctx.save();ctx.translate(PET.hx,PET.hy+24*sc+hopY+bob);ctx.scale(1-br*.6,1+br);ctx.translate(0,-24*sc);ctx.scale(sc,sc);if(happy&&!sl)ctx.rotate(Math.sin(now/110)*.08);
+    const br=Math.sin(now/520)*.018,bob=OP?Math.sin(now/900)*-7:happy&&!sl?-Math.abs(Math.sin(now/120))*10:0;
+    ctx.save();ctx.translate(PET.hx,PET.hy+24*sc+hopY+bob);ctx.scale(1-br*.6,1+br);ctx.translate(0,-24*sc);ctx.scale(sc,sc);if(OP){const sw=Math.sin(now/1100);ctx.translate(sw*14,0);ctx.rotate(sw*.14-.05);const vb=1+Math.sin(now/55)*.012+Math.max(0,Math.sin(now/1700))*.05;ctx.scale(vb,vb)}else if(happy&&!sl)ctx.rotate(Math.sin(now/110)*.08);
     let bt=0;if(PET.say&&PET.vseq.length){const el=now-PET.sayAt;for(const q of PET.vseq){if(el>=q[0]&&el<q[0]+q[1]+25){bt=8;break}}}
     if(PET.eatMs>0)bt=Math.floor(PET.eatMs/130)%2?10:2;if(PET.bite>0)bt=Math.floor(PET.bite/60)%2?10:0;const dg=PET.drag;if(dg&&dg.k==='food'&&Math.hypot(dg.x-(PET.hx+50),dg.y-(PET.hy+12))<130)bt=10;
-    if(PET.shower&&PET.sing&&!bt)bt=Math.floor(now/150)%2?9:3;hold=happy&&!sl;biteT=bt;PEYE=mood;hamster(0,0);PEYE=0;hold=false;biteT=0;ctx.restore();
+    if(PET.shower&&PET.sing&&!bt)bt=OP?(Math.sin(now/1700)>-.6?10:9):Math.floor(now/150)%2?9:3;hold=happy&&!sl;biteT=bt;PEYE=mood;hamster(0,0);PEYE=0;hold=false;biteT=0;ctx.restore();
     if(PET.eatMs>0){const q=PET.eatMs/1950;petFood(PET.eatI,PET.hx+46*sc/3,PET.hy+12+hopY,Math.max(.05,q)*1.1*sc/3)}}
-  petDirt(now,here);if(rm==='bad')petBathDraw(now,ms);
+  petDirt(now,here);if(rm==='bad')petBathDraw(now,ms);if(OP&&here)petOpera(now,sc);
   if(rm==='slaap'){petBlanketDraw();RR(ctx,436,404,16,70,3,G(ctx,436,0,452,0,[[0,'#8a5a30'],[1,'#4a2c14']]));
     // lamp-gloed
     const lg=PET.light;if(lg>.02){ctx.save();ctx.globalCompositeOperation='lighter';ctx.fillStyle=RGd(ctx,LAMP.x,LAMP.y,4,190,[[0,'rgba(255,214,120,'+.5*lg+')'],[1,'rgba(255,214,120,0)']]);ctx.fillRect(0,100,W,420);ctx.restore()}
