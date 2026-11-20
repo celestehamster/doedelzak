@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Doedelzak de bijtgrage hamster</title>
+<title>Doedelzak de bijtende hamster</title>
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#ffb8c0">
 <meta name="mobile-web-app-capable" content="yes">
@@ -11,19 +11,20 @@
 <meta name="apple-mobile-web-app-title" content="Doedelzak">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="format-detection" content="telephone=no">
-<meta name="description" content="Doedelzak de bijtgrage hamster: vliegen, schieten, make-over, rennen, muziek maken en je eigen hamster verzorgen.">
+<meta name="description" content="Doedelzak de bijtende hamster: vliegen, schieten, make-over, rennen, muziek maken en je eigen hamster verzorgen.">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <style>
 html,body{-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
 body{-webkit-user-select:none;user-select:none;touch-action:manipulation}
-html.sa,html.sa body{position:fixed;inset:0;width:100%;height:100%;overflow:hidden;margin:0}
+html.sa{padding:0!important;position:fixed;top:0;left:0;right:0;bottom:0;width:auto;height:auto;min-height:-webkit-fill-available;overflow:hidden;margin:0;background-color:#1e0c34}
+html.sa body{position:fixed;top:0;left:0;right:0;bottom:0;width:auto;height:auto;overflow:hidden;margin:0}
 html.sa body{display:flex;flex-direction:column;padding:0;gap:0}
 html.sa h1,html.sa #help,html.sa #stage>p{display:none!important}
-html.sa #stage{flex:1;min-height:0;width:100%;gap:0;justify-content:center;padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
+html.sa #stage{flex:1;min-height:0;width:100%;gap:0;justify-content:center;padding-top:env(safe-area-inset-top,0px);padding-bottom:calc(64px + env(safe-area-inset-bottom,0px));box-sizing:border-box}
 html.sa canvas{width:min(100vw,calc((100dvh - 64px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px))*.75));height:auto;max-width:none;max-height:none;aspect-ratio:3/4;border-radius:0;box-shadow:none}
-html.sa #stage>canvas+div{position:fixed;left:0;right:0;bottom:0;height:calc(64px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box;flex-wrap:nowrap!important;align-items:center;gap:6px!important;padding-left:8px;padding-right:8px;background:rgba(20,8,34,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
-html.sa #stage>canvas+div button{flex:1 1 0;min-width:0;padding:8px 2px;font-size:.78rem;line-height:1.05;white-space:nowrap;max-width:90px}
+html.sa #stage>canvas+div{position:fixed;left:0;right:0;bottom:0;justify-content:center;height:calc(64px + env(safe-area-inset-bottom,0px));padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box;flex-wrap:nowrap!important;align-items:center;gap:6px!important;padding-left:8px;padding-right:8px;background:rgba(20,8,34,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+html.sa #stage>canvas+div button{flex:1 1 0;min-width:0;padding:8px 2px;font-size:.78rem;line-height:1.05;white-space:nowrap;max-width:84px}
 html.sa #stage>canvas+div button .ic{width:1.5em;height:1.5em;margin:0}
 html.sa #b,html.sa #k{font-size:0!important}html.sa #b .ic,html.sa #k .ic{width:26px!important;height:26px!important;margin:0!important}
 html.sa,html.sa body{background:linear-gradient(#1e0c34,#3b1552 55%,#1e0c34)}
@@ -80,11 +81,11 @@ p{margin:0;font-size:.8rem;opacity:.8;text-align:center;padding:0 12px;max-width
 </head>
 <body>
 <div id="stage">
-<h1><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g stroke="#7a5238" stroke-width="3" stroke-linejoin="round"><circle cx="15" cy="19" r="9" fill="#d99a54"/><circle cx="49" cy="19" r="9" fill="#d99a54"/><circle cx="32" cy="38" r="22" fill="#e8b36a"/></g><circle cx="15" cy="19" r="4" fill="#ffb3b3"/><circle cx="49" cy="19" r="4" fill="#ffb3b3"/><ellipse cx="32" cy="46" rx="13" ry="9.5" fill="#fff3d9"/><circle cx="23" cy="35" r="3.3" fill="#e02020"/><circle cx="41" cy="35" r="3.3" fill="#e02020"/><path d="M17 28l10 4M47 28l-10 4" stroke="#7a5238" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="42" r="2.8" fill="#ff8fa3"/><g fill="#fff" stroke="#7a5238" stroke-width="1.6"><rect x="28" y="47" width="4" height="6.5" rx="1"/><rect x="32.5" y="47" width="4" height="6.5" rx="1"/></g><path d="M18 17q14-14 28 0z" fill="#b3261e" stroke="#7a5238" stroke-width="3" stroke-linejoin="round"/></svg> Doedelzak de bijtgrage hamster</h1>
+<h1><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg"><g stroke="#7a5238" stroke-width="3" stroke-linejoin="round"><circle cx="15" cy="19" r="9" fill="#d99a54"/><circle cx="49" cy="19" r="9" fill="#d99a54"/><circle cx="32" cy="38" r="22" fill="#e8b36a"/></g><circle cx="15" cy="19" r="4" fill="#ffb3b3"/><circle cx="49" cy="19" r="4" fill="#ffb3b3"/><ellipse cx="32" cy="46" rx="13" ry="9.5" fill="#fff3d9"/><circle cx="23" cy="35" r="3.3" fill="#e02020"/><circle cx="41" cy="35" r="3.3" fill="#e02020"/><path d="M17 28l10 4M47 28l-10 4" stroke="#7a5238" stroke-width="3" stroke-linecap="round"/><circle cx="32" cy="42" r="2.8" fill="#ff8fa3"/><g fill="#fff" stroke="#7a5238" stroke-width="1.6"><rect x="28" y="47" width="4" height="6.5" rx="1"/><rect x="32.5" y="47" width="4" height="6.5" rx="1"/></g><path d="M18 17q14-14 28 0z" fill="#b3261e" stroke="#7a5238" stroke-width="3" stroke-linejoin="round"/></svg> Doedelzak de bijtende hamster</h1>
 <canvas id="c" width="480" height="640"></canvas>
 <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><button id="b"><svg class="ic" viewBox="0 0 24 24" fill="#fff" stroke="#7a5238" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 3.5c2-1.2 3.4-.2 5-.2s3-1 5 .2c2.6 1.5 2.4 5.5.9 8.5-1.1 2.3-.8 8.5-2.9 8.5-1.8 0-1.4-4.8-3-4.8s-1.2 4.8-3 4.8c-2.1 0-1.9-6.2-3-8.5C4.6 9 4.4 5 7 3.5z"/></svg>BIJT! (B)</button><button id="k" style="background:#6a4bc4"><svg class="ic" viewBox="0 0 24 24" fill="#fff" stroke="#7a5238" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M20.5 3.5C12 3 6.5 8.5 5.5 16.5l-.5 3.5 3.5-.5C16.5 18.5 21 12 20.5 3.5z" fill="#e8dcff"/><path d="M4.5 20.5L15 10" fill="none"/></svg>KIETEL (K)</button><button id="m" style="background:#444;padding:10px 16px" aria-label="geluid"><svg class="ic ic1" viewBox="0 0 24 24" fill="#fff" stroke="#7a5238" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3 9.5v5h4l5 4v-13l-5 4H3z"/><path d="M15.5 9a4 4 0 010 6M18 6.5a8 8 0 010 11" fill="none" stroke="#fff" stroke-width="2"/></svg></button><button id="m2" style="background:#7a4fd0;padding:10px 16px" aria-label="ander liedje"><svg class="ic ic1" viewBox="0 0 24 24" fill="#fff" stroke="#7a5238" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M9.2 17.5V6M19.2 17.5V6" fill="none"/><path d="M9.2 6l10-2v3.4l-10 2z"/><ellipse cx="6.8" cy="17.6" rx="3.1" ry="2.5"/><ellipse cx="16.8" cy="17.6" rx="3.1" ry="2.5"/></svg></button><button id="o" style="background:#2f7d6d;padding:10px 16px" aria-label="outfit"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M12 7.5a2.3 2.3 0 1 0-2.3-2.3M12 7.5v2.2l9 6.4a1.1 1.1 0 0 1-.6 2H3.6a1.1 1.1 0 0 1-.6-2l9-6.4"/></svg></button><button id="h" style="background:#555;padding:10px 16px" aria-label="menu"><svg class="ic ic1" viewBox="0 0 24 24" fill="#fff" stroke="#7a5238" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3 11.5L12 3.5l9 8V21h-6v-6H9v6H3v-9.5z"/></svg></button></div>
 </div>
-<details id="help"><summary>Zo speel je het</summary><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l18-7-5 14-4-5-4 3 1-5z" fill="#fff3"/></svg></div><div><b>Vliegen</b><span>Houd spatie, muis of scherm ingedrukt om te vliegen. Bijt (B) koppen en katten weg. Kietel eindbaas Romano (K) tot hij lacht en vlieg naar de verwarming voor je bevriest.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"/><path d="M12 2v5M12 17v5M2 12h5M17 12h5"/></svg></div><div><b>Shooter</b><span>Loop met WASD of sleep links. Richt met de muis en schiet met klik. Op een telefoon tik je rechts en richt hij vanzelf. B is bijten.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 19c0-3.3 2.5-5 5.5-5s5.500 1.700 5.500 5M14.5 14.500c3-.5 6 .8 6 4.500"/></svg></div><div><b>Samen spelen</b><span>Alleen in het losse bestand. Kies MET EEN VRIEND op het startscherm en deel de code van 4 letters, of verbind handmatig. De shooter speel je samen, vliegen is een race.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.500 9a2.600 2.600 0 1 1 3.600 2.400c-.8.400-1.100 1-1.100 1.800M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg></div><div><b>Handig om te weten</b><span>Soms pauzeert het spel voor een quiz: kies 1 tot 4 of tik. O kiest een andere outfit. Met SAVE op het startscherm exporteer of importeer je je munten, outfits en records. Met Esc of de huisknop ga je terug naar het menu.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l9-9M13 11l3-3a2.200 2.200 0 0 1 3 3l-3 3M14 6l4 4"/><path d="M4 20c0-2 1-3 3-3"/></svg></div><div><b>Make-over</b><span>Kies MAKE-OVER op het startscherm. Je kunt altijd wisselen tussen skincare, haar, make-up en nagels. Elke keer dat je de make-over opent, begin je met een schone lei. Begin met skincare: was zijn gezicht en knijp alle puistjes uit, want daarna pas gaan haar en make-up open. Met KLAAR! beoordeelt Doedelzak je werk, en met FOTO bewaar je het.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4L4 20M15 4l5 16M12 6v2M12 11v3M12 17v3"/></svg></div><div><b>Rennen</b><span>Kies RENNEN op het startscherm. Ren door de keuken en ontwijk alles. Pijltjes links en rechts wisselen van baan, omhoog is springen, omlaag is duiken. Op je telefoon veeg je, en tikken is springen. Pak munten, spring over ontploffende powerbanks, duik onder kebabspitten en laat Romano je niet te pakken krijgen.</span></div></div></details>
+<details id="help"><summary>Zo speel je het</summary><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l18-7-5 14-4-5-4 3 1-5z" fill="#fff3"/></svg></div><div><b>Vliegen</b><span>Houd spatie, muis of scherm ingedrukt om te vliegen. Bijt (B) koppen en katten weg. Kietel eindbaas Romano (K) tot hij lacht en vlieg naar de verwarming voor je bevriest.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"/><path d="M12 2v5M12 17v5M2 12h5M17 12h5"/></svg></div><div><b>Shooter</b><span>Loop met WASD of sleep links. Richt met de muis en schiet met klik. Op een telefoon tik je rechts en richt hij vanzelf. B is bijten.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 19c0-3.3 2.5-5 5.5-5s5.500 1.700 5.500 5M14.5 14.500c3-.5 6 .8 6 4.500"/></svg></div><div><b>Samen spelen</b><span>Alleen in het losse bestand. Kies MET EEN VRIEND op het startscherm en deel de code van 4 letters, of verbind handmatig. De shooter speel je samen, vliegen is een race.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.500 9a2.600 2.600 0 1 1 3.600 2.400c-.8.400-1.100 1-1.100 1.800M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg></div><div><b>Handig om te weten</b><span>Soms pauzeert het spel voor een quiz: kies 1 tot 4 of tik. O kiest een andere outfit. Met Esc of de huisknop ga je terug naar het menu.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l9-9M13 11l3-3a2.200 2.200 0 0 1 3 3l-3 3M14 6l4 4"/><path d="M4 20c0-2 1-3 3-3"/></svg></div><div><b>Make-over</b><span>Kies MAKE-OVER op het startscherm. Je kunt altijd wisselen tussen skincare, haar, make-up en nagels. Elke keer dat je de make-over opent, begin je met een schone lei. Begin met skincare: was zijn gezicht en knijp alle puistjes uit, want daarna pas gaan haar en make-up open. Met KLAAR! beoordeelt Doedelzak je werk, en met FOTO bewaar je het.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4L4 20M15 4l5 16M12 6v2M12 11v3M12 17v3"/></svg></div><div><b>Rennen</b><span>Kies RENNEN op het startscherm. Ren door de keuken en ontwijk alles. Pijltjes links en rechts wisselen van baan, omhoog is springen, omlaag is duiken. Op je telefoon veeg je, en tikken is springen. Pak munten, spring over ontploffende powerbanks, duik onder kebabspitten en laat Romano je niet te pakken krijgen.</span></div></div></details>
 <div id="lobby" hidden><div class="lb"><h2>MET EEN VRIEND</h2><div id="lb-pick" style="display:flex;flex-direction:column;gap:12px"><button id="lb-host" style="background:#2f9e57">MAAK EEN SPEL</button><div class="lb-or">of vul de code van je vriend in</div><div class="lb-row"><input id="lb-code" maxlength="4" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="CODE"><button id="lb-join">DOE MEE</button></div><div class="lb-or">Lukt dat niet? Verbind zonder server:</div><div class="lb-row"><button id="lb-mh" class="sec" style="flex:1">handmatig hosten</button><button id="lb-mj" class="sec" style="flex:1">handmatig meedoen</button></div></div><div id="lb-man" hidden style="display:flex;flex-direction:column;gap:8px"><div class="lb-or" id="lb-man-t"></div><textarea id="lb-out" readonly rows="3" placeholder="jouw code"></textarea><button id="lb-copy" class="sec">kopieer jouw code</button><textarea id="lb-in" rows="3" placeholder="plak hier de code van je vriend"></textarea><button id="lb-go">VERBIND</button></div><div id="lb-wait" hidden style="display:flex;flex-direction:column;gap:12px"><div class="lb-lbl">Jouw code</div><div id="lb-big">····</div><div id="lb-modes"><button id="lb-m-fly">VLIEGEN · race</button><button id="lb-m-shoot">SHOOTER · samen</button></div><button id="lb-start" disabled>START</button></div><p id="lb-msg"></p><button id="lb-back" class="sec">terug</button></div></div>
 
 <script>try{if(matchMedia('(min-width:900px)').matches)document.getElementById('help').open=true}catch(e){}</script>
@@ -187,10 +188,9 @@ cv.addEventListener('pointerdown',e=>{e.preventDefault();
   if(state==='outfit'){if(CLO&&px<110&&py<54){const f=CLO;CLO=0;if(f===2)openShop();else goMenu();return}if(Math.abs(px-W/2)<110&&Math.abs(py-575)<30)confirmOutfit();else if(px<100&&py>200&&py<420)pickOutfit(-1);else if(px>380&&py>200&&py<420)pickOutfit(1);else if(Math.abs(px-W/2)<110&&py>190&&py<420)pickOutfit(1);return}
   if(state==='cutscene'&&px>W-130&&py>585){skipCut();return}
   if(state==='start'){initAudio();if(ac&&ac.state==='suspended')ac.resume();
-    if(px>312&&px<456&&py>568&&py<602){openSave();return}
     if(px>366&&px<466&&py>13&&py<47){boom(px,py,.9);thud(.25);openShop();return}
     if(px>246&&px<358&&py>13&&py<47){boom(px,py,.9);thud(.25);startCloset(1);return}
-    if(px>24&&px<300&&py>568&&py<602){boom(px,py,.5);mpSoon();return}
+    if(px>102&&px<378&&py>568&&py<602){boom(px,py,.5);mpSoon();return}
     let pill=-1;for(let i=0;i<6;i++)if(Math.abs(px-[60,132,204,276,348,420][i])<36&&py>386&&py<438)pill=i;
     if(pill>=0){setMode(['fly','shoot','makeup','run','studio','pet'][pill]);boom(px,py,.9);thud(.25)}else if(Math.abs(px-W/2)<100&&Math.abs(py-515)<40){boom(px,py,1.6);thud();press(true,e)}else{boom(px,py,1.2+Math.random()*.6);thud()}
     return}
@@ -239,23 +239,43 @@ let PEYE=0;
 function hamster(x,yy,oid){
   if(inv>0&&t%6<3)return;
   ctx.save();ctx.translate(x,yy);ctx.rotate(Math.max(-.4,Math.min(.5,vy*.06)));
-  ctx.fillStyle='#fff';ctx.strokeStyle='#8a6a3a';ctx.lineWidth=2;
+  const OL='#7a4a22';ctx.lineJoin='round';ctx.lineCap='round';
   const wa=Math.sin(t*(hold?.6:.25))*.6;
-  [[-14,-8],[8,-10]].forEach(([wx,wy],i)=>{ctx.save();ctx.translate(wx,wy);ctx.rotate(i?-wa-.3:wa-.3);ctx.beginPath();ctx.ellipse(0,-12,7,15,0,0,7);ctx.fill();ctx.stroke();ctx.restore()});
-  ctx.strokeStyle='#6a523f';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(-6,2);ctx.lineTo(-22,-20);ctx.moveTo(-2,2);ctx.lineTo(-12,-24);ctx.stroke();
-  ctx.beginPath();ctx.moveTo(8,8);ctx.lineTo(34,24);ctx.stroke();
-  ctx.fillStyle='#2e7d4f';ctx.beginPath();ctx.ellipse(2,12,15,11+(hold?3:0),0,0,7);ctx.fill();ctx.strokeStyle='#c8a64a';ctx.lineWidth=3;ctx.stroke();
-  ctx.fillStyle='#e8b36a';ctx.beginPath();ctx.ellipse(0,0,24,20,0,0,7);ctx.fill();
-  ctx.fillStyle='#fff3d9';ctx.beginPath();ctx.ellipse(6,6,14,10,0,0,7);ctx.fill();
-  ctx.fillStyle='#d99a54';[[-12,-18],[8,-19]].forEach(([ex,ey])=>{ctx.beginPath();ctx.arc(ex,ey,6,0,7);ctx.fill()});
+  // vleugels: veervormig met kleurverloop en nerf
+  [[-14,-8],[8,-10]].forEach(([wx,wy],i)=>{ctx.save();ctx.translate(wx,wy);ctx.rotate(i?-wa-.3:wa-.3);
+    const g=ctx.createLinearGradient(0,-30,0,0);g.addColorStop(0,'#ffffff');g.addColorStop(1,'#d6e2ff');
+    ctx.fillStyle=g;ctx.strokeStyle='#8b9cc4';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,1);ctx.bezierCurveTo(-10,-6,-10,-25,0,-31);ctx.bezierCurveTo(10,-25,10,-6,0,1);ctx.closePath();ctx.fill();ctx.stroke();
+    ctx.strokeStyle='#b7c5e8';ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(0,-3);ctx.lineTo(0,-23);ctx.moveTo(0,-9);ctx.lineTo(-4,-15);ctx.moveTo(0,-9);ctx.lineTo(4,-15);ctx.stroke();ctx.restore()});
+  // armpjes / stok
+  ctx.strokeStyle=OL;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(-6,2);ctx.lineTo(-22,-20);ctx.moveTo(-2,2);ctx.lineTo(-12,-24);ctx.moveTo(8,8);ctx.lineTo(34,24);ctx.stroke();
+  ctx.strokeStyle='#8c6a4a';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-6,2);ctx.lineTo(-22,-20);ctx.moveTo(-2,2);ctx.lineTo(-12,-24);ctx.moveTo(8,8);ctx.lineTo(34,24);ctx.stroke();
+  // staartje en voetjes
+  ctx.fillStyle='#f0b8b8';ctx.strokeStyle=OL;ctx.lineWidth=1.6;[[-6,24],[9,25]].forEach(([fx,fy])=>{ctx.beginPath();ctx.ellipse(fx,fy,5.5,3.4,0,0,7);ctx.fill();ctx.stroke()});
+  // groen jasje met gouden rand
+  {const g=ctx.createLinearGradient(0,0,0,24);g.addColorStop(0,'#3f9d68');g.addColorStop(1,'#1f6a43');ctx.fillStyle=g;ctx.beginPath();ctx.ellipse(2,12,15,11+(hold?3:0),0,0,7);ctx.fill();ctx.strokeStyle='#d8b650';ctx.lineWidth=3;ctx.stroke()}
+  // oren (achter het hoofd) met roze binnenkant
+  [[-12,-18],[8,-19]].forEach(([ex,ey])=>{ctx.fillStyle='#d9954d';ctx.strokeStyle=OL;ctx.lineWidth=2.2;ctx.beginPath();ctx.arc(ex,ey,6.6,0,7);ctx.fill();ctx.stroke();ctx.fillStyle='#f6a8b4';ctx.beginPath();ctx.arc(ex,ey+.6,3.4,0,7);ctx.fill()});
+  // hoofd met zachte schaduw
+  {const g=ctx.createRadialGradient(-6,-9,3,0,0,28);g.addColorStop(0,'#f6cf90');g.addColorStop(.6,'#e8b36a');g.addColorStop(1,'#cf8c47');ctx.fillStyle=g;ctx.strokeStyle=OL;ctx.lineWidth=2.4;ctx.beginPath();ctx.ellipse(0,0,24,20,0,0,7);ctx.fill();ctx.stroke()}
+  // roomwitte snuit/wang
+  {const g=ctx.createRadialGradient(8,5,2,6,6,16);g.addColorStop(0,'#fffaf0');g.addColorStop(1,'#f6e2bb');ctx.fillStyle=g;ctx.beginPath();ctx.ellipse(6,6,14,10,0,0,7);ctx.fill()}
+  // blosje
+  ctx.fillStyle='rgba(255,120,140,.38)';ctx.beginPath();ctx.ellipse(-4,5,5,3.4,0,0,7);ctx.fill();
   // boze ogen
-  if(PEYE)petEye(PEYE);else{ctx.fillStyle='#e02020';ctx.beginPath();ctx.arc(12,-5,3.5,0,7);ctx.fill();
-  ctx.strokeStyle='#5b4234';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(6,-12);ctx.lineTo(18,-7);ctx.stroke()}
-  ctx.fillStyle='#ff8fa3';ctx.beginPath();ctx.arc(24,0,3,0,7);ctx.fill();
+  if(PEYE)petEye(PEYE);else{
+    ctx.fillStyle='#fff';ctx.strokeStyle='#5b3a24';ctx.lineWidth=1.4;ctx.beginPath();ctx.ellipse(12,-5,5.2,5.4,0,0,7);ctx.fill();ctx.stroke();
+    ctx.fillStyle='#e02020';ctx.beginPath();ctx.arc(12.8,-4.6,3.5,0,7);ctx.fill();
+    ctx.fillStyle='#2a0808';ctx.beginPath();ctx.arc(13.4,-4.4,1.7,0,7);ctx.fill();
+    ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(12.2,-6,1.1,0,7);ctx.fill();
+    ctx.strokeStyle='#4a2f1f';ctx.lineWidth=3.2;ctx.beginPath();ctx.moveTo(5.5,-12.5);ctx.lineTo(18.5,-7.5);ctx.stroke()}
+  // neusje
+  ctx.fillStyle='#ff8fa3';ctx.strokeStyle='#b4506a';ctx.lineWidth=1.2;ctx.beginPath();ctx.ellipse(24,0,3.4,2.8,0,0,7);ctx.fill();ctx.stroke();ctx.fillStyle='#ffd3dc';ctx.beginPath();ctx.arc(23,-.8,1,0,7);ctx.fill();
+  // snorharen
+  ctx.strokeStyle='rgba(90,60,40,.55)';ctx.lineWidth=1.1;ctx.beginPath();ctx.moveTo(21,3);ctx.lineTo(35,0);ctx.moveTo(21,4.5);ctx.lineTo(36,5);ctx.moveTo(20,6);ctx.lineTo(33,10);ctx.stroke();
   // tanden / beet
-  const o=biteT>0?10:2;ctx.fillStyle='#fff';ctx.strokeStyle='#5b4234';ctx.lineWidth=1.5;
-  [[18,6-o/2],[24,6-o/2]].forEach(([fx,fy])=>{ctx.beginPath();ctx.moveTo(fx,fy);ctx.lineTo(fx+5,fy);ctx.lineTo(fx+2,fy+7);ctx.closePath();ctx.fill();ctx.stroke()});
-  [[18,8+o/2],[24,8+o/2]].forEach(([fx,fy])=>{ctx.beginPath();ctx.moveTo(fx,fy);ctx.lineTo(fx+5,fy);ctx.lineTo(fx+2,fy-7);ctx.closePath();ctx.fill();ctx.stroke()});
+  const o=biteT>0?10:2;ctx.fillStyle='#fffef8';ctx.strokeStyle='#5b4234';ctx.lineWidth=1.5;
+  [[18,6-o/2],[24,6-o/2]].forEach(([fx,fy])=>{ctx.beginPath();ctx.moveTo(fx,fy);ctx.lineTo(fx+5,fy);ctx.quadraticCurveTo(fx+5,fy+6,fx+2.5,fy+7.5);ctx.quadraticCurveTo(fx,fy+6,fx,fy);ctx.closePath();ctx.fill();ctx.stroke()});
+  [[18,8+o/2],[24,8+o/2]].forEach(([fx,fy])=>{ctx.beginPath();ctx.moveTo(fx,fy);ctx.lineTo(fx+5,fy);ctx.quadraticCurveTo(fx+5,fy-6,fx+2.5,fy-7.5);ctx.quadraticCurveTo(fx,fy-6,fx,fy);ctx.closePath();ctx.fill();ctx.stroke()});
   drawOutfit(oid||OUT[curOutfit].id);
   ctx.restore();
 }
@@ -312,7 +332,7 @@ function draw(){
     else{bar(W-156,44,140,phase==='run'?t/len:1,'#7bd66b');text(phase==='run'?'naar eindbaas Romano':'naar de verwarming',W-86,70,12)}
     if(phase==='boss'&&boss&&boss.ph<150){text('EINDBAAS ROMANO!',W/2,H/2-60,34,'#ffd23f');text('Kietel hem tot hij lacht! (K)',W/2,H/2-25,20)}
   }
-  if(state==='start'){text('Doedelzak',W/2,190,48);text('de bijtgrage hamster',W/2,228,22);text('Breng hem naar de verwarming!',W/2,290,18);text('Houd ingedrukt om te beginnen',W/2,430,18)}
+  if(state==='start'){text('Doedelzak',W/2,190,48);text('de bijtende hamster',W/2,228,22);text('Breng hem naar de verwarming!',W/2,290,18);text('Houd ingedrukt om te beginnen',W/2,430,18)}
   if(state==='levelup'){text('Level '+lvl+' klaar!',W/2,250,40);icFlame(W/2-175,236,38);icFlame(W/2+175,236,38);text('Heerlijk warm. Score: '+score,W/2,295,22);text('Druk voor level '+(lvl+1),W/2,350,20)}
   if(state==='over'){text(msg,W/2,250,30);text('Level '+lvl+' · score '+score+' · record '+best,W/2,295,20);drawEarn(W/2,325);text('Druk om opnieuw te spelen',W/2,350,20);text('of druk op O voor een andere outfit',W/2,386,15,'#444');text('Esc = terug naar het menu',W/2,410,15,'#444')}
   if(state==='quiz')drawQuiz();
@@ -406,7 +426,7 @@ function drawStart(){
   [...title].forEach((c,i)=>{ctx.save();ctx.translate(x+ws[i]/2,118+Math.sin(now/220+i*.7)*5);ctx.rotate(Math.sin(now/300+i)*.06);
     ctx.lineJoin='round';ctx.lineWidth=7;ctx.strokeStyle='rgba(40,8,60,.7)';ctx.strokeText(c,0,0);
     ctx.shadowColor='#ff9a1a';ctx.shadowBlur=14;ctx.fillStyle=i%2?'#ffd23f':'#ff9a1a';ctx.fillText(c,0,0);ctx.restore();x+=ws[i]});
-  text('de bijtgrage hamster',W/2,156,22,'#ffe9f4');
+  text('de bijtende hamster',W/2,156,22,'#ffe9f4');
   // hamster op een zachte gloed
   {const gl=ctx.createRadialGradient(W/2,268,10,W/2,268,150);gl.addColorStop(0,'rgba(255,200,230,.45)');gl.addColorStop(1,'rgba(255,200,230,0)');ctx.fillStyle=gl;ctx.fillRect(0,110,W,320)}
   ctx.save();ctx.translate(W/2-8,268+Math.sin(now/260)*8);ctx.scale(2.2,2.2);
@@ -421,7 +441,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v36 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v37 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -834,7 +854,7 @@ function openSave(){if(svEl)return;const d=document.createElement('div');svEl=d;
 const SHOP={i:0,msg:'',msgT:0};
 function icCoin(x,y,s){icBegin(x,y,s);ctx.fillStyle='#ffd23f';ctx.beginPath();ctx.arc(0,0,9,0,7);ctx.fill();ctx.stroke();ctx.strokeStyle='#d99a00';ctx.lineWidth=1.4;ctx.beginPath();ctx.arc(0,0,5.5,0,7);ctx.stroke();ctx.fillStyle='rgba(255,255,255,.55)';ctx.beginPath();ctx.ellipse(-3,-3.5,2,3.2,-.5,0,7);ctx.fill();ctx.restore()}
 function drawEarn(x,y){icCoin(x-92,y-6,22);text('+'+sessEarned+' munten  ·  totaal '+wallet,x+10,y,17,'#ffd23f')}
-function drawSaveBtn(){ctx.save();ctx.fillStyle='#6c5ce7';ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.beginPath();ctx.roundRect(312,568,144,34,17);ctx.fill();ctx.stroke();ctx.restore();text('SAVE',384,591,16)}
+function drawSaveBtn(){}
 function drawShopBtn(now){drawSaveBtn();ctx.save();ctx.fillStyle='rgba(0,0,0,.32)';ctx.beginPath();ctx.roundRect(14,13,92,34,17);ctx.fill();ctx.restore();icCoin(34,30,22);text(String(wallet),72,36,19,'#ffe28a');closetBtn(246,13,112);
   ctx.save();ctx.fillStyle='#2f9e57';ctx.strokeStyle='rgba(255,255,255,.8)';ctx.lineWidth=2.5;ctx.beginPath();ctx.roundRect(366,13,100,34,17);ctx.fill();ctx.stroke();ctx.restore();icCoin(388,30,18);text('SHOP',432,36,16)}
 function openShop(){beginTheme();hold=false;setSound(false);state='shop';SHOP.i=Math.max(0,curOutfit);SHOP.msg='';SHOP.msgT=0}
@@ -1081,8 +1101,8 @@ function drawRaceEnd(){
 function icFriends(x,y,s){icBegin(x,y,s);[[-6,'#ffd23f'],[6,'#7fd0ff']].forEach(([dx,c])=>{ctx.fillStyle=c;ctx.beginPath();ctx.arc(dx,-4,5,0,7);ctx.fill();ctx.stroke();ctx.beginPath();ctx.ellipse(dx,8,7,5,0,Math.PI,0);ctx.fill();ctx.stroke()});ctx.restore()}
 let soonAt=-1e9;function mpSoon(){soonAt=performance.now();blip(180,'square',.12,.05)}
 function drawMpButton(now){
-  ctx.save();ctx.fillStyle='#6d6878';ctx.strokeStyle='rgba(255,255,255,.45)';ctx.lineWidth=2.5;ctx.beginPath();ctx.roundRect(24,568,276,34,17);ctx.fill();ctx.stroke();ctx.globalAlpha=.55;ctx.restore();
-  ctx.save();ctx.globalAlpha=.5;icFriends(56,585,26);ctx.restore();text('MET EEN VRIEND',170,591,16,'#cfcad8');icLock(278,581,'#e8e4f0');
+  ctx.save();ctx.fillStyle='#6d6878';ctx.strokeStyle='rgba(255,255,255,.45)';ctx.lineWidth=2.5;ctx.beginPath();ctx.roundRect(102,568,276,34,17);ctx.fill();ctx.stroke();ctx.globalAlpha=.55;ctx.restore();
+  ctx.save();ctx.globalAlpha=.5;icFriends(134,585,26);ctx.restore();text('MET EEN VRIEND',248,591,16,'#cfcad8');icLock(356,581,'#e8e4f0');
   {const q=now-soonAt;if(q<3800){ctx.save();ctx.globalAlpha=Math.min(1,q/150,(3800-q)/400);ctx.fillStyle='rgba(20,5,40,.92)';ctx.strokeStyle='#ffd23f';ctx.lineWidth=2.5;ctx.beginPath();ctx.roundRect(40,486,W-80,70,18);ctx.fill();ctx.stroke();icLock(66,512,'#ffd23f');text('Binnenkort beschikbaar!',W/2+10,512,17,'#ffd23f');text('Als Celeste er tijd en zin in heeft',W/2,538,14,'#ffe9c2');ctx.restore()}}
   if(NET.note&&now-NET.noteAt<6000)text(NET.note,W/2,84,16,'#ffd23f');
 }
@@ -1441,7 +1461,7 @@ function drawStudio(){
   if(frac>0){ctx.fillStyle=ST.rec?'#ff4d5e':'#7dff9a';ctx.beginPath();ctx.roundRect(24,538,Math.max(14,432*frac),14,7);ctx.fill()}
   text(lab,W/2,574,ST.msgT>0&&lab.length>46?12:14,ST.msgT>0?'#ffe9c2':'#ffe9f4');
   stBtn(24,586,118,40,'WAV OPSLAAN',has?'#1f8a96':'#5a5470',stWav,13);
-  stBtn(150,586,118,40,ST.metro?'KLIK: AAN':'KLIK: UIT',ST.metro?'#e6a100':'#5a5470',()=>{ST.metro=!ST.metro;try{localStorage.setItem('doedelzak-metro',ST.metro?'1':'0')}catch(e){}ST.msg=ST.metro?'Metronoom aan: je hoort de tel tijdens het opnemen.':'Metronoom uit.';ST.msgT=140},13);
+  stBtn(146,586,128,40,ST.metro?'METRONOOM: AAN':'METRONOOM: UIT',ST.metro?'#e6a100':'#5a5470',()=>{ST.metro=!ST.metro;try{localStorage.setItem('doedelzak-metro',ST.metro?'1':'0')}catch(e){}ST.msg=ST.metro?'Metronoom aan: je hoort de tel tijdens het opnemen.':'Metronoom uit.';ST.msgT=140},13);
   stBtn(276,586,36,40,'-',has?'#5a5470':'#6c5ce7',()=>{if(!has)ST.bpm=Math.max(60,ST.bpm-5)},20);text(ST.bpm+' BPM',348,611,14,has?'#bbb':'#fff');stBtn(384,586,36,40,'+',has?'#5a5470':'#6c5ce7',()=>{if(!has)ST.bpm=Math.min(180,ST.bpm+5)},20);
   // aftellen + maat-lampjes
   if(ST.rec&&ac){const anchor=ST.len?ST.ls:ST.t0;if(!counting){const bi=((Math.floor((nowT-anchor)/bd)%4)+4)%4;for(let i=0;i<4;i++){ctx.fillStyle=i===bi?(i===0?'#ffd23f':'#fff'):'rgba(255,255,255,.22)';ctx.beginPath();ctx.arc(W/2-33+i*22,108,i===bi?6:4,0,7);ctx.fill()}}
