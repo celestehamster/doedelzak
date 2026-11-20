@@ -246,16 +246,15 @@ function hamster(x,yy,oid){
     const g=ctx.createLinearGradient(0,-30,0,0);g.addColorStop(0,'#ffffff');g.addColorStop(1,'#d6e2ff');
     ctx.fillStyle=g;ctx.strokeStyle='#8b9cc4';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,1);ctx.bezierCurveTo(-10,-6,-10,-25,0,-31);ctx.bezierCurveTo(10,-25,10,-6,0,1);ctx.closePath();ctx.fill();ctx.stroke();
     ctx.strokeStyle='#b7c5e8';ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(0,-3);ctx.lineTo(0,-23);ctx.moveTo(0,-9);ctx.lineTo(-4,-15);ctx.moveTo(0,-9);ctx.lineTo(4,-15);ctx.stroke();ctx.restore()});
-  // pootjes met handjes
-  const arm=(x0,y0,x1,y1)=>{ctx.strokeStyle=OL;ctx.lineWidth=7.2;ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);ctx.stroke();ctx.strokeStyle='#e2a862';ctx.lineWidth=4.2;ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);ctx.stroke();
-    ctx.fillStyle='#f3cc92';ctx.strokeStyle=OL;ctx.lineWidth=1.8;ctx.beginPath();ctx.arc(x1,y1,4.8,0,7);ctx.fill();ctx.stroke();
-    const an=Math.atan2(y1-y0,x1-x0);ctx.strokeStyle='rgba(122,74,34,.75)';ctx.lineWidth=1.1;[-.55,0,.55].forEach(d=>{ctx.beginPath();ctx.moveTo(x1+Math.cos(an+d)*1.6,y1+Math.sin(an+d)*1.6);ctx.lineTo(x1+Math.cos(an+d)*4.6,y1+Math.sin(an+d)*4.6);ctx.stroke()})};
-  const wv=Math.sin(t*(hold?.5:.18))*3;
-  arm(-6,2,-21,-19+wv);arm(-2,2,-11,-23-wv);arm(8,9,28,21);
   // staartje en voetjes
   ctx.fillStyle='#f0b8b8';ctx.strokeStyle=OL;ctx.lineWidth=1.6;[[-6,24],[9,25]].forEach(([fx,fy])=>{ctx.beginPath();ctx.ellipse(fx,fy,5.5,3.4,0,0,7);ctx.fill();ctx.stroke()});
   // groen jasje met gouden rand
   {const g=ctx.createLinearGradient(0,0,0,24);g.addColorStop(0,'#3f9d68');g.addColorStop(1,'#1f6a43');ctx.fillStyle=g;ctx.beginPath();ctx.ellipse(2,12,15,11+(hold?3:0),0,0,7);ctx.fill();ctx.strokeStyle='#d8b650';ctx.lineWidth=3;ctx.stroke()}
+  // pootjes met handjes: kort, langs het lijf
+  {const sw=Math.sin(t*(hold?.5:.18))*1.6;
+   const paw=(x0,y0,x1,y1,sh)=>{ctx.strokeStyle='#7a4a22';ctx.lineWidth=6.6;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);ctx.stroke();ctx.strokeStyle=sh;ctx.lineWidth=3.6;ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);ctx.stroke();
+     ctx.fillStyle='#f3cc92';ctx.strokeStyle='#7a4a22';ctx.lineWidth=1.7;ctx.beginPath();ctx.arc(x1,y1+1,4.2,0,7);ctx.fill();ctx.stroke();ctx.strokeStyle='rgba(122,74,34,.7)';ctx.lineWidth=1;[-1.4,1.4].forEach(d=>{ctx.beginPath();ctx.moveTo(x1+d,y1+2);ctx.lineTo(x1+d,y1+4.6);ctx.stroke()})};
+   paw(-9,12,-10,21+sw,'#d49650');paw(7,12,8,22-sw,'#e2a862')}
   // oren (achter het hoofd) met roze binnenkant
   [[-12,-18],[8,-19]].forEach(([ex,ey])=>{ctx.fillStyle='#d9954d';ctx.strokeStyle=OL;ctx.lineWidth=2.2;ctx.beginPath();ctx.arc(ex,ey,6.6,0,7);ctx.fill();ctx.stroke();ctx.fillStyle='#f6a8b4';ctx.beginPath();ctx.arc(ex,ey+.6,3.4,0,7);ctx.fill()});
   // hoofd met zachte schaduw
@@ -275,10 +274,13 @@ function hamster(x,yy,oid){
   ctx.fillStyle='#ff8fa3';ctx.strokeStyle='#b4506a';ctx.lineWidth=1.2;ctx.beginPath();ctx.ellipse(24,0,3.4,2.8,0,0,7);ctx.fill();ctx.stroke();ctx.fillStyle='#ffd3dc';ctx.beginPath();ctx.arc(23,-.8,1,0,7);ctx.fill();
   // snorharen
   ctx.strokeStyle='rgba(90,60,40,.55)';ctx.lineWidth=1.1;ctx.beginPath();ctx.moveTo(21,3);ctx.lineTo(35,0);ctx.moveTo(21,4.5);ctx.lineTo(36,5);ctx.moveTo(20,6);ctx.lineTo(33,10);ctx.stroke();
-  // tanden / beet
-  const o=biteT>0?10:2;ctx.fillStyle='#fffef8';ctx.strokeStyle='#5b4234';ctx.lineWidth=1.5;
-  [[18,6-o/2],[24,6-o/2]].forEach(([fx,fy])=>{ctx.beginPath();ctx.moveTo(fx,fy);ctx.lineTo(fx+5,fy);ctx.quadraticCurveTo(fx+5,fy+6,fx+2.5,fy+7.5);ctx.quadraticCurveTo(fx,fy+6,fx,fy);ctx.closePath();ctx.fill();ctx.stroke()});
-  [[18,8+o/2],[24,8+o/2]].forEach(([fx,fy])=>{ctx.beginPath();ctx.moveTo(fx,fy);ctx.lineTo(fx+5,fy);ctx.quadraticCurveTo(fx+5,fy-6,fx+2.5,fy-7.5);ctx.quadraticCurveTo(fx,fy-6,fx,fy);ctx.closePath();ctx.fill();ctx.stroke()});
+  // mond en tanden, vast aan de snuit
+  {const o=biteT>0?9:0;ctx.lineJoin='round';
+   if(o){ctx.fillStyle='#7a1f2b';ctx.strokeStyle='#5b2a2a';ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(14,7);ctx.quadraticCurveTo(21,6,27,7);ctx.quadraticCurveTo(26,8+o+2,21,8+o+2);ctx.quadraticCurveTo(15,8+o,14,7);ctx.closePath();ctx.fill();ctx.stroke();
+     ctx.fillStyle='#fffef8';ctx.strokeStyle='#5b4234';ctx.lineWidth=1.3;ctx.beginPath();ctx.roundRect(18.5,7+o-4.5,7,5.2,[1.2,1.2,2,2]);ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(22,7+o-4.2);ctx.lineTo(22,7+o+.3);ctx.stroke()}
+   else{ctx.strokeStyle='#5b3a24';ctx.lineWidth=1.8;ctx.beginPath();ctx.moveTo(13,8.2);ctx.quadraticCurveTo(20,10.5,27.5,7.4);ctx.stroke()}
+   ctx.fillStyle='#fffef8';ctx.strokeStyle='#5b4234';ctx.lineWidth=1.5;ctx.beginPath();ctx.roundRect(17.5,5.6,9,8.4,[1.5,1.5,3.6,3.6]);ctx.fill();ctx.stroke();ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(22,6.4);ctx.lineTo(22,13.2);ctx.stroke();
+   ctx.fillStyle='rgba(255,215,160,.55)';ctx.fillRect(18.4,6.6,2.6,1.6)}
   drawOutfit(oid||OUT[curOutfit].id);
   ctx.restore();
 }
@@ -444,7 +446,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v38 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v39 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
