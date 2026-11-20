@@ -421,7 +421,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v35 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v36 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -606,7 +606,7 @@ let wallet=0,owned=['schots'],sessEarned=0,coinSc=0;
 try{wallet=+localStorage.getItem('doedelzak-coins')||0;const o=JSON.parse(localStorage.getItem('doedelzak-owned')||'null');if(Array.isArray(o))owned=Array.from(new Set(['schots'].concat(o.filter(x=>typeof x==='string'))))}catch(e){}
 function saveEco(){try{localStorage.setItem('doedelzak-coins',wallet);localStorage.setItem('doedelzak-owned',JSON.stringify(owned))}catch(e){}}
 function addCoins(n){if(n<=0)return;wallet+=n;sessEarned+=n;saveEco()}
-function syncCoins(){if(score===0){coinSc=0;sessEarned=0;return}const c=Math.floor(score/8);if(c<coinSc){coinSc=c;sessEarned=0}else if(c>coinSc){addCoins(c-coinSc);coinSc=c}}
+function syncCoins(){if(score===0){coinSc=0;sessEarned=0;return}const c=Math.floor(score/6);if(c<coinSc){coinSc=c;sessEarned=0}else if(c>coinSc){addCoins(c-coinSc);coinSc=c}}
 const PRICE={clown:150,politie:250,piraat:300,astro:500,kok:400,kegel:200,eend:350,pizza:450,toiletrol:550,spaghetti:700,aardappel:800,broodrooster:900,powerbank:2000,kebab:2300,magnetron:3300,router:4200,wasmachine:5500,sok:600,ananas:1000,stoplicht:1100,emmer:1250,lasagne:1400,meeuw:1600,cactus:1800,ijsje:2600,waterkoker:2900,kaaskop:3700,ufo:4800,discobal:7500};
 const OUT=[
  {id:'schots',n:'Schotse doedelzakspeler',d:'De klassieker. Zeer Schots, zeer boos.'},
@@ -1544,11 +1544,11 @@ const rpj=d=>RFOC/(RFOC+d),rcv=d=>RN.curve*Math.pow(d/1700,2)*150,rx=(l,d)=>240+
 function startRun(){hold=false;hid=null;setSound(false);beginTheme();vol(.6);
   Object.assign(RN,{over:false,obs:[],col:[],pops:[],curve:0,t:0,scroll:0,lane:0,lx:0,z:0,vz:0,slide:0,sp:9,dist:0,coins:0,hit:0,hitT:0,stumble:0,gap:0,dir:1,hint:360,msg:'',msgT:0,cph:Math.random()*6,newBest:false,sdown:false});
   shake=0;dst=[];dstCd=420;ex=[];rings=[];flash=0;sessEarned=0;state='run'}
-function runMove(d){if(state!=='run'||RN.over)return;const nl=Math.max(-1,Math.min(1,RN.lane+d));if(nl!==RN.lane){RN.lane=nl;RN.dir=d;blip(520,'triangle',.05,.05)}}
+let lastLaneT=0;function runMove(d){if(state!=='run'||RN.over)return;const nw=performance.now();if(nw-lastLaneT<130)return;lastLaneT=nw;const nl=Math.max(-1,Math.min(1,RN.lane+d));if(nl!==RN.lane){RN.lane=nl;RN.dir=d;blip(520,'triangle',.05,.05)}}
 function runJump(){if(state!=='run'||RN.over||RN.z>0||RN.stumble>30)return;RN.vz=12.5;RN.z=.01;RN.slide=0;blip(700,'sine',.1,.07)}
 function runSlide(){if(state!=='run'||RN.over)return;if(RN.z>0)RN.vz=-14;RN.slide=34;blip(300,'triangle',.1,.06)}
 addEventListener('pointermove',e=>{if(state!=='run'||!RN.sdown)return;const r=cv.getBoundingClientRect(),px=(e.clientX-r.left)*W/r.width,py=(e.clientY-r.top)*H/r.height,dx=px-RN.sx,dy=py-RN.sy;
-  if(Math.abs(dx)>24||Math.abs(dy)>24){RN.mv=true;if(Math.abs(dx)>Math.abs(dy))runMove(dx>0?1:-1);else if(dy<0)runJump();else runSlide();RN.sx=px;RN.sy=py}});
+  if(Math.abs(dx)>24||Math.abs(dy)>24){if(RN.mv){RN.sx=px;RN.sy=py;return}RN.mv=true;if(Math.abs(dx)>Math.abs(dy))runMove(dx>0?1:-1);else if(dy<0)runJump();else runSlide();RN.sx=px;RN.sy=py}});
 addEventListener('pointerup',()=>{if(state==='run'&&RN.sdown&&!RN.mv)runJump();RN.sdown=false});addEventListener('pointercancel',()=>{RN.sdown=false});
 function runRow(d){const r3=()=>Math.floor(Math.random()*3)-1,q=Math.random(),easy=RN.dist<25;
   if(q<.3||easy&&q<.6){RN.obs.push({d,l:r3(),k:0})}
