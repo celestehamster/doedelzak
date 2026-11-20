@@ -246,9 +246,12 @@ function hamster(x,yy,oid){
     const g=ctx.createLinearGradient(0,-30,0,0);g.addColorStop(0,'#ffffff');g.addColorStop(1,'#d6e2ff');
     ctx.fillStyle=g;ctx.strokeStyle='#8b9cc4';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,1);ctx.bezierCurveTo(-10,-6,-10,-25,0,-31);ctx.bezierCurveTo(10,-25,10,-6,0,1);ctx.closePath();ctx.fill();ctx.stroke();
     ctx.strokeStyle='#b7c5e8';ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(0,-3);ctx.lineTo(0,-23);ctx.moveTo(0,-9);ctx.lineTo(-4,-15);ctx.moveTo(0,-9);ctx.lineTo(4,-15);ctx.stroke();ctx.restore()});
-  // armpjes / stok
-  ctx.strokeStyle=OL;ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(-6,2);ctx.lineTo(-22,-20);ctx.moveTo(-2,2);ctx.lineTo(-12,-24);ctx.moveTo(8,8);ctx.lineTo(34,24);ctx.stroke();
-  ctx.strokeStyle='#8c6a4a';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(-6,2);ctx.lineTo(-22,-20);ctx.moveTo(-2,2);ctx.lineTo(-12,-24);ctx.moveTo(8,8);ctx.lineTo(34,24);ctx.stroke();
+  // pootjes met handjes
+  const arm=(x0,y0,x1,y1)=>{ctx.strokeStyle=OL;ctx.lineWidth=7.2;ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);ctx.stroke();ctx.strokeStyle='#e2a862';ctx.lineWidth=4.2;ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);ctx.stroke();
+    ctx.fillStyle='#f3cc92';ctx.strokeStyle=OL;ctx.lineWidth=1.8;ctx.beginPath();ctx.arc(x1,y1,4.8,0,7);ctx.fill();ctx.stroke();
+    const an=Math.atan2(y1-y0,x1-x0);ctx.strokeStyle='rgba(122,74,34,.75)';ctx.lineWidth=1.1;[-.55,0,.55].forEach(d=>{ctx.beginPath();ctx.moveTo(x1+Math.cos(an+d)*1.6,y1+Math.sin(an+d)*1.6);ctx.lineTo(x1+Math.cos(an+d)*4.6,y1+Math.sin(an+d)*4.6);ctx.stroke()})};
+  const wv=Math.sin(t*(hold?.5:.18))*3;
+  arm(-6,2,-21,-19+wv);arm(-2,2,-11,-23-wv);arm(8,9,28,21);
   // staartje en voetjes
   ctx.fillStyle='#f0b8b8';ctx.strokeStyle=OL;ctx.lineWidth=1.6;[[-6,24],[9,25]].forEach(([fx,fy])=>{ctx.beginPath();ctx.ellipse(fx,fy,5.5,3.4,0,0,7);ctx.fill();ctx.stroke()});
   // groen jasje met gouden rand
@@ -441,7 +444,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v37 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v38 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
