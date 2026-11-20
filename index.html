@@ -452,7 +452,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v51 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v52 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -1316,7 +1316,7 @@ function icNoteS(x,y,s){icBegin(x,y,s);ctx.fillStyle='#fff';ctx.beginPath();ctx.
 function drawModePills(now){
   {const rb=mode==='run'?bestRun:mode==='shoot'?bestShoot:mode==='fly'?best:-1;if(rb>=0){ctx.save();ctx.fillStyle='rgba(20,5,40,.55)';ctx.strokeStyle='#ffd23f';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(W/2-64,352,128,26,13);ctx.fill();ctx.stroke();ctx.restore();text('RECORD: '+rb,W/2,371,15,'#ffe28a')}}
   ctx.save();ctx.fillStyle='rgba(20,5,40,.45)';ctx.strokeStyle='rgba(255,255,255,.35)';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(24,380,432,92,26);ctx.fill();ctx.stroke();ctx.restore();
-  [['fly','VLIEGEN',55],['shoot','SHOOTER',117],['makeup','MAKE-OVER',178],['run','RENNEN',240],['studio','STUDIO',302],['pet','VERZORG',363],['pizza','PIZZERIA',425]].forEach(([m,l,cx])=>{
+  [['fly','VLIEGEN',55],['shoot','SHOOTER',117],['makeup','MAKE-OVER',178],['run','RENNEN',240],['studio','STUDIO',302],['pet','MY DZK',363],['pizza','PIZZERIA',425]].forEach(([m,l,cx])=>{
     const cy=412,sel=mode===m;
     ctx.save();ctx.fillStyle=sel?'#ffd23f':'rgba(255,255,255,.12)';ctx.beginPath();ctx.roundRect(cx-29,cy-24,58,48,14);ctx.fill();ctx.restore();
     const iy=cy-8;if(m==='fly')icPlane(cx,iy,20,-.3);else if(m==='shoot')icCross(cx,iy,20,sel?now/1500:0);else if(m==='makeup')icBrush(cx,iy+1,22,.6,'#ff7ab8');else if(m==='run')icRoad(cx,iy,20);else if(m==='pet')icHeart(cx,iy,22);else if(m==='pizza')icPizza(cx,iy,22);else icNoteS(cx,iy,21);
@@ -1331,7 +1331,7 @@ const SELM=[
  {m:'makeup',n:'MAKE-OVER',f:"Pacifico,Fredoka,cursive",sz:44,c1:'#c2307a',c2:'#ffb3d9',ac:'#fff0a8',tag:'maak Doedelzak mooi',d:'Geef Doedelzak een complete make-over: skincare, make-up, nagels en haar. Aan het eind krijg je sterren.',h:'tik en sleep met de spulletjes'},
  {m:'run',n:'RENNEN',f:"'Russo One',Fredoka,sans-serif",sz:48,c1:'#0f5a3a',c2:'#8ee36b',ac:'#ffd23f',tag:'steeds sneller!',d:'Ren over de weg, spring en duik langs de gevaren en pak muntjes. Elke veeg is precies één baan.',h:'← →  = baan  ·  ↑ = springen  ·  ↓ = duiken'},
  {m:'studio',n:'STUDIO',f:"'Permanent Marker',Fredoka,cursive",sz:50,c1:'#1b1040',c2:'#6a3ad6',ac:'#ff7ab8',tag:'maak je eigen hit',d:'Maak een liedje met piano, drums, bas en soundboard. Neem het op en speel het terug.',h:'tik op de toetsen en pads'},
- {m:'pet',n:'VERZORG',f:"'Baloo 2',Fredoka,sans-serif",sz:52,c1:'#2c8a6a',c2:'#ffd9a0',ac:'#ff7a9a',tag:'zorg goed voor Doedelzak',d:'Voer, aai, douche en stop Doedelzak in bed. Onder de douche zingt hij opera!',h:'sleep eten naar hem toe  ·  wrijf om te aaien'},
+ {m:'pet',n:'MY DOEDELZAK',f:"'Baloo 2',Fredoka,sans-serif",sz:42,c1:'#2c8a6a',c2:'#ffd9a0',ac:'#ff7a9a',tag:'zorg goed voor Doedelzak',d:'Voer, aai, douche en stop Doedelzak in bed. Onder de douche zingt hij opera!',h:'sleep eten naar hem toe  ·  wrijf om te aaien'},
  {m:'pizza',n:'PIZZERIA',f:"Lobster,Fredoka,cursive",sz:56,c1:'#b3261e',c2:'#ffb25a',ac:'#fff3dc',tag:'bestel, bouw, bak, snijd!',d:'Bestellingen opnemen, bouwen, bakken en snijden. Pim, Romano, Yindi, Celeste en hamsters hebben honger!',h:'tik en sleep'}
 ];
 try{document.fonts&&SELM.forEach(o=>document.fonts.load('40px '+o.f.split(',')[0]))}catch(e){}
@@ -2333,7 +2333,20 @@ function drawCut(){
 }
 setInterval(()=>{try{if(unlocked&&!usingWA&&!userMuted&&music.paused&&state!=='studio'&&document.visibilityState==='visible'){const p=music.play();if(p&&p.catch)p.catch(()=>{retryPlay=true})}}catch(e){}},1500);
 let prevSt='';
-// ===== VERZORGEN (Doedelzak als huisdier) =====
+// ===== MY DOEDELZAK (Doedelzak als huisdier) =====
+let PETNAME='Doedelzak',PETNAMED=false;try{const n=localStorage.getItem('doedelzak-petname');if(n){PETNAME=n;PETNAMED=true}}catch(e){}
+function PN(){return PETNAME}
+function petNotify(m){try{if(!('Notification' in window)||Notification.permission!=='granted')return;if(!document.hidden&&state==='pet')return;const o={body:m,icon:'icons/icon-192.png',badge:'icons/icon-192.png',tag:'doedelzak-pet-'+m.length,renotify:true};
+  if(navigator.serviceWorker&&navigator.serviceWorker.controller)navigator.serviceWorker.ready.then(r=>r.showNotification('My Doedelzak',o)).catch(()=>{try{new Notification('My Doedelzak',o)}catch(e){}});else new Notification('My Doedelzak',o)}catch(e){}}
+function petNameDlg(first){if(document.getElementById('pnd'))return;const d=document.createElement('div');d.id='pnd';d.style.cssText='position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;background:rgba(20,8,30,.62);font-family:Fredoka,Trebuchet MS,sans-serif;padding:16px;box-sizing:border-box';
+  const B='display:block;width:100%;box-sizing:border-box;border:0;border-radius:16px;padding:12px;font:700 17px Fredoka,Trebuchet MS,sans-serif;color:#fff;cursor:pointer;margin-top:12px';
+  d.innerHTML='<div style="background:#fff7ee;border:4px solid #ff7a9a;border-radius:26px;padding:22px 20px;width:min(100%,340px);text-align:center;box-shadow:0 12px 34px rgba(0,0,0,.45)"><div style="font-size:24px;font-weight:700;color:#c2307a">'+(first?'Je eigen hamster!':'Naam en meldingen')+'</div><div style="font-size:15px;color:#5a3a4a;margin:6px 0 12px">Hoe heet jouw Doedelzak?</div><input id="pni" maxlength="14" autocomplete="off" style="width:100%;box-sizing:border-box;font:600 22px Fredoka,Trebuchet MS,sans-serif;padding:10px 12px;border-radius:14px;border:3px solid #ffb3c8;text-align:center;outline:none;color:#3a1a2a;background:#fff"><button id="pnb" style="'+B+';background:#4f6fe0">🔔 Meldingen aanzetten</button><div id="pnn" style="font-size:12.5px;color:#7a5a6a;margin-top:8px;line-height:1.35"></div><button id="pok" style="'+B+';background:#2fae6a">KLAAR</button></div>';
+  document.body.appendChild(d);const inp=d.querySelector('#pni'),nb=d.querySelector('#pnb'),nn=d.querySelector('#pnn');inp.value=PETNAME;
+  const upd=()=>{if(!('Notification' in window)){nb.style.display='none';nn.textContent='Meldingen werken op iPhone alleen als je de app via Delen > Zet op beginscherm hebt geïnstalleerd en vanaf daar opent.';return}const p=Notification.permission;if(p==='granted'){nb.style.display='none';nn.textContent='🔔 Meldingen staan aan. Je krijgt een melding als '+(inp.value.trim()||'Doedelzak')+' honger heeft, moe is, stinkt of zich alleen voelt.'}else if(p==='denied'){nb.style.display='none';nn.textContent='Meldingen zijn geblokkeerd. Zet ze aan in de instellingen van je telefoon of browser.'}else nn.textContent='Krijg een seintje als '+(inp.value.trim()||'Doedelzak')+' iets nodig heeft.'};upd();inp.addEventListener('input',upd);
+  nb.addEventListener('click',e=>{e.preventDefault();try{const r=Notification.requestPermission(upd);if(r&&r.then)r.then(upd)}catch(x){}});
+  const ok=()=>{const v=inp.value.replace(/\s+/g,' ').trim().slice(0,14);PETNAME=v||'Doedelzak';PETNAMED=true;try{localStorage.setItem('doedelzak-petname',PETNAME)}catch(x){}d.remove();PET.say=null;blip(880,'triangle',.15,.08);petToast('Hoi '+PETNAME+'!')};
+  d.querySelector('#pok').addEventListener('click',e=>{e.preventDefault();ok()});inp.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter')ok()});
+  ['pointerdown','pointerup','touchstart'].forEach(ev=>d.addEventListener(ev,e=>e.stopPropagation()));if(!first)setTimeout(()=>{try{inp.focus();inp.select()}catch(x){}},50)}
 const PET={clean:80,shower:false,showT:0,foamA:0,sing:false,singSrc:null,singG:null,food:80,energy:90,joy:75,sleep:false,last:Date.now(),room:'woon',rprev:null,rt:1,say:null,sayAt:0,sayLife:0,vt:null,vseq:[],nextSay:0,pt:[],hits:[],toasts:[],drag:null,eatMs:0,eatI:0,happyMs:0,shake:0,bite:0,sqT:0,flags:{f:0,e:0,j:0,c:0},lastSave:0,hello:false,
   bed:'none',p:0,light:1,lightT:1,lampMs:0,cx:240,cy:350,csc:3,hx:240,hy:350,sc:3,lt:0,dv:{f:80,e:90,j:75},ptr:{x:240,y:300,v:0,down:false,touch:false,pose:'open',rot:0},blinkAt:0,blinkEnd:0,bufs:{},loading:false,vg:null,snSrc:null,snG:null,snStop:0,hop:0,motes:[],tl:0};
 try{const s=JSON.parse(localStorage.getItem('doedelzak-pet')||'null');if(s&&typeof s.food==='number'){const c=v=>Math.max(0,Math.min(100,+v||0));PET.food=c(s.food);PET.energy=c(s.energy);PET.joy=c(s.joy);PET.clean=typeof s.clean==='number'?c(s.clean):80;PET.sleep=!!s.sleep;PET.last=+s.ts>0?+s.ts:Date.now();if(s.flags)PET.flags={f:s.flags.f?1:0,e:s.flags.e?1:0,j:s.flags.j?1:0,c:s.flags.c?1:0};PET.hello=true}}catch(e){}
@@ -2354,10 +2367,10 @@ let petCacc=0;function petEarn(a,x,y){petCacc+=a;if(petCacc>=1){const n=Math.flo
 function petNeed(){return PET.food<30||(PET.energy<25&&!PET.sleep)||PET.joy<25||PET.clean<25}
 function petStep(dt){
   if(PET.sleep){PET.energy=Math.min(100,PET.energy+dt*100/300);PET.food=Math.max(0,PET.food-dt*100/3600);PET.clean=Math.max(0,PET.clean-dt*100/7200);
-    if(PET.energy>=100){PET.sleep=false;PET.bed='none';PET.p=0;PET.lightT=1;PET.say=null;petToast('Doedelzak is uitgerust en wakker!');PET.flags.e=0}}
+    if(PET.energy>=100){PET.sleep=false;PET.bed='none';PET.p=0;PET.lightT=1;PET.say=null;petToast(PN()+' is uitgerust en wakker!');PET.flags.e=0}}
   else{PET.food=Math.max(0,PET.food-dt*100/1286);PET.energy=Math.max(0,PET.energy-dt*100/1200);PET.joy=Math.max(0,PET.joy-dt*(PET.food<20?2:1)*100/1200);if(!PET.shower)PET.clean=Math.max(0,PET.clean-dt*100/1200)}
-  [['f',PET.food,30,'Doedelzak heeft honger! Voer hem in de keuken.'],['e',PET.energy,25,'Doedelzak is moe. Stop hem in bed!'],['j',PET.joy,25,'Doedelzak voelt zich alleen. Aai hem even!'],['c',PET.clean,25,'Doedelzak stinkt! Hij moet douchen.']].forEach(([k,v,lo,m])=>{
-    if(!PET.flags[k]&&v<lo&&!(k==='e'&&PET.sleep)){PET.flags[k]=1;petToast(m)}else if(PET.flags[k]&&v>50)PET.flags[k]=0})}
+  [['f',PET.food,30,PN()+' heeft honger! Voer hem in de keuken.'],['e',PET.energy,25,PN()+' is moe. Stop hem in bed!'],['j',PET.joy,25,PN()+' voelt zich alleen. Aai hem even!'],['c',PET.clean,25,PN()+' stinkt! Hij moet douchen.']].forEach(([k,v,lo,m])=>{
+    if(!PET.flags[k]&&v<lo&&!(k==='e'&&PET.sleep)){PET.flags[k]=1;petToast(m);petNotify(m)}else if(PET.flags[k]&&v>50)PET.flags[k]=0})}
 function petTick(){const n=Date.now();let dt=(n-PET.last)/1000;PET.last=n;if(dt>86400)dt=86400;if(dt>0)petStep(dt);if(n-PET.lastSave>5000)petSave();petSnoreSync()}
 petTick();setInterval(petTick,1000);
 addEventListener('pagehide',petSave);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')petSave()});
@@ -2384,7 +2397,7 @@ function petVoice(seq,s){const c=ac;if(!c||!seq.length)return;try{if(c.state==='
     b1.type='bandpass';b1.frequency.value=fm[0];b1.Q.value=4;b2.type='bandpass';b2.frequency.value=fm[1];b2.Q.value=5;
     const g=vow?.6:.3;gn.gain.setValueAtTime(.0001,t);gn.gain.linearRampToValueAtTime(g,t+.008);gn.gain.exponentialRampToValueAtTime(.0008,t+d/1000+.02);
     o1.connect(b1);o2.connect(b2);b1.connect(gn);b2.connect(gn);gn.connect(vg);o1.start(t);o2.start(t);o1.stop(t+d/1000+.05);o2.stop(t+d/1000+.05)})}
-const PL={n:['Wist je dat ik 4 wangen heb? Nee, 2. Of 6.','Ik droomde vannacht over een kebab.','Mag ik je vinger? Voor, eh, redenen.','Heb jij ook het gevoel dat de muur naar me kijkt?','Ik ben eigenlijk een tijger.','Doedelzak is mijn naam, bijten is mijn spel.','Waarom is de vloer zo plat?','Ik heb een geheim. Het is een zonnebloempit.','Kijk niet naar mijn tanden. Of wel.','Beep boop. Dat was een hamstergeluid.','Ik zag net een vlieg. Hij was mijn vriend. Nu niet meer.','Mijn hobby\'s: draaien, bijten, in cirkels rennen.','Ik heb een belastingschuld. Niet vertellen.','Soms vergeet ik waarom ik boos ben. Dan word ik boos daarover.'],
+const PL={n:['Wist je dat ik 4 wangen heb? Nee, 2. Of 6.','Ik droomde vannacht over een kebab.','Mag ik je vinger? Voor, eh, redenen.','Heb jij ook het gevoel dat de muur naar me kijkt?','Ik ben eigenlijk een tijger.',PN()+' is mijn naam, bijten is mijn spel.','Waarom is de vloer zo plat?','Ik heb een geheim. Het is een zonnebloempit.','Kijk niet naar mijn tanden. Of wel.','Beep boop. Dat was een hamstergeluid.','Ik zag net een vlieg. Hij was mijn vriend. Nu niet meer.','Mijn hobby\'s: draaien, bijten, in cirkels rennen.','Ik heb een belastingschuld. Niet vertellen.','Soms vergeet ik waarom ik boos ben. Dan word ik boos daarover.'],
  c:['Ik ruik naar kebab en regen.','Douche? Alsjeblieft?','Ik stink een beetje... of heel erg.','Ik wil schuim!'],
  h:['Mijn buik maakt geluiden. Voer me!','Ik heb honger. Ik eet zo je sokken.','Kebab. Nu. Alsjeblieft.','Mijn wangen zijn leeg. Dit is een noodsituatie.'],
  t:['Ik ben zo moe... bed?','Zzz... oh, ik ben nog wakker.','Mijn ogen willen dicht. Mijn tanden niet.'],
@@ -2415,7 +2428,7 @@ function petDown(px,py){initAudio();if(ac&&ac.state==='suspended')ac.resume();pe
   if(PET.room==='slaap'){
     if(PET.bed==='tuck'&&px>170&&px<470&&py>330&&py<490){PET.drag={k:'blanket',x:px,y:py,mv:0};return}
     if(PET.bed==='lamp'&&Math.hypot(px-LAMP.x,py-LAMP.y)<64){petLampOff();return}}
-  if(PET.room==='keuken'){if(PET.sleep){petToast('Doedelzak slaapt. Ssst!');return}for(let i=0;i<6;i++)if(Math.hypot(px-(50+76*i),py-532)<36){PET.drag={k:'food',i,x:px,y:py,mv:0};return}}
+  if(PET.room==='keuken'){if(PET.sleep){petToast(PN()+' slaapt. Ssst!');return}for(let i=0;i<6;i++)if(Math.hypot(px-(50+76*i),py-532)<36){PET.drag={k:'food',i,x:px,y:py,mv:0};return}}
   if(petHit(px,py))PET.drag={k:'pet',x:px,y:py,mv:0,acc:0}}
 function petBlanket(add){const was=PET.p;PET.p=Math.min(1,PET.p+add);if(PET.p>was+.02&&PET.sqT<=0){petSnd('pull');PET.sqT=10}
   if(PET.p>=1&&PET.bed==='tuck'){PET.bed='lamp';petSay('Mmm, lekker warm. Doe het licht maar uit...',1800)}}
@@ -2759,10 +2772,10 @@ addEventListener('pointercancel',()=>{if(state==='pizza'){PZ.drag=null;PZ.cd=nul
 
 let vigG=null;function pzVig(){if(state==='studio'||state==='pizza'&&0)return;if(!vigG){vigG=ctx.createRadialGradient(W/2,H/2,H*.36,W/2,H/2,H*.8);vigG.addColorStop(0,'rgba(20,8,30,0)');vigG.addColorStop(1,'rgba(20,8,30,.24)')}ctx.save();ctx.fillStyle=vigG;ctx.fillRect(0,0,W,H);ctx.restore()}
 function icPizza(x,y,s){ctx.save();ctx.translate(x,y);ctx.scale(s/22,s/22);ctx.fillStyle='#e8a850';ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(0,0,11,0,7);ctx.fill();ctx.stroke();ctx.fillStyle='#d8432f';ctx.beginPath();ctx.arc(0,0,8,0,7);ctx.fill();ctx.fillStyle='#ffe08a';ctx.beginPath();ctx.arc(-2,-1,5,0,7);ctx.fill();ctx.fillStyle='#a52a1c';[[-3,-4],[3,0],[-1,4]].forEach(([a,b])=>{ctx.beginPath();ctx.arc(a,b,2,0,7);ctx.fill()});ctx.restore()}
-function startPet(){hold=false;hid=null;setSound(false);PET.drag=null;PET.rprev=null;PET.rt=1;PET.room=PET.sleep?'slaap':'woon';PET.nextSay=Date.now()+2500;PET.say=null;PET.lt=0;petTick();petLoad();
+function startPet(){if(!PETNAMED)setTimeout(()=>{if(state==='pet')petNameDlg(true)},400);hold=false;hid=null;setSound(false);PET.drag=null;PET.rprev=null;PET.rt=1;PET.room=PET.sleep?'slaap':'woon';PET.nextSay=Date.now()+2500;PET.say=null;PET.lt=0;petTick();petLoad();
   if(PET.sleep){PET.bed='asleep';PET.p=1;PET.light=0;PET.lightT=0}else{PET.bed='none';PET.p=0;PET.light=1;PET.lightT=1}
   PET.cx=PET.room==='slaap'&&PET.sleep?232:240;PET.cy=PET.sleep?372:350;PET.csc=PET.sleep?2:3;
-  if(!PET.hello){PET.hello=true;petSay('Hoi! Ik ben Doedelzak. Voer me, aai me en stop me soms in bed.',2200)}state='pet'}
+  if(!PET.hello){PET.hello=true;petSay('Hoi! Ik ben '+PN()+'. Voer me, aai me en stop me soms in bed.',2200)}state='pet'}
 function petGoRoom(k){if(k===PET.room)return;if(PET.shower&&k!=='bad')petShower(false);if(PET.bed==='tuck'||PET.bed==='lamp'){PET.bed='none';PET.p=0}PET.rprev=PET.room;PET.room=k;PET.rt=0;PET.drag=null;PET.hop=1;petSnoreSync()}
 function petSleep(on){if(on){if(PET.energy>92){petSay('Ik ben helemaal niet moe!',1000);petSnd('no');PET.shake=380;return}PET.bed='tuck';PET.p=0;petSay('Oké, ik ga in bed. Trek de deken maar over me heen.',1800)}
   else{PET.sleep=false;PET.bed='none';PET.p=0;PET.lightT=1;petSnd('click');petSay('Huh? Is het al ochtend? Ik had net een kebab...',1600);PET.happyMs=0}
@@ -2865,7 +2878,7 @@ function petBathDraw(now,ms){
 function petShower(on){
   if(on){if(PET.sleep){petSay('Ssst, ik slaap!',1000);return}PET.shower=true;PET.showT=0;
     if(ac&&PET.bufs.royal&&!PET.singSrc){try{if(ac.state==='suspended')ac.resume();const sr=ac.createBufferSource(),gn=ac.createGain();sr.buffer=PET.bufs.royal;gn.gain.value=userMuted?0:1;sr.connect(gn);gn.connect(ac.destination);sr.onended=()=>{if(PET.singSrc===sr){PET.singSrc=null;PET.sing=false;petShower(false)}};sr.start();PET.singSrc=sr;PET.singG=gn;PET.sing=true}catch(e){PET.sing=false}}
-    try{vol(PET.sing?0:.6)}catch(e){}petToast(PET.sing?'Doedelzak zingt onder de douche!':'Doedelzak neemt een douche.')}
+    try{vol(PET.sing?0:.6)}catch(e){}petToast(PET.sing?PN()+' zingt onder de douche!':PN()+' neemt een douche.')}
   else{PET.shower=false;if(PET.singSrc){const sr=PET.singSrc,gn=PET.singG;PET.singSrc=null;try{gn.gain.setTargetAtTime(0,ac.currentTime,.12);setTimeout(()=>{try{sr.stop()}catch(e){}},700)}catch(e){try{sr.stop()}catch(x){}}}PET.sing=false;try{vol(.6)}catch(e){}petSave()}}
 function petBuild(r){const c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d');const hr=new Date().getHours()+new Date().getMinutes()/60,day=hr>=7&&hr<19;
   if(r==='bad')return petBuildBad(g,c);
@@ -2947,7 +2960,7 @@ function drawPet(now){
   const ms=Math.min(50,PET.lt?now-PET.lt:16);PET.lt=now;t=Math.floor(now/16);vy=0;inv=0;PET.hits=[];
   PET.sqT=Math.max(0,PET.sqT-ms/16);PET.happyMs=Math.max(0,PET.happyMs-ms);PET.eatMs=Math.max(0,PET.eatMs-ms);PET.bite=Math.max(0,PET.bite-ms);PET.shake=Math.max(0,PET.shake-ms);PET.hop=Math.max(0,PET.hop-ms/450);
   const ease=1-Math.exp(-ms/110);PET.dv.f+=(PET.food-PET.dv.f)*ease;PET.dv.e+=(PET.energy-PET.dv.e)*ease;PET.dv.j+=(PET.joy-PET.dv.j)*ease;PET.dv.c+=(PET.clean-PET.dv.c)*ease;if(PET.shower&&state==='pet'&&PET.room==='bad'){PET.clean=Math.min(100,PET.clean+ms/1000*100/20);PET.showT+=ms/1000;petEarn(ms/1000*(PET.clean<80?.2:.07))}else if(PET.shower)petShower(false);if(state==='pet'&&PET.sleep)petEarn(ms/1000*(PET.energy<80?.1:.03));PET.foamA+=((PET.shower?1:0)-PET.foamA)*(1-Math.exp(-ms/350));if(!PET.shower&&PET.foamA<.02)PET.showT=0;
-  PET.light+=(PET.lightT-PET.light)*(1-Math.exp(-ms/260));if(PET.lampMs>0){PET.lampMs-=ms;if(PET.lampMs<=0){PET.sleep=true;PET.bed='asleep';PET.say=null;petSnd('night');petToast('Welterusten, Doedelzak!');PET.flags.e=0;petTick();petSave()}}
+  PET.light+=(PET.lightT-PET.light)*(1-Math.exp(-ms/260));if(PET.lampMs>0){PET.lampMs-=ms;if(PET.lampMs<=0){PET.sleep=true;PET.bed='asleep';PET.say=null;petSnd('night');petToast('Welterusten, '+PN()+'!');PET.flags.e=0;petTick();petSave()}}
   if(PET.rt<1)PET.rt=Math.min(1,PET.rt+ms/320);
   if(PET.say&&now-PET.sayAt>PET.sayLife)PET.say=null;
   if(Date.now()>PET.nextSay&&!PET.say&&!(PET.sleep&&PET.room!=='slaap')&&PET.bed!=='dark'&&PET.bed!=='tuck'&&PET.bed!=='lamp')petSay(petLine(),PET.sleep?1500:2600);
@@ -2980,7 +2993,7 @@ function drawPet(now){
     if(PET.bed==='lamp'){ctx.save();ctx.strokeStyle='rgba(255,255,255,'+(.4+.4*Math.sin(now/200))+')';ctx.lineWidth=3;ctx.beginPath();ctx.arc(LAMP.x,LAMP.y,34+Math.sin(now/200)*4,0,7);ctx.stroke();ctx.restore()}
     const dk=1-PET.light;if(dk>.01){ctx.fillStyle='rgba(6,8,44,'+(.6*dk)+')';ctx.fillRect(0,0,W,H);ctx.save();ctx.globalCompositeOperation='lighter';ctx.fillStyle=G(ctx,30,130,200,420,[[0,'rgba(120,150,255,'+(.16*dk)+')'],[1,'rgba(120,150,255,0)']]);ctx.beginPath();ctx.moveTo(30,134);ctx.lineTo(138,134);ctx.lineTo(260,450);ctx.lineTo(90,450);ctx.fill();ctx.restore()}
     if(sl&&Math.floor(now/1900)!==PET.zN){PET.zN=Math.floor(now/1900);petPart(1,'z',PET.hx+38,PET.hy-34)}}
-  if(sl&&rm!=='slaap'){ctx.fillStyle='rgba(8,10,60,.35)';ctx.fillRect(0,110,W,470);text('Doedelzak ligt te slapen',W/2,300,24);text('in de slaapkamer. Ssst!',W/2,332,18,'#ffe9c2');text('Z z z',W/2,372,30,'#cfd8ff')}
+  if(sl&&rm!=='slaap'){ctx.fillStyle='rgba(8,10,60,.35)';ctx.fillRect(0,110,W,470);text(PN()+' ligt te slapen',W/2,300,24);text('in de slaapkamer. Ssst!',W/2,332,18,'#ffe9c2');text('Z z z',W/2,372,30,'#cfd8ff')}
   PET.pt.forEach(p=>{p.l+=ms;p.x+=p.vx*ms/16;p.y+=p.vy*ms/16;if(p.k==='c')p.vy+=.18*ms/16;const a=Math.max(0,1-p.l/p.m);ctx.save();ctx.globalAlpha=a;
     if(p.k==='h')icHeart(p.x,p.y,16+8*Math.sin(p.l/100));else if(p.k==='c'){ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,5,5)}else if(p.k==='z'){text('Z',p.x+Math.sin(p.l/130)*8,p.y,22+p.l/90,'#e0e8ff')}else if(p.k==='t')text(p.s,p.x,p.y,16,'#ffd23f');else if(p.k==='f'){icFlame(p.x+Math.sin(p.l/50)*6,p.y-p.l*.03,30)}ctx.restore()});
   PET.pt=PET.pt.filter(p=>p.l<p.m);
@@ -2990,8 +3003,8 @@ function drawPet(now){
     for(let i=0;i<6;i++){const dd=drag&&drag.k==='food'&&drag.i===i;ctx.save();if(sl)ctx.globalAlpha=.4;petFood(i,50+76*i,528+(dd?0:Math.sin(now/600+i)*1.5),dd?.6:1.05);ctx.restore();text(FOODS[i][0],50+76*i,562,10,'#ffe9c2')}}
   petBars(now);
   ctx.save();ctx.fillStyle='rgba(0,0,0,.4)';ctx.strokeStyle='rgba(255,255,255,.55)';ctx.lineWidth=2.5;ctx.beginPath();ctx.roundRect(14,14,92,34,17);ctx.fill();ctx.stroke();ctx.restore();text('TERUG',60,36,15);PET.hits.push({x:14,y:14,w:92,h:34,fn:()=>{petSave();goMenu()}});
-  text('VERZORGEN',W/2+18,40,22,'#ffd23f');
-  const bd=PET.bed,hint=rm==='keuken'?'sleep eten naar Doedelzak, of tik erop':rm==='woon'?'aai Doedelzak: wrijf over hem heen':rm==='bad'?(PET.shower?'zing mee! wrijf over hem heen voor extra schuim':'zet de douche aan: dan zingt Doedelzak'):bd==='tuck'?'trek de deken over hem heen':bd==='lamp'?'tik op het lampje om het licht uit te doen':sl||bd==='dark'?'ssst... hij slaapt':'stop hem in bed als hij moe is';
+  text('MY DOEDELZAK',W/2-14,38,19,'#ffd23f');{ctx.save();ctx.font='bold 14px '+FNT;const nm=PN()+' ✎',tw=Math.min(150,ctx.measureText(nm).width+26),x=W-14-tw;ctx.fillStyle='rgba(0,0,0,.4)';ctx.strokeStyle='rgba(255,255,255,.55)';ctx.lineWidth=2.5;ctx.beginPath();ctx.roundRect(x,14,tw,34,17);ctx.fill();ctx.stroke();ctx.restore();text(PN()+' ✎',x+tw/2,36,14,'#fff');PET.hits.push({x,y:14,w:tw,h:34,fn:()=>petNameDlg(false)})}
+  const bd=PET.bed,hint=rm==='keuken'?'sleep eten naar '+PN()+', of tik erop':rm==='woon'?'aai '+PN()+': wrijf over hem heen':rm==='bad'?(PET.shower?'zing mee! wrijf over hem heen voor extra schuim':'zet de douche aan: dan zingt '+PN()):bd==='tuck'?'trek de deken over hem heen':bd==='lamp'?'tik op het lampje om het licht uit te doen':sl||bd==='dark'?'ssst... hij slaapt':'stop hem in bed als hij moe is';
   if(!PET.toasts.length)text(hint,W/2,128,13,'#fff');
   if(rm==='slaap'){if(bd==='none')petBtn(W/2-110,516,220,46,'IN BED STOPPEN','#4f6fe0',()=>petSleep(true),17);else if(bd==='asleep')petBtn(W/2-110,516,220,46,'WAKKER MAKEN','#e6a100',()=>petSleep(false),17);else if(bd==='tuck'||bd==='lamp')petBtn(W/2-70,520,140,38,'TOCH NIET','rgba(40,12,70,.8)',()=>{PET.bed='none';PET.p=0},14)}
   if(rm==='bad'){if(sl)petBtn(W/2-110,516,220,46,'HIJ SLAAPT...','#6a6a7a',()=>{},17);else petBtn(W/2-110,516,220,46,PET.shower?'STOP DE DOUCHE':'DOUCHEN','#2fa6d9',()=>petShower(!PET.shower),17)}

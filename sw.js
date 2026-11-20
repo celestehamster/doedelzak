@@ -1,6 +1,7 @@
-const V='doedelzak-v51';
+const V='doedelzak-v52';
 const CORE=['./','index.html','manifest.webmanifest','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png','icons/apple-touch-icon.png'];
 const MEDIA=['theme2.mp3','stardew.mp3','turk.mp3','pou.mp3','ac.mp3','mulab.mp3'];
+self.addEventListener('notificationclick',e=>{e.notification.close();e.waitUntil(self.clients.matchAll({type:'window',includeUncontrolled:true}).then(cs=>{for(const c of cs){if('focus' in c)return c.focus()}return self.clients.openWindow('./')}))});
 self.addEventListener('install',e=>{e.waitUntil((async()=>{const c=await caches.open(V);await c.addAll(CORE);await Promise.all(MEDIA.map(u=>c.add(u).catch(()=>{})));self.skipWaiting()})())});
 self.addEventListener('activate',e=>{e.waitUntil((async()=>{for(const k of await caches.keys())if(k!==V&&k.startsWith('doedelzak-')&&k!=='doedelzak-fonts')await caches.delete(k);await self.clients.claim()})())});
 async function ranged(req){const c=await caches.open(V);let r=await c.match(req.url);if(!r){r=await fetch(req.url);if(r.ok)c.put(req.url,r.clone())}
