@@ -452,7 +452,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v54 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v55 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -2467,7 +2467,7 @@ function startPizza(){hold=false;hid=null;setSound(false);PZ.ph='play';PZ.st='or
 function pzSpawn(){const hum=Math.random()<.4,used=PZ.queue.concat(PZ.tix.map(t=>t.c)).map(c=>c.def.id);let pool=(hum?PZ_HUM:PZ_HAM).filter(d=>!used.includes(d.id)&&d.id!==PZ.lastId);if(!pool.length)pool=PZ_HAM;const def=pool[Math.floor(Math.random()*pool.length)];PZ.lastId=def.id;
   PZ.queue.push({def,ord:pzNewOrder(),x:-140,tx:240,sc:1.4,pat:60,patMax:60,bob:Math.random()*6});PZ.spawned++}
 function pzDrop(tk){const i=PZ.tix.indexOf(tk);if(i<0)return;PZ.tix.splice(i,1);PZ.slots.forEach(s=>{if(s.tk===tk){s.tk=null;s.run=false;s.t=0;s.ding=false}});if(PZ.sel===tk.id)PZ.sel=null;PZ.stats.lost++;pzMsg(tk.c.def.n+' heeft niet meer gewacht!',3);blip(180,'sawtooth',.25,.08)}
-function pzUpdate(dt){if(PZ.ph!=='play'||PZ.modal)return;PZ.t+=dt;
+function pzUpdate(dt){if(PZ.ph!=='play'||PZ.modal||PZ.rst)return;PZ.t+=dt;
   if(PZ.spawned<PZ.N&&PZ.t>=PZ.nextArr&&PZ.queue.length<3){pzSpawn();PZ.nextArr=PZ.t+Math.max(7,20-PZ.day*2)+Math.random()*6;blip(880,'sine',.1,.06);setTimeout(()=>blip(1175,'sine',.12,.05),90)}
   PZ.queue.forEach((c,i)=>{const tx=[240,86,394][i],ts=i?.85:1.4,k=Math.min(1,dt*4);c.x+=(tx-c.x)*k;c.sc+=(ts-c.sc)*k;c.pat-=dt});
   for(let i=PZ.queue.length-1;i>=0;i--){const c=PZ.queue[i];if(c.pat<=0){PZ.queue.splice(i,1);c.tx=-190;c.mad=true;PZ.leaving.push(c);PZ.stats.lost++;pzMsg(c.def.n+' is boos weggelopen!',2.5);blip(180,'sawtooth',.25,.08)}}
@@ -2744,17 +2744,26 @@ function pzDrawDay(now){pzBg('shop');const s=PZ.sum;ctx.save();ctx.fillStyle='rg
   text(s.served+' pizza’s geserveerd'+(s.lost?', '+s.lost+' klant'+(s.lost>1?'en':'')+' weggelopen':''),W/2,284,15,'#ffe9c2');text('verdiend: '+s.earn+' munten',W/2+12,322,20,'#8dff9a');pzCoin(W/2-92,315,10);text('totaal in de pizzeria: '+PZ.money,W/2,352,16,'#ffe28a');
   if(s.unl)text('Nieuw beleg: '+s.unl+'!',W/2,396,20,'#ffb0d0');text('Morgen: meer klanten en lastiger bestellingen',W/2,436,13,'#ffe9c2');
   PZ.btns=[];pzBtn('VOLGENDE DAG',80,462,320,56,'#d9531e',()=>{startPizza()},22)}
+function pzRstBtn(x,y){ctx.save();ctx.fillStyle='rgba(122,28,22,.92)';ctx.strokeStyle='#fff3dc';ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,y,14,0,7);ctx.fill();ctx.stroke();ctx.strokeStyle='#fff';ctx.lineWidth=2.6;ctx.lineCap='round';ctx.beginPath();ctx.arc(x,y,6.5,-.6,4.4);ctx.stroke();ctx.fillStyle='#fff';ctx.beginPath();ctx.moveTo(x+7.5,y-9);ctx.lineTo(x+8,y-1.5);ctx.lineTo(x+1.5,y-5);ctx.closePath();ctx.fill();ctx.restore();PZ.btns.push({x:x-16,y:y-16,w:32,h:32,fn:()=>{PZ.rst=1;PZ.drag=null;PZ.cd=null;blip(400,'triangle',.08,.06)}})}
+function pzDoReset(){PZ.day=1;PZ.money=0;PZ.best=0;PZ.slots.length=2;PZ.rst=0;pzSave();startPizza();pzMsg('De pizzeria is gereset. Dag 1!',3);blip(300,'sawtooth',.3,.08)}
+function pzDrawReset(now){PZ.btns=[];ctx.save();ctx.fillStyle='rgba(20,8,30,.78)';ctx.fillRect(0,0,W,H);ctx.restore();
+  ctx.save();ctx.fillStyle='#fff7ee';ctx.strokeStyle=PZ.rst===1?'#ffb300':'#e8453c';ctx.lineWidth=5;ctx.beginPath();ctx.roundRect(40,170,400,280,26);ctx.fill();ctx.stroke();ctx.restore();
+  if(PZ.rst===1){text('Pizzeria resetten?',W/2,222,26,'#c2381f');text('Weet je het zeker?',W/2,264,20,'#5a3a1a');text('Je gaat terug naar dag 1, je pizzeria-',W/2,300,14,'#6b5646');text('geld, record en extra oven zijn weg.',W/2,320,14,'#6b5646');
+    pzBtn('NEE',64,360,160,56,'#2f9e57',()=>{PZ.rst=0},20);pzBtn('JA',256,360,160,56,'#d9531e',()=>{PZ.rst=2;blip(300,'triangle',.1,.07)},20)}
+  else{const sh=Math.sin(now/40)*2;text('Weet je het écht',W/2+sh,226,26,'#e8453c');text('zeker? Wola?',W/2-sh,260,26,'#e8453c');text('Dit kan niet ongedaan worden gemaakt!',W/2,302,14,'#6b5646');text('Je munten in de winkel blijven wel.',W/2,322,14,'#6b5646');
+    pzBtn('NEE, TOCH NIET',64,360,180,56,'#2f9e57',()=>{PZ.rst=0},16);pzBtn('JA, WOLA',256,360,160,56,'#b3261e',()=>pzDoReset(),18)}}
 function drawPizza(now){PZ.btns=[];const dt=Math.min(.05,(now-PZ.dtp)/1000);PZ.dtp=now;
-  if(PZ.ph==='day'){pzDrawDay(now);return}
+  if(PZ.ph==='day'){pzDrawDay(now);pzRstBtn(W-30,30);if(PZ.rst)pzDrawReset(now);return}
   pzUpdate(dt);const st=PZ.st;if(st==='order')pzDrawOrder(now);else if(st==='build')pzDrawBuild(now);else if(st==='oven')pzDrawOven(now);else pzDrawCut(now);
-  if(!PZ.modal){pzRail(now);}else{pzRail(now)}pzHud();pzTabs();
+  if(!PZ.modal){pzRail(now);}else{pzRail(now)}pzHud();if(!PZ.modal)pzRstBtn(290,21);pzTabs();
   if(PZ.modal)pzDrawModal(now);
-  if(PZ.modal)PZ.msgT=0;if(PZ.msgT>0){PZ.msgT-=dt;ctx.save();ctx.globalAlpha=Math.min(1,PZ.msgT*2);rrect(W/2-160,H/2-30,320,38,19,'rgba(30,12,40,.88)');ctx.restore();text(PZ.msg,W/2,H/2-5,14,'#fff')}}
+  if(PZ.modal)PZ.msgT=0;if(PZ.msgT>0){PZ.msgT-=dt;ctx.save();ctx.globalAlpha=Math.min(1,PZ.msgT*2);rrect(W/2-160,H/2-30,320,38,19,'rgba(30,12,40,.88)');ctx.restore();text(PZ.msg,W/2,H/2-5,14,'#fff')}
+  if(PZ.rst)pzDrawReset(now)}
 // ---- invoer
 function pzPtr(e){const r=cv.getBoundingClientRect();return[(e.clientX-r.left)*W/r.width,(e.clientY-r.top)*H/r.height]}
 function pzDown(px,py){const now=performance.now();
   const bl=PZ.modal?PZ.btns.filter(b=>b.y>=550&&b.y<=570):PZ.btns;for(let i=bl.length-1;i>=0;i--){const b=bl[i];if(px>=b.x&&px<=b.x+b.w&&py>=b.y&&py<=b.y+b.h){b.fn();return}}
-  if(PZ.modal||PZ.ph!=='play')return;
+  if(PZ.modal||PZ.rst||PZ.ph!=='play')return;
   if(PZ.st==='build'&&PZ.slots_){const tk=pzActive('build');if(!tk)return;for(const s of PZ.slots_)if(px>=s.x&&px<=s.x+s.w&&py>=s.y&&py<=s.y+s.h){PZ.tool=s.k;PZ.drag={k:s.k,x:px,y:py,from:true};blip(600,'triangle',.05,.05);return}
     if(PZ.tool&&pzInPizza(px,py,240,296,106)){pzApply(tk,PZ.tool,px,py,now);if(PZ.tool!=='sauce'&&PZ.tool!=='cheese')PZ.drag={k:PZ.tool,x:px,y:py,lx:px,ly:py,from:false}}}
   if(PZ.st==='cut'&&pzActive('cut')){PZ.cd={x0:px,y0:py,x1:px,y1:py}}}
