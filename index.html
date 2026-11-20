@@ -11,7 +11,7 @@
 <meta name="apple-mobile-web-app-title" content="Doedelzak">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="format-detection" content="telephone=no">
-<meta name="description" content="Doedelzak de bijtende hamster: vliegen, schieten, make-over, rennen, muziek maken en je eigen hamster verzorgen.">
+<meta name="description" content="Doedelzak de bijtende hamster: vliegen, schieten, make-over, rennen, muziek maken je eigen hamster verzorgen en pizza's bakken.">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <style>
@@ -55,6 +55,7 @@ body::before{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;ba
 .hi .bd{flex:none;width:36px;height:36px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#ffb454,#ff7a59)}
 .hi:nth-child(3) .bd{background:linear-gradient(135deg,#7fd0ff,#6c8bff)}.hi:nth-child(4) .bd{background:linear-gradient(135deg,#7be0a8,#2fa6a0)}.hi:nth-child(5) .bd{background:linear-gradient(135deg,#d9a5ff,#9a6bff)}.hi:nth-child(6) .bd{background:linear-gradient(135deg,#ff9ac8,#ff5a9a)}
 .hi:nth-child(7) .bd{background:linear-gradient(135deg,#ffb347,#ff5f6d)}
+.hi:nth-child(8) .bd{background:linear-gradient(135deg,#ff8a3d,#d6336c)}
 .hi svg{width:22px;height:22px}.hi b{display:block;font-size:.95rem;margin-bottom:2px}.hi span{font-size:.84rem;line-height:1.45;color:var(--sub);font-weight:400}
 @media (min-width:900px){body{flex-direction:row;gap:44px;align-items:center}#help{max-width:330px;align-self:center}}
 
@@ -85,7 +86,7 @@ p{margin:0;font-size:.8rem;opacity:.8;text-align:center;padding:0 12px;max-width
 <canvas id="c" width="480" height="640"></canvas>
 <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><button id="b"><svg class="ic" viewBox="0 0 24 24" fill="#fff" stroke="#7a5238" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M7 3.5c2-1.2 3.4-.2 5-.2s3-1 5 .2c2.6 1.5 2.4 5.5.9 8.5-1.1 2.3-.8 8.5-2.9 8.5-1.8 0-1.4-4.8-3-4.8s-1.2 4.8-3 4.8c-2.1 0-1.9-6.2-3-8.5C4.6 9 4.4 5 7 3.5z"/></svg>BIJT! (B)</button><button id="k" style="background:#6a4bc4"><svg class="ic" viewBox="0 0 24 24" fill="#fff" stroke="#7a5238" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M20.5 3.5C12 3 6.5 8.5 5.5 16.5l-.5 3.5 3.5-.5C16.5 18.5 21 12 20.5 3.5z" fill="#e8dcff"/><path d="M4.5 20.5L15 10" fill="none"/></svg>KIETEL (K)</button><button id="m" style="background:#444;padding:10px 16px" aria-label="geluid"><svg class="ic ic1" viewBox="0 0 24 24" fill="#fff" stroke="#7a5238" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3 9.5v5h4l5 4v-13l-5 4H3z"/><path d="M15.5 9a4 4 0 010 6M18 6.5a8 8 0 010 11" fill="none" stroke="#fff" stroke-width="2"/></svg></button><button id="m2" style="background:#7a4fd0;padding:10px 16px" aria-label="ander liedje"><svg class="ic ic1" viewBox="0 0 24 24" fill="#fff" stroke="#7a5238" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M9.2 17.5V6M19.2 17.5V6" fill="none"/><path d="M9.2 6l10-2v3.4l-10 2z"/><ellipse cx="6.8" cy="17.6" rx="3.1" ry="2.5"/><ellipse cx="16.8" cy="17.6" rx="3.1" ry="2.5"/></svg></button><button id="o" style="background:#2f7d6d;padding:10px 16px" aria-label="outfit"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M12 7.5a2.3 2.3 0 1 0-2.3-2.3M12 7.5v2.2l9 6.4a1.1 1.1 0 0 1-.6 2H3.6a1.1 1.1 0 0 1-.6-2l9-6.4"/></svg></button><button id="h" style="background:#555;padding:10px 16px" aria-label="menu"><svg class="ic ic1" viewBox="0 0 24 24" fill="#fff" stroke="#7a5238" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M3 11.5L12 3.5l9 8V21h-6v-6H9v6H3v-9.5z"/></svg></button></div>
 </div>
-<details id="help"><summary>Zo speel je het</summary><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l18-7-5 14-4-5-4 3 1-5z" fill="#fff3"/></svg></div><div><b>Vliegen</b><span>Houd spatie, muis of scherm ingedrukt om te vliegen. Bijt (B) koppen en katten weg. Kietel eindbaas Romano (K) tot hij lacht en vlieg naar de verwarming voor je bevriest.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"/><path d="M12 2v5M12 17v5M2 12h5M17 12h5"/></svg></div><div><b>Shooter</b><span>Loop met WASD of sleep links. Richt met de muis en schiet met klik. Op een telefoon tik je rechts en richt hij vanzelf. B is bijten.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 19c0-3.3 2.5-5 5.5-5s5.500 1.700 5.500 5M14.5 14.500c3-.5 6 .8 6 4.500"/></svg></div><div><b>Samen spelen</b><span>Alleen in het losse bestand. Kies MET EEN VRIEND op het startscherm en deel de code van 4 letters, of verbind handmatig. De shooter speel je samen, vliegen is een race.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.500 9a2.600 2.600 0 1 1 3.600 2.400c-.8.400-1.100 1-1.100 1.800M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg></div><div><b>Handig om te weten</b><span>Soms pauzeert het spel voor een quiz: kies 1 tot 4 of tik. O kiest een andere outfit. Met Esc of de huisknop ga je terug naar het menu.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l9-9M13 11l3-3a2.200 2.200 0 0 1 3 3l-3 3M14 6l4 4"/><path d="M4 20c0-2 1-3 3-3"/></svg></div><div><b>Make-over</b><span>Kies MAKE-OVER op het startscherm. Je kunt altijd wisselen tussen skincare, haar, make-up en nagels. Elke keer dat je de make-over opent, begin je met een schone lei. Begin met skincare: was zijn gezicht en knijp alle puistjes uit, want daarna pas gaan haar en make-up open. Met KLAAR! beoordeelt Doedelzak je werk, en met FOTO bewaar je het.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4L4 20M15 4l5 16M12 6v2M12 11v3M12 17v3"/></svg></div><div><b>Rennen</b><span>Kies RENNEN op het startscherm. Ren door de keuken en ontwijk alles. Pijltjes links en rechts wisselen van baan, omhoog is springen, omlaag is duiken. Op je telefoon veeg je, en tikken is springen. Pak munten, spring over ontploffende powerbanks, duik onder kebabspitten en laat Romano je niet te pakken krijgen.</span></div></div></details>
+<details id="help"><summary>Zo speel je het</summary><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l18-7-5 14-4-5-4 3 1-5z" fill="#fff3"/></svg></div><div><b>Vliegen</b><span>Houd spatie, muis of scherm ingedrukt om te vliegen. Bijt (B) koppen en katten weg. Kietel eindbaas Romano (K) tot hij lacht en vlieg naar de verwarming voor je bevriest.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="6"/><path d="M12 2v5M12 17v5M2 12h5M17 12h5"/></svg></div><div><b>Shooter</b><span>Loop met WASD of sleep links. Richt met de muis en schiet met klik. Op een telefoon tik je rechts en richt hij vanzelf. B is bijten.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2.5 19c0-3.3 2.5-5 5.5-5s5.500 1.700 5.500 5M14.5 14.500c3-.5 6 .8 6 4.500"/></svg></div><div><b>Samen spelen</b><span>Alleen in het losse bestand. Kies MET EEN VRIEND op het startscherm en deel de code van 4 letters, of verbind handmatig. De shooter speel je samen, vliegen is een race.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.500 9a2.600 2.600 0 1 1 3.600 2.400c-.8.400-1.100 1-1.100 1.800M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg></div><div><b>Handig om te weten</b><span>Soms pauzeert het spel voor een quiz: kies 1 tot 4 of tik. O kiest een andere outfit. Met Esc of de huisknop ga je terug naar het menu.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l9-9M13 11l3-3a2.200 2.200 0 0 1 3 3l-3 3M14 6l4 4"/><path d="M4 20c0-2 1-3 3-3"/></svg></div><div><b>Make-over</b><span>Kies MAKE-OVER op het startscherm. Je kunt altijd wisselen tussen skincare, haar, make-up en nagels. Elke keer dat je de make-over opent, begin je met een schone lei. Begin met skincare: was zijn gezicht en knijp alle puistjes uit, want daarna pas gaan haar en make-up open. Met KLAAR! beoordeelt Doedelzak je werk, en met FOTO bewaar je het.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4L4 20M15 4l5 16M12 6v2M12 11v3M12 17v3"/></svg></div><div><b>Rennen</b><span>Kies RENNEN op het startscherm. Ren door de keuken en ontwijk alles. Pijltjes links en rechts wisselen van baan, omhoog is springen, omlaag is duiken. Op je telefoon veeg je, en tikken is springen. Pak munten, spring over ontploffende powerbanks, duik onder kebabspitten en laat Romano je niet te pakken krijgen.</span></div></div><div class="hi"><div class="bd"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21L4 8c5-4 11-4 16 0z" fill="#fff3"/><circle cx="10" cy="10" r="1.2"/><circle cx="14" cy="11" r="1.2"/><circle cx="12" cy="15" r="1.2"/></svg></div><div><b>Pizzeria</b><span>Kies PIZZERIA op het startscherm en werk als Doedelzak de kok. Elke klant geeft een bestelling: kies de saus, strooi kaas en tik de toppings op de pizza. Bak hem tot de wijzer in het groene vak staat en snij hem in het juiste aantal stukken door er met je vinger of muis overheen te vegen. Hoe beter je pizza, hoe meer munten je verdient. Elke dag krijg je vijf klanten, en daarna komen er nieuwe toppings en moeilijkere bestellingen.</span></div></div></details>
 <div id="lobby" hidden><div class="lb"><h2>MET EEN VRIEND</h2><div id="lb-pick" style="display:flex;flex-direction:column;gap:12px"><button id="lb-host" style="background:#2f9e57">MAAK EEN SPEL</button><div class="lb-or">of vul de code van je vriend in</div><div class="lb-row"><input id="lb-code" maxlength="4" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="CODE"><button id="lb-join">DOE MEE</button></div><div class="lb-or">Lukt dat niet? Verbind zonder server:</div><div class="lb-row"><button id="lb-mh" class="sec" style="flex:1">handmatig hosten</button><button id="lb-mj" class="sec" style="flex:1">handmatig meedoen</button></div></div><div id="lb-man" hidden style="display:flex;flex-direction:column;gap:8px"><div class="lb-or" id="lb-man-t"></div><textarea id="lb-out" readonly rows="3" placeholder="jouw code"></textarea><button id="lb-copy" class="sec">kopieer jouw code</button><textarea id="lb-in" rows="3" placeholder="plak hier de code van je vriend"></textarea><button id="lb-go">VERBIND</button></div><div id="lb-wait" hidden style="display:flex;flex-direction:column;gap:12px"><div class="lb-lbl">Jouw code</div><div id="lb-big">····</div><div id="lb-modes"><button id="lb-m-fly">VLIEGEN · race</button><button id="lb-m-shoot">SHOOTER · samen</button></div><button id="lb-start" disabled>START</button></div><p id="lb-msg"></p><button id="lb-back" class="sec">terug</button></div></div>
 
 <script>try{if(matchMedia('(min-width:900px)').matches)document.getElementById('help').open=true}catch(e){}</script>
@@ -115,7 +116,7 @@ function startLevel(){if(NET.on&&NET.race)rs=(NET.seed+lvl*7919+NET.round*104729
 function press(v,e){
   if(v){hold=true;hid=e?e.pointerId:null;initAudio();if(ac&&ac.state==='suspended')ac.resume();
     const ok=performance.now()-overAt>500;
-    if(state==='start'){if(mode==='makeup')startMakeup();else if(mode==='studio')startStudio();else if(mode==='pet')startPet();else startOutfit(false)}else if(state==='cutscene'){cutNext()}else if(state==='over'&&ok){lvl=1;score=0;hp=3;startLevel()}else if(state==='shootover'&&ok){if(NET.on){if(NET.role==='host')netGo()}else startShooter()}else if(state==='raceend'&&ok){if(NET.role==='host'){NET.round++;netGo()}}
+    if(state==='start'){if(mode==='makeup')startMakeup();else if(mode==='studio')startStudio();else if(mode==='pet')startPet();else if(mode==='pizza')startPizza();else startOutfit(false)}else if(state==='cutscene'){cutNext()}else if(state==='over'&&ok){lvl=1;score=0;hp=3;startLevel()}else if(state==='shootover'&&ok){if(NET.on){if(NET.role==='host')netGo()}else startShooter()}else if(state==='raceend'&&ok){if(NET.role==='host'){NET.round++;netGo()}}
     else if(state==='levelup'&&ok){lvl++;hp=Math.min(3,hp+1);startLevel()}
   }else{hold=false;setSound(false)}
 }
@@ -157,6 +158,7 @@ addEventListener('keydown',e=>{
   if(state==='makeup'){e.preventDefault();return}
   if(state==='studio'){e.preventDefault();if(!e.repeat)stKey(e.code);return}
   if(state==='pet'){e.preventDefault();if(!e.repeat){if(e.code==='Digit1')PET.room='keuken';else if(e.code==='Digit2')PET.room='woon';else if(e.code==='Digit3')PET.room='slaap'}return}
+  if(state==='pizza'){e.preventDefault();if(!e.repeat&&(e.code==='Space'||e.code==='Enter')&&PZ.main){initAudio();PZ.main()}return}
   if(state==='story'){e.preventDefault();if(e.repeat)return;const m=/^(Digit|Numpad)([1-3])$/.exec(e.code);if(m)pickStory(+m[2]-1);else if(e.code==='Space'||e.code==='Enter')endStory();return}
   if(state==='quiz'){e.preventDefault();const m=/^(Digit|Numpad)([1-4])$/.exec(e.code);if(m)answerQuiz(+m[2]-1);else if(!e.repeat&&(e.code==='Space'||e.code==='Enter'))endQuiz();return}
   if(state==='shop'){e.preventDefault();if(e.repeat)return;if(e.code==='ArrowLeft'||e.code==='KeyA')shopMove(-1);else if(e.code==='ArrowRight'||e.code==='KeyD')shopMove(1);else if(e.code==='Enter'||e.code==='Space')shopBuy();return}
@@ -177,6 +179,7 @@ cv.addEventListener('pointerdown',e=>{e.preventDefault();
   if(state==='makeup'){mkDown(px,py);return}
   if(state==='studio'){stDown(px,py);return}
   if(state==='pet'){petDown(px,py);return}
+  if(state==='pizza'){pzDown(px,py);return}
   if(state==='run'){RN.sdown=true;RN.sdone=false;RN.mv=false;RN.sx=px;RN.sy=py;return}
   if(state==='runcut'){if(RC.t>20)endRunCut();return}
   if(state==='runover'){if(performance.now()-overAt>600)startRun();return}
@@ -191,8 +194,8 @@ cv.addEventListener('pointerdown',e=>{e.preventDefault();
     if(px>366&&px<466&&py>13&&py<47){boom(px,py,.9);thud(.25);openShop();return}
     if(px>246&&px<358&&py>13&&py<47){boom(px,py,.9);thud(.25);startCloset(1);return}
     if(px>102&&px<378&&py>568&&py<602){boom(px,py,.5);mpSoon();return}
-    let pill=-1;for(let i=0;i<6;i++)if(Math.abs(px-[60,132,204,276,348,420][i])<36&&py>386&&py<438)pill=i;
-    if(pill>=0){setMode(['fly','shoot','makeup','run','studio','pet'][pill]);boom(px,py,.9);thud(.25)}else if(Math.abs(px-W/2)<100&&Math.abs(py-515)<40){boom(px,py,1.6);thud();press(true,e)}else{boom(px,py,1.2+Math.random()*.6);thud()}
+    let pill=-1;for(let i=0;i<7;i++)if(Math.abs(px-[54,116,178,240,302,364,426][i])<31&&py>386&&py<438)pill=i;
+    if(pill>=0){setMode(['fly','shoot','makeup','run','studio','pet','pizza'][pill]);boom(px,py,.9);thud(.25)}else if(Math.abs(px-W/2)<100&&Math.abs(py-515)<40){boom(px,py,1.6);thud();press(true,e)}else{boom(px,py,1.2+Math.random()*.6);thud()}
     return}
   press(true,e)});
 const rel=e=>{if(hold&&(hid===null||e.pointerId===hid))press(false)};
@@ -313,6 +316,7 @@ function draw(){
   if(state==='runcut'){drawRunCut();return}
   if(state==='studio'){drawStudio();return}
   if(state==='pet'){drawPet(performance.now());return}
+  if(state==='pizza'){drawPizza(performance.now());return}
   if(state==='run'||state==='runover'){drawRun();return}
   if(state==='shoot'||state==='shootover'||(state==='quiz'&&retState==='shoot')){drawShooter();if(state==='quiz'){drawQuiz();if(NET.on&&qStage==='result'&&(isG()||!(qDone[0]&&qDone[1])))text(isG()?'wachten tot de host verder gaat':'wachten op je vriend...',W/2,H-24,16,'#ffe9c2')}return}
   if(state==='cutscene'){drawCut();return}
@@ -391,7 +395,7 @@ function setTrack(k){if(k===curTrk)return;curTrk=k;
 function primedA(){return musicA}
 const TNAME={a:'Doedelzak-thema',b:'Candyland',c:'Turkish Hamster',d:'Pou muziek'};let trkSel=null,trkMsgT=0;
 try{const s=localStorage.getItem('doedelzak-track');if(TNAME[s])trkSel=s}catch(e){}
-function autoTrack(){return state==='pet'?'d':state==='makeup'?'b':(state==='run'||state==='runover'||state==='runcut')?'c':'a'}
+function autoTrack(){return state==='pet'?'d':state==='pizza'?'b':state==='makeup'?'b':(state==='run'||state==='runover'||state==='runcut')?'c':'a'}
 document.getElementById('m2').addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();if(state==='studio')return;unlockAudio();const cur=trkSel||autoTrack(),L=['a','b','c','d'];trkSel=L[(L.indexOf(cur)+1)%4];try{localStorage.setItem('doedelzak-track',trkSel)}catch(x){}setTrack(trkSel);trkMsgT=150;if(userMuted){userMuted=false;music.muted=false;if(mGain)mGain.gain.value=.5;const mb=document.getElementById('m');mb.innerHTML=SPK_ON}});
 function vol(v){try{music.volume=v}catch(e){}if(mGain)mGain.gain.value=userMuted?0:v*.9}
 document.getElementById('m').addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();userMuted=!userMuted;if(unlocked&&!usingWA)music.muted=userMuted;if(mGain)mGain.gain.value=userMuted?0:.5;e.currentTarget.innerHTML=userMuted?SPK_OFF:SPK_ON});
@@ -446,7 +450,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v39 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v40 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -982,7 +986,7 @@ function lobbyRender(){
   byId('lb-msg').textContent=NET.err||{idle:'',connecting:'Verbinden...',manual:'',waiting:'Geef deze code aan je vriend en wacht tot die meedoet.',connected:host?'Je vriend is erbij! Kies de modus en druk op START.':'Verbonden! Wacht tot de host start.'}[st]||'';
 }
 function openLobby(){
-  if(mode==='makeup'||mode==='run'||mode==='studio'||mode==='pet')setMode('fly');netLeave();NET.err='';NET.st='idle';
+  if(mode==='makeup'||mode==='run'||mode==='studio'||mode==='pet'||mode==='pizza')setMode('fly');netLeave();NET.err='';NET.st='idle';
   if(!netAvail()){NET.err='Samen spelen werkt alleen in het losse bestand (doedelzak-spel.html), niet in deze pagina.';byId('lobby').hidden=false;byId('lb-pick').hidden=true;byId('lb-wait').hidden=true;byId('lb-msg').textContent=NET.err;return}
   lobbyShow(true);
 }
@@ -1242,8 +1246,8 @@ function shGuest(){
 }
 // ===== SHOOTER-MODUS =====
 let mode='fly',bestShoot=0,keys={},retState='play';
-try{mode=['shoot','makeup','run','studio','pet'].includes(localStorage.getItem('doedelzak-mode'))?localStorage.getItem('doedelzak-mode'):'fly';bestShoot=+localStorage.getItem('doedelzak-best-shoot')||0}catch(e){}
-function setMode(m){mode=m;try{localStorage.setItem('doedelzak-mode',m)}catch(e){}const k=document.getElementById('k');if(k)k.style.visibility=m==='fly'?'':'hidden';const bb2=document.getElementById('b');if(bb2)bb2.style.visibility=(m==='makeup'||m==='run'||m==='studio'||m==='pet')?'hidden':''}
+try{mode=['shoot','makeup','run','studio','pet','pizza'].includes(localStorage.getItem('doedelzak-mode'))?localStorage.getItem('doedelzak-mode'):'fly';bestShoot=+localStorage.getItem('doedelzak-best-shoot')||0}catch(e){}
+function setMode(m){mode=m;try{localStorage.setItem('doedelzak-mode',m)}catch(e){}const k=document.getElementById('k');if(k)k.style.visibility=m==='fly'?'':'hidden';const bb2=document.getElementById('b');if(bb2)bb2.style.visibility=(m==='makeup'||m==='run'||m==='studio'||m==='pet'||m==='pizza')?'hidden':''}
 setMode(mode);
 const SH={joy:null,fireId:null,fireMouse:false,mouse:{x:240,y:320},useMouse:false};
 let P={x:240,y:400,fx:1,ax:1,ay:0,tx:240,ty:400,firing:0,cd:0,bc:0,bt:0,fl:0},bul=[],ebul=[],en=[],items=[],wv=0,wvSpawned=0,wvTotal=0,spawnCd=0,wvBreak=0,shBiteCd=0,shotCd=0,power=0,shBanner='',shBannerT=0,shHint=0,shFlash=0;
@@ -1313,13 +1317,13 @@ function icNoteS(x,y,s){icBegin(x,y,s);ctx.fillStyle='#fff';ctx.beginPath();ctx.
 function drawModePills(now){
   {const rb=mode==='run'?bestRun:mode==='shoot'?bestShoot:mode==='fly'?best:-1;if(rb>=0){ctx.save();ctx.fillStyle='rgba(20,5,40,.55)';ctx.strokeStyle='#ffd23f';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(W/2-64,352,128,26,13);ctx.fill();ctx.stroke();ctx.restore();text('RECORD: '+rb,W/2,371,15,'#ffe28a')}}
   ctx.save();ctx.fillStyle='rgba(20,5,40,.45)';ctx.strokeStyle='rgba(255,255,255,.35)';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(24,380,432,92,26);ctx.fill();ctx.stroke();ctx.restore();
-  [['fly','VLIEGEN',60],['shoot','SHOOTER',132],['makeup','MAKE-OVER',204],['run','RENNEN',276],['studio','STUDIO',348],['pet','VERZORG',420]].forEach(([m,l,cx])=>{
+  [['fly','VLIEGEN',54],['shoot','SHOOTER',116],['makeup','MAKE-OVER',178],['run','RENNEN',240],['studio','STUDIO',302],['pet','VERZORG',364],['pizza','PIZZERIA',426]].forEach(([m,l,cx])=>{
     const cy=412,sel=mode===m;
-    ctx.save();ctx.fillStyle=sel?'#ffd23f':'rgba(255,255,255,.12)';ctx.beginPath();ctx.roundRect(cx-33,cy-24,66,48,15);ctx.fill();ctx.restore();
-    const iy=cy-8;if(m==='fly')icPlane(cx,iy,20,-.3);else if(m==='shoot')icCross(cx,iy,20,sel?now/1500:0);else if(m==='makeup')icBrush(cx,iy+1,22,.6,'#ff7ab8');else if(m==='run')icRoad(cx,iy,20);else if(m==='pet')icHeart(cx,iy,22);else icNoteS(cx,iy,21);
-    text(l,cx,cy+16,10,sel?'#3a1a00':'#fff');if(m==='pet'&&petNeed()){ctx.save();ctx.fillStyle='#ff4d5e';ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx+28,cy-20,9,0,7);ctx.fill();ctx.stroke();ctx.restore();text('!',cx+28,cy-15,13)}
+    ctx.save();ctx.fillStyle=sel?'#ffd23f':'rgba(255,255,255,.12)';ctx.beginPath();ctx.roundRect(cx-29,cy-24,58,48,14);ctx.fill();ctx.restore();
+    const iy=cy-8;if(m==='fly')icPlane(cx,iy,20,-.3);else if(m==='shoot')icCross(cx,iy,20,sel?now/1500:0);else if(m==='makeup')icBrush(cx,iy+1,22,.6,'#ff7ab8');else if(m==='run')icRoad(cx,iy,20);else if(m==='pet')icHeart(cx,iy,22);else if(m==='pizza')icSlice(cx,iy,22);else icNoteS(cx,iy,21);
+    text(l,cx,cy+16,9,sel?'#3a1a00':'#fff');if(m==='pet'&&petNeed()){ctx.save();ctx.fillStyle='#ff4d5e';ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx+25,cy-20,9,0,7);ctx.fill();ctx.stroke();ctx.restore();text('!',cx+25,cy-15,13)}
   });
-  text(mode==='fly'?'houd ingedrukt om te vliegen en te bijten':mode==='shoot'?'WASD/sleep = lopen  ·  klik/tik = schieten  ·  B = bijten':mode==='run'?'← → baan  ·  ↑ springen  ·  ↓ duiken  ·  of veeg':mode==='studio'?'piano, drums, bas en soundboard: neem je eigen liedje op':mode==='pet'?'voer, aai en stop Doedelzak in bed (de honger loopt door!)':'skincare, haar, make-up en nagels voor Doedelzak',W/2,457,12,'#ffe9c2');
+  text(mode==='fly'?'houd ingedrukt om te vliegen en te bijten':mode==='shoot'?'WASD/sleep = lopen  ·  klik/tik = schieten  ·  B = bijten':mode==='run'?'← → baan  ·  ↑ springen  ·  ↓ duiken  ·  of veeg':mode==='studio'?'piano, drums, bas en soundboard: neem je eigen liedje op':mode==='pet'?'voer, aai en stop Doedelzak in bed (de honger loopt door!)':mode==='pizza'?'neem bestellingen op, bak en snij pizza\'s voor munten':'skincare, haar, make-up en nagels voor Doedelzak',W/2,457,12,'#ffe9c2');
 }
 const ST_TABS=['PIANO','DRUMS','BAS','SOUND'];
 // ===== STUDIO (liedjes maken) =====
@@ -2519,6 +2523,295 @@ function drawPet(now){
     else petHand(x,y,'open',rot,1.15,P.v)}}
 function petBtn(x,y,w,h,label,col,fn,sz,tc){ctx.save();ctx.shadowColor='rgba(0,0,0,.3)';ctx.shadowBlur=8;ctx.shadowOffsetY=3;ctx.fillStyle=col;ctx.strokeStyle='rgba(255,255,255,.8)';ctx.lineWidth=2.5;ctx.beginPath();ctx.roundRect(x,y,w,h,Math.min(18,h/2));ctx.fill();ctx.shadowColor='transparent';ctx.stroke();ctx.restore();text(label,x+w/2,y+h/2+(sz||15)*.36,sz||15,tc||'#fff');PET.hits.push({x,y,w,h,fn})}
 
+// ===== DOEDELZAK'S PIZZERIA =====
+const PZ_TOP=[{id:'salami',n:'Salami',d:1},{id:'champ',n:'Champignon',d:1},{id:'olijf',n:'Olijf',d:1},{id:'ananas',n:'Ananas',d:2},{id:'paprika',n:'Paprika',d:3},{id:'zaad',n:'Zaadjes',d:4}];
+const PZ_SAUS=[{id:'tomaat',n:'TOMAAT',l:'Tomaat',c:'#d8342a',d:1},{id:'pesto',n:'PESTO',l:'Pesto',c:'#6aa63c',d:1},{id:'bbq',n:'BBQ',l:'BBQ',c:'#7a3b1d',d:2}];
+const PZ_BAK={kort:{n:'kort',c:.38},normaal:{n:'normaal',c:.58},lang:{n:'lang',c:.76}};
+const PZ_NAMEN=['Kees','Fatima','Bram','Sanne','Mohammed','Lotte','Piet','Yara','Jan','Noor','Ahmet','Ruud','Sofie','Daan','Mila','Henk'];
+const PZ_SKIN=['#f6d3b0','#e8b88a','#c68a5c','#8d5a3b','#f2c9a0'],PZ_HAIR=['#3a2418','#7a4a22','#d9a441','#1a1a1a','#b3472b','#9aa0a6'],PZ_SHIRT=['#2f9e57','#3a7bd5','#d6336c','#8a4fd0','#e8932b','#2aa6a0'];
+const PZ_HOI=['Hoi! Eén pizza graag.','Mag ik een pizza?','Ik heb zo veel honger!','Eén pizza, alsjeblieft.','Doe mij maar een pizza.'];
+const PZ_PRAAT={5:['Wauw! Beter dan die van mijn oma.','Perfect! Doedelzak, je bent een kunstenaar.','Mmm, zelfs de rand is lekker!'],4:['Heel lekker, bedankt!','Mooi gedaan, ik kom zeker terug.','Bijna perfect!'],3:['Het kan er best mee door.','Best oké, eigenlijk.','Mwah, ik heb slechter gehad.'],2:['Hmm... was dit wat ik besteld had?','Dit smaakt een beetje raar.','Mijn pizza ziet er... anders uit.'],1:['Is dit een pizza of een ongeluk?','Ik eet liever mijn sjaal.','Ik bel de keurmeester!']};
+const PZ_PER=5,PZ_CX=240,PZ_CY=300;
+const PZ_CRUST=[[0,[241,220,174]],[.35,[227,181,101]],[.6,[201,138,62]],[.8,[154,90,34]],[.92,[74,42,20]],[1,[30,18,10]]];
+const PZ={scr:'title',day:1,best:0,served:0,hits:[],main:null,lt:0,t0:0,n:0,order:null,cust:null,mood:'n',sauce:null,sp:0,cheese:null,chA:0,pcs:[],sel:'salami',bakeP:0,bakeOn:false,bakeDur:8,burnt:false,cuts:[],drag:null,sc:null,res:null,said:'',hint:'',dayEarned:0,log:[],doneDay:1,newBest:false,msg:'',msgT:0,pt:[],ptr:{x:0,y:0,down:false,mouse:false}};
+try{const s=JSON.parse(localStorage.getItem('doedelzak-pizza')||'null');if(s){PZ.day=Math.max(1,Math.floor(+s.day)||1);PZ.best=Math.max(0,Math.floor(+s.best)||0);PZ.served=Math.max(0,Math.floor(+s.served)||0)}}catch(e){}
+function pzSave(){try{localStorage.setItem('doedelzak-pizza',JSON.stringify({day:PZ.day,best:PZ.best,served:PZ.served}))}catch(e){}}
+// geluidjes
+function pzSnd(k){if(!ac)return;try{if(ac.state==='suspended')ac.resume()}catch(e){}
+  if(k==='place')blip(480+Math.random()*260,'triangle',.07,.12);
+  else if(k==='sauce')blip(250,'sine',.22,.16);
+  else if(k==='cheese'){blip(620,'triangle',.08,.1);setTimeout(()=>blip(760,'triangle',.08,.1),70)}
+  else if(k==='undo')blip(300,'triangle',.07,.1);
+  else if(k==='pick')blip(560,'triangle',.05,.1);
+  else if(k==='ding'){blip(1320,'sine',.5,.2);setTimeout(()=>blip(1760,'sine',.4,.12),90)}
+  else if(k==='cut')blip(170,'sawtooth',.09,.1);
+  else if(k==='coin'){blip(988,'square',.08,.07);setTimeout(()=>blip(1319,'square',.14,.07),80)}
+  else if(k==='good')[523,659,784,1046].forEach((f,i)=>setTimeout(()=>blip(f,'triangle',.22,.16),i*90));
+  else if(k==='bad')blip(140,'sawtooth',.4,.16);
+  else if(k==='next')blip(440,'triangle',.1,.12)}
+// bestellingen en klanten
+function pzNewOrder(){
+  const d=PZ.day,tops=PZ_TOP.filter(x=>x.d<=d),saus=PZ_SAUS.filter(x=>x.d<=d);
+  const maxT=Math.min(tops.length,3,1+Math.ceil(d/2)),nt=1+Math.floor(Math.random()*maxT),pool=tops.slice(),want=[];
+  for(let i=0;i<nt;i++){const x=pool.splice(Math.floor(Math.random()*pool.length),1)[0];want.push({id:x.id,q:3+Math.floor(Math.random()*(2+Math.min(d,3)))})}
+  return{sauce:pick(saus).id,tops:want,bak:pick(d<2?['normaal']:['kort','normaal','lang']),slices:pick(d<2?[4]:d<3?[4,6]:[4,6,8])}}
+function pzNewCust(){const nm=PZ_NAMEN.filter(n=>!PZ.log.some(l=>l.name===n));return{name:pick(nm.length?nm:PZ_NAMEN),skin:pick(PZ_SKIN),hair:pick(PZ_HAIR),shirt:pick(PZ_SHIRT),style:Math.floor(Math.random()*4),glasses:Math.random()<.3,say:pick(PZ_HOI)}}
+function startPizza(){hold=false;hid=null;setSound(false);PZ.scr='title';PZ.pt=[];PZ.drag=null;PZ.ptr.down=false;PZ.msgT=0;PZ.lt=0;PZ.hits=[];state='pizza'}
+function pzBeginDay(){PZ.n=0;PZ.dayEarned=0;PZ.log=[];PZ.newBest=false;pzNext()}
+function pzNext(){PZ.order=pzNewOrder();PZ.cust=pzNewCust();PZ.t0=performance.now();PZ.scr='order';PZ.mood='n';PZ.sc=null;PZ.res=null;PZ.cuts=[];PZ.burnt=false;PZ.bakeP=0;pzSnd('next')}
+function pzToBuild(){PZ.sauce=null;PZ.sp=0;PZ.cheese=null;PZ.chA=0;PZ.pcs=[];PZ.sel=PZ_TOP.find(x=>x.d<=PZ.day).id;PZ.scr='build';PZ.t0=performance.now()}
+// bouwen
+function pzSauce(id){if(PZ.sauce===id)return;PZ.sauce=id;PZ.sp=0;pzSnd('sauce')}
+function pzCheese(){if(PZ.cheese)return;PZ.cheese=[];for(let i=0;i<90;i++){const a=Math.random()*6.283,d=Math.sqrt(Math.random())*106;PZ.cheese.push({x:Math.cos(a)*d,y:Math.sin(a)*d,a:Math.random()*3.14})}PZ.chA=0;pzSnd('cheese')}
+function pzPlace(px,py){const dx=px-PZ_CX,dy=py-PZ_CY;if(Math.hypot(dx,dy)>118)return;if(PZ.pcs.length>=40){PZ.msg='Zo veel toppings past er niet op!';PZ.msgT=1300;return}PZ.pcs.push({id:PZ.sel,x:dx,y:dy,a:Math.random()*6.283});pzSnd('place')}
+function pzUndo(){if(PZ.pcs.length)PZ.pcs.pop();else if(PZ.cheese)PZ.cheese=null;else if(PZ.sauce)PZ.sauce=null;else return;pzSnd('undo')}
+function pzBuildScore(){
+  const o=PZ.order,s={};
+  s.saus=PZ.sauce===o.sauce?12:(PZ.sauce?3:0);
+  s.kaas=PZ.cheese?8:0;
+  const cnt={};PZ.pcs.forEach(p=>cnt[p.id]=(cnt[p.id]||0)+1);
+  let acc=0;o.tops.forEach(w=>{acc+=Math.max(0,1-Math.abs((cnt[w.id]||0)-w.q)/w.q)});acc/=o.tops.length;
+  let extra=0;Object.keys(cnt).forEach(id=>{if(!o.tops.some(w=>w.id===id))extra+=cnt[id]});
+  s.top=Math.max(0,Math.round(40*acc-Math.min(40,extra*5)));
+  return s}
+// bakken
+function pzToOven(){PZ.sc=pzBuildScore();PZ.bakeP=0;PZ.bakeOn=true;PZ.burnt=false;PZ.bakeDur=9-Math.min(PZ.day,6)*.4;PZ.scr='bake';PZ.t0=performance.now();pzSnd('next')}
+function pzOut(burn){if(!PZ.bakeOn)return;PZ.bakeOn=false;PZ.burnt=!!burn;const c=PZ_BAK[PZ.order.bak].c;PZ.sc.bak=burn?0:Math.round(25*Math.max(0,1-Math.abs(PZ.bakeP-c)/.22));PZ.cuts=[];PZ.scr='cut';PZ.t0=performance.now();PZ.msg='';PZ.msgT=0;pzSnd(burn?'bad':'ding')}
+// snijden
+function pzCutDone(d){const dx=d.x-d.x0,dy=d.y-d.y0,L=Math.hypot(dx,dy),R0=128;
+  if(L<R0*.8){PZ.msg='Veeg helemaal over de pizza!';PZ.msgT=1400;return}
+  const a=((Math.atan2(dy,dx)%Math.PI)+Math.PI)%Math.PI;
+  const o=((d.x0-PZ_CX)*(-Math.sin(a))+(d.y0-PZ_CY)*Math.cos(a))/R0;
+  if(Math.abs(o)>.85){PZ.msg='Mis! Veeg over de pizza heen.';PZ.msgT=1400;return}
+  if(PZ.cuts.length>=6){PZ.msg='Genoeg sneden!';PZ.msgT=1200;return}
+  PZ.cuts.push({a,o});pzSnd('cut')}
+function pzCutScore(cuts,need){const n=cuts.length;if(!n)return 0;
+  let off=0;cuts.forEach(c=>off+=Math.min(1,Math.abs(c.o)));off/=n;
+  const sa=cuts.map(c=>c.a).sort((a,b)=>a-b),ideal=Math.PI/n;let err=0;
+  for(let i=0;i<n;i++){const g=i<n-1?sa[i+1]-sa[i]:sa[0]+Math.PI-sa[n-1];err+=Math.abs(g-ideal)}err/=n*ideal;
+  const f=Math.max(0,Math.min(1,(1-err*.7-off*1.1)*1.12)),cf=n===need?1:Math.max(0,1-.3*Math.abs(n-need));
+  return Math.round(15*f*cf)}
+// opdienen
+function pzHint(){const o=PZ.order,s=PZ.sc,f=[['saus',12],['kaas',8],['top',40],['bak',25],['snij',15]].map(([k,m])=>[k,s[k]/m]).sort((a,b)=>a[1]-b[1])[0];
+  if(f[1]>=.85)return'';
+  if(f[0]==='saus')return PZ.sauce?'Dat was de verkeerde saus.':'Er zat geen saus op.';
+  if(f[0]==='kaas')return'Er zat geen kaas op!';
+  if(f[0]==='top'){const cnt={};PZ.pcs.forEach(p=>cnt[p.id]=(cnt[p.id]||0)+1);let w=null,bd=0;
+    o.tops.forEach(q=>{const dv=(cnt[q.id]||0)-q.q;if(Math.abs(dv)>Math.abs(bd)){bd=dv;w=q}});
+    const ex=Object.keys(cnt).find(id=>!o.tops.some(q=>q.id===id));
+    if(ex&&Math.abs(bd)<cnt[ex])return'Ik wilde geen '+PZ_TOP.find(x=>x.id===ex).n.toLowerCase()+'.';
+    if(w)return(bd<0?'Te weinig ':'Te veel ')+PZ_TOP.find(x=>x.id===w.id).n.toLowerCase()+'.';
+    return'Er zat iets mis met de toppings.'}
+  if(f[0]==='bak')return PZ.burnt?'Aangebrand!':PZ.bakeP<PZ_BAK[o.bak].c?'Nog een beetje bleek.':'Een beetje te donker.';
+  return'De stukken waren nogal scheef.'}
+function pzFinish(){const o=PZ.order,s=PZ.sc;s.snij=pzCutScore(PZ.cuts,o.slices/2);
+  let tot=s.saus+s.kaas+s.top+s.bak+s.snij;if(PZ.burnt)tot=Math.min(tot,50);const st=tot>=90?5:tot>=75?4:tot>=55?3:tot>=35?2:1;
+  const mult=1+.1*Math.min(PZ.day-1,10),coins=Math.round((14+6*o.tops.length)*tot/100*mult)+(st===5?6:st===4?3:0);
+  PZ.res={tot,st,coins};PZ.said=pick(PZ_PRAAT[st]);{const h=st<5?pzHint():'';PZ.hint=h&&st>=3?'Alleen: '+h.charAt(0).toLowerCase()+h.slice(1):h}
+  addCoins(coins);PZ.dayEarned+=coins;PZ.log.push({name:PZ.cust.name,st,coins});PZ.served++;PZ.n++;pzSave();
+  PZ.mood=st>=4?'h':st===3?'n':0;PZ.scr='serve';PZ.t0=performance.now();
+  if(st>=4){pzConf(240,260,st===5?46:24);pzSnd('good')}else if(st<=2)pzSnd('bad');else pzSnd('coin');}
+function pzDayEnd(){PZ.doneDay=PZ.day;PZ.newBest=PZ.dayEarned>PZ.best;if(PZ.newBest)PZ.best=PZ.dayEarned;PZ.day++;pzSave();PZ.scr='dayend';PZ.t0=performance.now();pzSnd('good');pzConf(240,200,40)}
+function pzConf(x,y,n){for(let i=0;i<n;i++)PZ.pt.push({k:'c',x:x+(Math.random()-.5)*60,y,vx:(Math.random()-.5)*7,vy:-2-Math.random()*5,l:0,m:1100+Math.random()*500,c:pick(['#ffd23f','#ff6b6b','#5ec8ff','#7be0a8','#fff','#d9a5ff'])})}
+// invoer
+function pzDown(px,py){initAudio();if(ac&&ac.state==='suspended')ac.resume();PZ.ptr.x=px;PZ.ptr.y=py;PZ.ptr.down=true;
+  for(let i=PZ.hits.length-1;i>=0;i--){const h=PZ.hits[i];if(px>=h.x&&px<=h.x+h.w&&py>=h.y&&py<=h.y+h.h){h.fn();return}}
+  if(PZ.scr==='build')pzPlace(px,py);
+  else if(PZ.scr==='cut'&&Math.hypot(px-PZ_CX,py-PZ_CY)<170)PZ.drag={x0:px,y0:py,x:px,y:py}}
+addEventListener('pointermove',e=>{if(state!=='pizza')return;const[px,py]=petPtr(e);PZ.ptr.x=px;PZ.ptr.y=py;PZ.ptr.mouse=e.pointerType==='mouse';if(PZ.drag){PZ.drag.x=px;PZ.drag.y=py}});
+addEventListener('pointerup',e=>{if(state!=='pizza')return;PZ.ptr.down=false;const d=PZ.drag;if(d){const[px,py]=petPtr(e);d.x=px;d.y=py;PZ.drag=null;pzCutDone(d)}});
+addEventListener('pointercancel',()=>{PZ.ptr.down=false;PZ.drag=null});
+// tekenhulpjes
+function pzT(s,x,yy,sz,col,al){ctx.save();ctx.font='bold '+sz+'px '+FNT;ctx.textAlign=al||'left';ctx.lineJoin='round';ctx.fillStyle=col||'#fff';ctx.strokeStyle='rgba(40,15,60,.34)';ctx.lineWidth=Math.max(2.5,sz*.09);ctx.strokeText(s,x,yy);ctx.fillText(s,x,yy);ctx.restore()}
+function pzInk(s,x,yy,sz,col,al){ctx.save();ctx.font='bold '+sz+'px '+FNT;ctx.textAlign=al||'left';ctx.fillStyle=col||'#4a2c14';ctx.fillText(s,x,yy);ctx.restore()}
+function pzLerp(st,p){p=Math.max(0,Math.min(1,p));for(let i=1;i<st.length;i++)if(p<=st[i][0]){const a=st[i-1],b=st[i],k=(p-a[0])/((b[0]-a[0])||1);return'rgb('+[0,1,2].map(j=>Math.round(a[1][j]+(b[1][j]-a[1][j])*k)).join(',')+')'}return'rgb('+st[st.length-1][1].join(',')+')'}
+function pzBtn(x,yy,w,h,label,col,fn,o){o=o||{};const pr=!o.dis&&PZ.ptr.down&&PZ.ptr.x>=x&&PZ.ptr.x<=x+w&&PZ.ptr.y>=yy&&PZ.ptr.y<=yy+h,dy=pr?2:0;
+  ctx.save();ctx.globalAlpha=o.dis?.45:1;ctx.shadowColor='rgba(0,0,0,.35)';ctx.shadowBlur=8;ctx.shadowOffsetY=pr?1:3;ctx.fillStyle=o.dis?'#777':col;ctx.strokeStyle=o.sel?'#ffd23f':'rgba(255,255,255,.85)';ctx.lineWidth=o.sel?4:2.5;ctx.beginPath();ctx.roundRect(x,yy+dy,w,h,Math.min(18,h/2));ctx.fill();ctx.shadowColor='transparent';ctx.stroke();ctx.restore();
+  if(label)text(label,x+w/2,yy+h/2+(o.sz||16)*.36+dy,o.sz||16,o.tc||'#fff');if(o.draw)o.draw(x,yy+dy,w,h);
+  if(!o.dis){PZ.hits.push({x,y:yy,w,h,fn});if(o.main)PZ.main=fn}}
+function pzStar(x,yy,r,on){ctx.save();ctx.translate(x,yy);ctx.beginPath();for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,rr=i%2?r*.45:r;ctx.lineTo(Math.cos(a)*rr,Math.sin(a)*rr)}ctx.closePath();ctx.fillStyle=on?'#ffd23f':'rgba(255,255,255,.28)';ctx.strokeStyle=on?'#b87a00':'rgba(60,30,10,.4)';ctx.lineWidth=2;ctx.lineJoin='round';ctx.fill();ctx.stroke();ctx.restore()}
+function pzStars(x,yy,n,r,gap){for(let i=0;i<5;i++)pzStar(x+i*gap,yy,r,i<n)}
+function pzWrap(s,m){const w=s.split(' '),out=[];let l='';w.forEach(x=>{if((l+' '+x).trim().length>m){out.push(l);l=x}else l=(l+' '+x).trim()});if(l)out.push(l);return out}
+function pzBubble(x,yy,w,lines,tx,ty,sz){const lh=(sz||16)+6,h=lines.length*lh+18;ctx.save();ctx.shadowColor='rgba(0,0,0,.25)';ctx.shadowBlur=8;ctx.shadowOffsetY=3;ctx.fillStyle='#fff';ctx.strokeStyle='#7a5238';ctx.lineWidth=3;ctx.beginPath();ctx.roundRect(x,yy,w,h,16);ctx.fill();ctx.shadowColor='transparent';ctx.stroke();
+  ctx.beginPath();ctx.moveTo(tx-12,yy+h-1);ctx.lineTo(tx,ty);ctx.lineTo(tx+12,yy+h-1);ctx.closePath();ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(tx-9,yy+h);ctx.lineTo(tx+9,yy+h);ctx.stroke();
+  ctx.strokeStyle='#7a5238';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(tx-12,yy+h);ctx.lineTo(tx,ty);ctx.lineTo(tx+12,yy+h);ctx.stroke();ctx.restore();
+  lines.forEach((l,i)=>pzInk(l,x+w/2,yy+22+i*lh,sz||16,'#4a2c14','center'));return h}
+function pzHam(x,yy,sc,mood,bite,flip){const sh=hold,sv=vy,sb=biteT,si=inv,sp=PEYE;hold=false;vy=0;biteT=bite||0;inv=0;PEYE=mood;ctx.save();ctx.translate(x,yy);ctx.scale(flip?-sc:sc,sc);hamster(0,0,'kok');ctx.restore();hold=sh;vy=sv;biteT=sb;inv=si;PEYE=sp}
+// toppings, pizza en klanten
+function pzTop(id,x,yy,s,rot){ctx.save();ctx.translate(x,yy);ctx.rotate(rot||0);ctx.lineJoin='round';ctx.lineCap='round';ctx.lineWidth=Math.max(1,s*.13);ctx.strokeStyle='rgba(60,25,10,.75)';
+  if(id==='salami'){ctx.fillStyle='#c43a2f';ctx.beginPath();ctx.arc(0,0,s,0,7);ctx.fill();ctx.stroke();ctx.fillStyle='#e9806f';[[-.38,-.3],[.32,-.22],[0,.42],[-.05,-.02]].forEach(([a,b])=>{ctx.beginPath();ctx.arc(a*s,b*s,s*.16,0,7);ctx.fill()})}
+  else if(id==='champ'){ctx.fillStyle='#f3e6cc';ctx.beginPath();ctx.roundRect(-s*.3,0,s*.6,s*.85,s*.22);ctx.fill();ctx.stroke();ctx.fillStyle='#d6bd92';ctx.beginPath();ctx.moveTo(-s,s*.12);ctx.quadraticCurveTo(-s,-s*1.05,0,-s*1.05);ctx.quadraticCurveTo(s,-s*1.05,s,s*.12);ctx.closePath();ctx.fill();ctx.stroke()}
+  else if(id==='olijf'){ctx.fillStyle='#2b2b36';ctx.beginPath();ctx.arc(0,0,s*.85,0,7);ctx.fill();ctx.stroke();ctx.fillStyle='#e9c98a';ctx.beginPath();ctx.arc(0,0,s*.34,0,7);ctx.fill()}
+  else if(id==='ananas'){ctx.fillStyle='#ffd84a';ctx.beginPath();ctx.roundRect(-s*.8,-s*.8,s*1.6,s*1.6,s*.35);ctx.fill();ctx.stroke();ctx.fillStyle='#fff0a8';ctx.beginPath();ctx.arc(0,0,s*.36,0,7);ctx.fill()}
+  else if(id==='paprika'){ctx.lineWidth=s*.7;ctx.strokeStyle='#2c7a2a';ctx.beginPath();ctx.arc(0,s*.3,s*.8,Math.PI*1.1,Math.PI*1.9);ctx.stroke();ctx.lineWidth=s*.46;ctx.strokeStyle='#48b043';ctx.beginPath();ctx.arc(0,s*.3,s*.8,Math.PI*1.1,Math.PI*1.9);ctx.stroke()}
+  else if(id==='zaad'){ctx.fillStyle='#e2ddd0';ctx.beginPath();ctx.ellipse(0,0,s*.45,s*.9,0,0,7);ctx.fill();ctx.stroke();ctx.strokeStyle='#7a6a55';ctx.lineWidth=Math.max(1,s*.1);ctx.beginPath();ctx.moveTo(-s*.15,-s*.5);ctx.lineTo(-s*.15,s*.5);ctx.moveTo(s*.15,-s*.5);ctx.lineTo(s*.15,s*.5);ctx.stroke()}
+  ctx.restore()}
+function pzPizza(cx,cy,r,o){const k=r/128,b=o.bake||0;ctx.save();ctx.translate(cx,cy);ctx.lineJoin='round';
+  ctx.fillStyle='rgba(0,0,0,.22)';ctx.beginPath();ctx.ellipse(4*k,9*k,r*1.02,r*.98,0,0,7);ctx.fill();
+  ctx.fillStyle=pzLerp(PZ_CRUST,b);ctx.strokeStyle='#7a5238';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,r,0,7);ctx.fill();ctx.stroke();
+  ctx.strokeStyle='rgba(255,255,255,.25)';ctx.lineWidth=3*k;ctx.beginPath();ctx.arc(0,0,r-5*k,Math.PI*1.05,Math.PI*1.6);ctx.stroke();
+  const sa=o.sauce&&PZ_SAUS.find(s=>s.id===o.sauce);
+  if(sa){const sr=(r-13*k)*Math.max(.05,o.sp==null?1:Math.min(1,o.sp));ctx.fillStyle=sa.c;ctx.beginPath();ctx.arc(0,0,sr,0,7);ctx.fill();ctx.fillStyle='rgba(255,255,255,.14)';ctx.beginPath();ctx.arc(-sr*.28,-sr*.28,sr*.5,0,7);ctx.fill()}
+  if(o.cheese){ctx.save();ctx.globalAlpha=o.chA==null?1:Math.min(1,o.chA);ctx.fillStyle=b>.55?'#e3a93f':'#ffe08a';o.cheese.forEach(c=>{ctx.save();ctx.translate(c.x*k,c.y*k);ctx.rotate(c.a);ctx.fillRect(-7*k,-1.8*k,14*k,3.6*k);ctx.restore()});ctx.restore()}
+  (o.pcs||[]).forEach(p=>pzTop(p.id,p.x*k,p.y*k,12*k,p.a));
+  const ov=Math.max(0,b-.55)*1.15;if(ov>0){ctx.fillStyle='rgba(40,20,5,'+Math.min(.65,ov)+')';ctx.beginPath();ctx.arc(0,0,r-2,0,7);ctx.fill()}
+  (o.cuts||[]).forEach(c=>{const nx=-Math.sin(c.a),ny=Math.cos(c.a),dx=Math.cos(c.a),dy=Math.sin(c.a),mx=nx*c.o*r,my=ny*c.o*r,hl=Math.sqrt(Math.max(0,r*r-c.o*c.o*r*r));
+    ctx.strokeStyle='rgba(50,20,5,.6)';ctx.lineWidth=3.2*k;ctx.beginPath();ctx.moveTo(mx-dx*hl,my-dy*hl);ctx.lineTo(mx+dx*hl,my+dy*hl);ctx.stroke();
+    ctx.strokeStyle='rgba(255,255,255,.45)';ctx.lineWidth=1.2*k;ctx.beginPath();ctx.moveTo(mx-dx*hl+nx*2*k,my-dy*hl+ny*2*k);ctx.lineTo(mx+dx*hl+nx*2*k,my+dy*hl+ny*2*k);ctx.stroke()});
+  ctx.restore()}
+function pzCust(x,yy,s,c,mood,now){ctx.save();ctx.translate(x,yy+Math.sin(now/500)*2);ctx.scale(s,s);ctx.lineJoin='round';ctx.lineCap='round';const ink='#4a2c14';
+  ctx.fillStyle=c.shirt;ctx.strokeStyle=ink;ctx.lineWidth=3;ctx.beginPath();ctx.roundRect(-46,40,92,112,[34,34,6,6]);ctx.fill();ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,.18)';ctx.beginPath();ctx.roundRect(-8,40,16,60,6);ctx.fill();
+  ctx.fillStyle=c.skin;ctx.fillRect(-10,32,20,16);
+  ctx.beginPath();ctx.arc(-42,2,9,0,7);ctx.arc(42,2,9,0,7);ctx.fill();ctx.stroke();
+  ctx.beginPath();ctx.ellipse(0,0,42,46,0,0,7);ctx.fill();ctx.stroke();
+  ctx.fillStyle=c.hair;
+  if(c.style===0){ctx.beginPath();ctx.ellipse(0,-12,43,35,0,Math.PI,0);ctx.closePath();ctx.fill();ctx.stroke()}
+  else if(c.style===1){ctx.beginPath();ctx.arc(0,-56,15,0,7);ctx.fill();ctx.stroke();ctx.beginPath();ctx.ellipse(0,-14,43,32,0,Math.PI,0);ctx.closePath();ctx.fill();ctx.stroke()}
+  else if(c.style===2){ctx.fillStyle=c.shirt==='#d6336c'?'#3a7bd5':'#d6336c';ctx.beginPath();ctx.ellipse(0,-14,43,32,0,Math.PI,0);ctx.closePath();ctx.fill();ctx.stroke();ctx.beginPath();ctx.roundRect(-4,-24,56,9,4);ctx.fill();ctx.stroke()}
+  else{ctx.beginPath();ctx.ellipse(-37,-6,7,15,.2,0,7);ctx.ellipse(37,-6,7,15,-.2,0,7);ctx.fill();ctx.stroke()}
+  ctx.fillStyle='rgba(255,120,140,.32)';if(mood==='h'){ctx.beginPath();ctx.ellipse(-25,14,8,5,0,0,7);ctx.ellipse(25,14,8,5,0,0,7);ctx.fill()}
+  ctx.strokeStyle=ink;ctx.lineWidth=3.2;
+  if(mood==='h'){ctx.beginPath();ctx.arc(-16,-3,6,Math.PI*1.1,Math.PI*1.9);ctx.moveTo(22,-3);ctx.arc(16,-3,6,Math.PI*1.1,Math.PI*1.9);ctx.stroke()}
+  else{ctx.fillStyle=ink;ctx.beginPath();ctx.arc(-16,-3,5,0,7);ctx.arc(16,-3,5,0,7);ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(-14.5,-4.6,1.6,0,7);ctx.arc(17.5,-4.6,1.6,0,7);ctx.fill();
+    if(mood==='b'){ctx.beginPath();ctx.moveTo(-26,-16);ctx.lineTo(-8,-10);ctx.moveTo(26,-16);ctx.lineTo(8,-10);ctx.stroke()}}
+  if(c.glasses){ctx.lineWidth=2.4;ctx.beginPath();ctx.arc(-16,-3,11,0,7);ctx.moveTo(38,-3);ctx.arc(27,-3,0,0,7);ctx.stroke();ctx.beginPath();ctx.arc(16,-3,11,0,7);ctx.moveTo(-5,-3);ctx.lineTo(5,-3);ctx.stroke()}
+  ctx.fillStyle='rgba(120,60,30,.28)';ctx.beginPath();ctx.ellipse(0,10,5,4,0,0,7);ctx.fill();
+  ctx.strokeStyle=ink;ctx.lineWidth=3.2;
+  if(mood==='h'){ctx.fillStyle='#7a1f2b';ctx.beginPath();ctx.moveTo(-14,22);ctx.quadraticCurveTo(0,40,14,22);ctx.closePath();ctx.fill();ctx.stroke()}
+  else if(mood==='b'){ctx.beginPath();ctx.moveTo(-11,30);ctx.quadraticCurveTo(0,20,11,30);ctx.stroke()}
+  else{ctx.beginPath();ctx.moveTo(-9,26);ctx.lineTo(9,26);ctx.stroke()}
+  ctx.restore()}
+// achtergronden
+function pzBgShop(sign){let g=ctx.createLinearGradient(0,0,0,400);g.addColorStop(0,'#ffe3b8');g.addColorStop(1,'#f4b97c');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='rgba(160,90,40,.12)';ctx.lineWidth=2;for(let x=0;x<W;x+=48){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,400);ctx.stroke()}for(let yy=0;yy<400;yy+=48){ctx.beginPath();ctx.moveTo(0,yy);ctx.lineTo(W,yy);ctx.stroke()}
+  if(sign){ctx.fillStyle='#9c2a22';ctx.strokeStyle='#ffd23f';ctx.lineWidth=4;ctx.beginPath();ctx.roundRect(236,10,232,26,10);ctx.fill();ctx.stroke();pzT("DOEDELZAK'S PIZZERIA",352,30,15,'#ffd23f','center')}
+  ctx.fillStyle='rgba(120,70,30,.18)';ctx.fillRect(0,386,W,14)}
+function pzCounter(){const g=ctx.createLinearGradient(0,400,0,H);g.addColorStop(0,'#c98a4a');g.addColorStop(1,'#7a4a22');ctx.fillStyle=g;ctx.fillRect(0,400,W,H-400);ctx.fillStyle='#e8b36a';ctx.fillRect(0,400,W,12);ctx.fillStyle='rgba(60,25,8,.35)';ctx.fillRect(0,412,W,3);
+  ctx.strokeStyle='rgba(60,25,8,.2)';ctx.lineWidth=2;for(let i=0;i<5;i++){ctx.beginPath();ctx.moveTo(0,440+i*50);ctx.lineTo(W,440+i*50);ctx.stroke()}}
+function pzBgBoard(r){for(let yy=0;yy<H;yy+=40)for(let x=0;x<W;x+=40){ctx.fillStyle=((x+yy)/40)%2?'#f6efe2':'#d8453a';ctx.fillRect(x,yy,40,40)}
+  const g=ctx.createRadialGradient(W/2,300,150,W/2,300,430);g.addColorStop(0,'rgba(0,0,0,0)');g.addColorStop(1,'rgba(40,10,10,.5)');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  ctx.save();ctx.shadowColor='rgba(0,0,0,.4)';ctx.shadowBlur=18;ctx.shadowOffsetY=6;ctx.fillStyle='#b9824a';ctx.beginPath();ctx.arc(PZ_CX,PZ_CY,r+18,0,7);ctx.fill();ctx.restore();
+  ctx.strokeStyle='#7a4a22';ctx.lineWidth=4;ctx.beginPath();ctx.arc(PZ_CX,PZ_CY,r+18,0,7);ctx.stroke();ctx.strokeStyle='rgba(255,255,255,.18)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(PZ_CX,PZ_CY,r+10,0,7);ctx.stroke()}
+function pzBgOven(now){let g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#3a1a10');g.addColorStop(1,'#1c0a06');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  rrect(24,128,432,320,36,'#6b6f78','#2b2d33');rrect(34,138,412,300,30,'#8c919c');
+  g=ctx.createRadialGradient(W/2,290,20,W/2,290,250);const fl=.7+.25*Math.sin(now/130)+.05*Math.sin(now/47);g.addColorStop(0,'rgba(255,205,100,'+fl+')');g.addColorStop(.5,'rgba(230,95,22,.92)');g.addColorStop(1,'rgba(90,20,6,1)');ctx.fillStyle=g;ctx.beginPath();ctx.roundRect(54,156,372,264,24);ctx.fill();
+  ctx.fillStyle='rgba(255,170,60,.35)';for(let i=0;i<7;i++){const k=((now/900+i/7)%1);ctx.beginPath();ctx.arc(70+i*56+Math.sin(now/300+i)*6,414-k*220,5+k*4,0,7);ctx.globalAlpha=1-k;ctx.fill()}ctx.globalAlpha=1;
+  ctx.fillStyle='#5b5f67';[110,240,370].forEach(x=>{ctx.beginPath();ctx.arc(x,98,15,0,7);ctx.fill();ctx.strokeStyle='#2b2d33';ctx.lineWidth=3;ctx.stroke()});
+  ctx.fillStyle='#9a9fa8';ctx.strokeStyle='#4a4d54';ctx.lineWidth=4;ctx.beginPath();ctx.ellipse(PZ_CX,292,126,120,0,0,7);ctx.fill();ctx.stroke()}
+// kaartje met de bestelling
+function pzTicket(x,yy,w,big,cnt){const o=PZ.order,fs=big?16:12,lh=big?27:20,n=big?o.tops.length+4:o.tops.length+2,h=lh*n+(big?18:12);
+  ctx.save();ctx.translate(x,yy);ctx.rotate(big?.02:0);ctx.shadowColor='rgba(0,0,0,.3)';ctx.shadowBlur=8;ctx.shadowOffsetY=3;ctx.fillStyle='#fffdf4';ctx.strokeStyle='#c9b48a';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(0,0,w,h,8);ctx.fill();ctx.shadowColor='transparent';ctx.stroke();
+  ctx.fillStyle='rgba(255,210,63,.85)';ctx.fillRect(w/2-22,-6,44,12);
+  let ry=big?lh*.95:lh*.82;const px0=big?20:14,tx=big?40:30;
+  if(big){pzInk('Bestelling van '+PZ.cust.name,w/2,ry,fs,'#9c2a22','center');ry+=lh}
+  const sa=PZ_SAUS.find(s=>s.id===o.sauce);ctx.fillStyle=sa.c;ctx.strokeStyle='#4a2c14';ctx.lineWidth=2;ctx.beginPath();ctx.arc(px0,ry-fs*.35,fs*.5,0,7);ctx.fill();ctx.stroke();pzInk(big?'Saus: '+sa.l:sa.l+' + kaas',tx,ry,fs);ry+=lh;
+  o.tops.forEach(q=>{const tp=PZ_TOP.find(z=>z.id===q.id);pzTop(q.id,px0,ry-fs*.35,fs*.62,0);
+    if(big)pzInk(q.q+'× '+tp.n,tx,ry,fs);else{const c=(cnt&&cnt[q.id])||0;pzInk(c+'/'+q.q+' '+tp.n,tx,ry,fs,c===q.q?'#2f8a4a':c>q.q?'#c0392b':'#4a2c14')}ry+=lh});
+  if(big){pzInk('Bakken: '+PZ_BAK[o.bak].n,tx-20,ry,fs);ry+=lh;pzInk('Snijden: '+o.slices+' stukken',tx-20,ry,fs)}else pzInk(PZ_BAK[o.bak].n+' · '+o.slices+' stukken',px0-6,ry,fs);
+  ctx.restore();return h}
+function pzCount(){const c={};PZ.pcs.forEach(p=>c[p.id]=(c[p.id]||0)+1);return c}
+// het hoofdscherm van de pizzeria
+function drawPizza(now){
+  const ms=Math.min(50,PZ.lt?now-PZ.lt:16);PZ.lt=now;t=Math.floor(now/16);vy=0;inv=0;PZ.hits=[];PZ.main=null;
+  const sc=PZ.scr,age=now-PZ.t0;
+  if(PZ.msgT>0)PZ.msgT-=ms;
+  if(sc==='title'){
+    pzBgShop(false);pzCounter();
+    const bn=Math.sin(now/300)*4;
+    pzT("DOEDELZAK'S",W/2,92+bn,44,'#ffd23f','center');
+    ctx.save();ctx.translate(W/2,166+Math.sin(now/260)*3);ctx.rotate(-.03);ctx.font='bold 70px '+FNT;ctx.textAlign='center';ctx.lineJoin='round';ctx.lineWidth=11;ctx.strokeStyle='#fff';ctx.strokeText('PIZZERIA',0,0);ctx.lineWidth=5;ctx.strokeStyle='#5a1410';ctx.strokeText('PIZZERIA',0,0);ctx.shadowColor='rgba(0,0,0,.3)';ctx.shadowBlur=6;ctx.shadowOffsetY=3;ctx.fillStyle='#d8342a';ctx.fillText('PIZZERIA',0,0);ctx.restore();
+    pzHam(140,352+Math.sin(now/400)*3,3.1,'h',Math.floor(now/500)%3===0?8:0);
+    pzPizza(360,350,82,{sauce:'tomaat',cheese:PZ.pv||(PZ.pv=(()=>{const a=[];for(let i=0;i<70;i++){const q=Math.random()*6.283,d=Math.sqrt(Math.random())*106;a.push({x:Math.cos(q)*d,y:Math.sin(q)*d,a:Math.random()*3.14})}return a})()),pcs:PZ.pp||(PZ.pp=[{id:'salami',x:-40,y:-30,a:0},{id:'salami',x:35,y:-45,a:1},{id:'salami',x:55,y:20,a:2},{id:'champ',x:-50,y:35,a:.3},{id:'olijf',x:0,y:-5,a:0},{id:'olijf',x:-10,y:60,a:0},{id:'paprika',x:25,y:60,a:.5},{id:'salami',x:-5,y:30,a:3}]),bake:.5});
+    ctx.save();ctx.fillStyle='rgba(20,5,40,.55)';ctx.strokeStyle='#ffd23f';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(W/2-150,432,300,34,17);ctx.fill();ctx.stroke();ctx.restore();
+    pzT('Dag '+PZ.day+'  ·  '+PZ.served+' pizza\'s gemaakt',W/2,456,17,'#fff','center');
+    pzT(PZ.best>0?'Beste dag: '+PZ.best+' munten':'Verdien munten voor nieuwe outfits',W/2,490,15,'#ffe9c2','center');
+    const nw=PZ_TOP.filter(x=>x.d===PZ.day&&PZ.day>1).map(x=>x.n).concat(PZ_SAUS.filter(x=>x.d===PZ.day&&PZ.day>1).map(x=>x.l+'-saus'));
+    if(nw.length)pzT('Nieuw vandaag: '+nw.join(' + '),W/2,516,15,'#ffd23f','center');
+    pzBtn(W/2-130,538,260,64,'START DAG '+PZ.day,'#2f9e57',pzBeginDay,{sz:26,main:true});
+    pzT('Esc of de huisknop = menu',W/2,628,12,'#ffe9c2','center');
+  }else if(sc==='order'){
+    const e=Math.min(1,age/900),ee=1-Math.pow(1-e,3),cx=-70+(150+70)*ee,walk=e<1?-Math.abs(Math.sin(now/90))*9:0;
+    pzBgShop(true);pzCust(cx,238+walk,1.25,PZ.cust,'n',now);pzCounter();
+    if(e>=1){pzBubble(24,52,190,pzWrap(PZ.cust.say,17),150,188,16);
+      ctx.save();ctx.globalAlpha=Math.min(1,(age-900)/300);ctx.translate(0,0);pzTicket(246,66,222,true);ctx.restore();
+      pzBtn(W/2-135,560,270,58,'BESTELLING OPNEMEN','#2f9e57',()=>pzToBuild(),{sz:19,main:true})}
+    pzHam(396,508,1.6,'n',0,true);
+    pzInk('Dag '+PZ.day+' · klant '+(PZ.n+1)+' van '+PZ_PER,24,34,14,'#7a3b1d','left');
+  }else if(sc==='build'){
+    if(PZ.sauce&&PZ.sp<1)PZ.sp=Math.min(1,PZ.sp+ms/320);if(PZ.cheese&&PZ.chA<1)PZ.chA=Math.min(1,PZ.chA+ms/260);
+    pzBgBoard(128);
+    pzPizza(PZ_CX,PZ_CY,128,{sauce:PZ.sauce,sp:PZ.sp,cheese:PZ.cheese,chA:PZ.chA,pcs:PZ.pcs,bake:0});
+    if(PZ.ptr.mouse&&Math.hypot(PZ.ptr.x-PZ_CX,PZ.ptr.y-PZ_CY)<118){ctx.save();ctx.globalAlpha=.55;pzTop(PZ.sel,PZ.ptr.x,PZ.ptr.y,12,0);ctx.restore()}
+    pzTicket(8,12,150,false,pzCount());
+    pzT('BOUWEN',W-96,34,24,'#fff','center');pzT(PZ.pcs.length+' toppings',W-96,58,14,'#ffe9c2','center');
+    pzT(PZ.sauce?(PZ.cheese?'Tik op de pizza':'Vergeet de kaas niet!'):'Begin met saus',W-96,80,12,'#fff','center');
+    const sauz=PZ_SAUS.filter(x=>x.d<=PZ.day),bw=(456-(sauz.length)*8)/(sauz.length+1);
+    sauz.forEach((s,i)=>pzBtn(12+i*(bw+8),442,bw,46,s.n,s.c,()=>pzSauce(s.id),{sz:14,sel:PZ.sauce===s.id}));
+    pzBtn(12+sauz.length*(bw+8),442,bw,46,'KAAS','#e0a526',pzCheese,{sz:14,sel:!!PZ.cheese,tc:'#3a1a00'});
+    const tops=PZ_TOP.filter(x=>x.d<=PZ.day),tw=Math.min(72,(456-(tops.length-1)*6)/tops.length),cnt=pzCount(),tx0=W/2-(tops.length*tw+(tops.length-1)*6)/2;
+    tops.forEach((q,i)=>pzBtn(tx0+i*(tw+6),496,tw,60,'','#7a4a22',()=>{PZ.sel=q.id;pzSnd('pick')},{sel:PZ.sel===q.id,draw:(bx,by,bw2)=>{pzTop(q.id,bx+bw2/2,by+24,14,0);pzT(q.n,bx+bw2/2,by+52,10,'#fff','center');if(cnt[q.id]){ctx.fillStyle='#d6336c';ctx.beginPath();ctx.arc(bx+bw2-8,by+8,10,0,7);ctx.fill();pzT(''+cnt[q.id],bx+bw2-8,by+13,12,'#fff','center')}}}));
+    pzBtn(12,570,120,52,'TERUG','#777',pzUndo,{sz:16,dis:!(PZ.pcs.length||PZ.cheese||PZ.sauce)});
+    pzBtn(142,570,326,52,'NAAR DE OVEN','#d6572e',pzToOven,{sz:20,main:true,dis:!PZ.sauce});
+    if(PZ.msgT>0)pzT(PZ.msg,W/2,432,15,'#ffd23f','center');
+  }else if(sc==='bake'){
+    if(PZ.bakeOn){PZ.bakeP+=ms/1000/PZ.bakeDur;if(PZ.bakeP>=1){PZ.bakeP=1;pzOut(true)}}
+    if(PZ.scr==='bake'){
+    pzBgOven(now);
+    const jit=Math.sin(now/60)*.6*PZ.bakeP;
+    pzPizza(PZ_CX+jit,292,108,{sauce:PZ.sauce,cheese:PZ.cheese,pcs:PZ.pcs,bake:PZ.bakeP});
+    if(PZ.bakeP>.85){ctx.fillStyle='rgba(60,60,60,'+Math.min(.5,(PZ.bakeP-.85)*3)+')';for(let i=0;i<4;i++){const k=((now/700+i/4)%1);ctx.beginPath();ctx.arc(PZ_CX-60+i*40+Math.sin(now/200+i)*8,230-k*90,10+k*18,0,7);ctx.fill()}}
+    pzTicket(8,12,150,false,pzCount());
+    pzT('BAKEN',W-96,34,24,'#fff','center');pzT('Bakken: '+PZ_BAK[PZ.order.bak].n,W-96,58,15,'#ffd23f','center');
+    const gx=40,gw=400,gy=468,gh=24,tc=PZ_BAK[PZ.order.bak].c;
+    ctx.save();ctx.beginPath();ctx.roundRect(gx,gy,gw,gh,12);ctx.clip();for(let i=0;i<50;i++){ctx.fillStyle=pzLerp(PZ_CRUST,i/49);ctx.fillRect(gx+i*gw/50,gy,gw/50+1,gh)}ctx.restore();
+    ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.beginPath();ctx.roundRect(gx,gy,gw,gh,12);ctx.stroke();
+    ctx.fillStyle='rgba(80,230,120,.38)';ctx.fillRect(gx+gw*(tc-.09),gy-4,gw*.18,gh+8);ctx.strokeStyle='#7dff9a';ctx.lineWidth=3;ctx.strokeRect(gx+gw*(tc-.09),gy-4,gw*.18,gh+8);
+    const nx=gx+gw*PZ.bakeP;ctx.fillStyle='#fff';ctx.strokeStyle='#3a1a00';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(nx,gy-2);ctx.lineTo(nx-9,gy-16);ctx.lineTo(nx+9,gy-16);ctx.closePath();ctx.fill();ctx.stroke();ctx.fillRect(nx-1.5,gy,3,gh);
+    [['kort',.38],['normaal',.58],['lang',.76]].forEach(([k,c])=>pzT(k.toUpperCase(),gx+gw*c,gy+gh+20,k===PZ.order.bak?14:11,k===PZ.order.bak?'#7dff9a':'#ffe9c2','center'));
+    pzT('VERBRAND',gx+gw*.955,gy+gh+20,11,'#ff8a80','center');
+    pzT('Haal hem eruit als de wijzer in het groene vak staat',W/2,448,14,'#fff','center');
+    pzBtn(W/2-140,540,280,64,'UIT DE OVEN!','#d6336c',()=>pzOut(false),{sz:26,main:true});
+    }
+  }else if(sc==='cut'){
+    pzBgBoard(128);
+    const nd=PZ.order.slices/2;
+    pzPizza(PZ_CX,PZ_CY,128,{sauce:PZ.sauce,cheese:PZ.cheese,pcs:PZ.pcs,bake:PZ.bakeP,cuts:PZ.cuts});
+    pzTicket(8,12,150,false,pzCount());
+    pzT('SNIJDEN',W-96,34,24,'#fff','center');pzT(PZ.order.slices+' stukken: '+nd+' sneden',W-96,58,14,'#ffd23f','center');pzT('Sneden: '+PZ.cuts.length+'/'+nd,W-96,80,15,PZ.cuts.length===nd?'#7dff9a':'#fff','center');
+    ctx.save();ctx.fillStyle='rgba(30,10,20,.62)';ctx.beginPath();ctx.roundRect(W/2-175,434,350,26,13);ctx.fill();if(PZ.msgT>0){ctx.beginPath();ctx.roundRect(W/2-175,464,350,26,13);ctx.fill()}ctx.restore();
+    pzT(PZ.burnt?'Aangebrand! Snijd hem toch maar.':'Veeg met je vinger of muis over de pizza',W/2,452,14,'#fff','center');
+    if(PZ.drag){ctx.save();ctx.strokeStyle='rgba(255,255,255,.9)';ctx.lineWidth=3;ctx.setLineDash([8,6]);ctx.beginPath();ctx.moveTo(PZ.drag.x0,PZ.drag.y0);ctx.lineTo(PZ.drag.x,PZ.drag.y);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#e8ecf2';ctx.strokeStyle='#5a5f6a';ctx.lineWidth=3;ctx.beginPath();ctx.arc(PZ.drag.x,PZ.drag.y,13,0,7);ctx.fill();ctx.stroke();ctx.beginPath();ctx.arc(PZ.drag.x,PZ.drag.y,3,0,7);ctx.fillStyle='#5a5f6a';ctx.fill();ctx.restore()}
+    if(PZ.msgT>0)pzT(PZ.msg,W/2,480,16,'#ffd23f','center');
+    pzBtn(12,570,130,52,'OPNIEUW','#777',()=>{PZ.cuts=[];pzSnd('undo')},{sz:16,dis:!PZ.cuts.length});
+    pzBtn(152,570,316,52,'KLAAR','#2f9e57',pzFinish,{sz:22,main:true,dis:!PZ.cuts.length});
+  }else if(sc==='serve'){
+    const rz=PZ.res,cm=rz.st>=4?'h':rz.st===3?'n':'b',s=PZ.sc;
+    pzBgShop(false);pzCust(240,222,1.25,PZ.cust,cm,now);pzCounter();
+    const lines=pzWrap(PZ.cust.name+': '+PZ.said,28).concat(PZ.hint?pzWrap(PZ.hint,28):[]);pzBubble(40,18,400,lines,240,150,16);
+    pzPizza(105,478,66,{sauce:PZ.sauce,cheese:PZ.cheese,pcs:PZ.pcs,bake:PZ.bakeP,cuts:PZ.cuts});
+    icCoin(70,566,26);pzT('+'+rz.coins,100,574,22,'#ffd23f');
+    ctx.save();ctx.fillStyle='rgba(255,250,235,.94)';ctx.strokeStyle='#7a5238';ctx.lineWidth=3;ctx.beginPath();ctx.roundRect(196,408,272,164,16);ctx.fill();ctx.stroke();ctx.restore();
+    pzStars(222,432,rz.st,12,28);pzInk(rz.tot+'%',454,440,20,'#9c2a22','right');if(PZ.burnt)pzInk('aangebrand: max. 50%',454,455,11,'#c0392b','right');
+    [['Saus',s.saus,12],['Kaas',s.kaas,8],['Toppings',s.top,40],['Bakken',s.bak,25],['Snijden',s.snij,15]].forEach(([n,v,m],i)=>{const yy=466+i*22;pzInk(n,208,yy,13);ctx.fillStyle='rgba(120,80,40,.2)';ctx.beginPath();ctx.roundRect(290,yy-11,110,12,6);ctx.fill();const f=v/m;ctx.fillStyle=f>=.85?'#3fae5a':f>=.55?'#f0a020':'#d8453a';ctx.beginPath();ctx.roundRect(290,yy-11,Math.max(6,110*f),12,6);ctx.fill();pzInk(v+'/'+m,458,yy,13,'#4a2c14','right')});
+    pzBtn(W/2-150,582,300,48,PZ.n>=PZ_PER?'DAG AFRONDEN':'VOLGENDE KLANT','#2f9e57',()=>{if(PZ.n>=PZ_PER)pzDayEnd();else pzNext()},{sz:20,main:true});
+  }else if(sc==='dayend'){
+    pzBgShop(false);pzCounter();
+    ctx.save();ctx.fillStyle='rgba(255,250,235,.96)';ctx.strokeStyle='#7a5238';ctx.lineWidth=4;ctx.beginPath();ctx.roundRect(30,40,420,414,20);ctx.fill();ctx.stroke();ctx.restore();
+    pzInk('DAG '+PZ.doneDay+' KLAAR!',W/2,92,34,'#9c2a22','center');
+    PZ.log.forEach((l,i)=>{const yy=146+i*38;pzInk(l.name,64,yy,18);pzStars(228,yy-6,l.st,10,24);pzInk('+'+l.coins,420,yy,18,'#b87a00','right')});
+    ctx.strokeStyle='rgba(120,80,40,.35)';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(60,344);ctx.lineTo(420,344);ctx.stroke();
+    icCoin(84,372,26);pzInk('Vandaag verdiend: '+PZ.dayEarned,112,380,21,'#4a2c14');
+    pzInk('Totaal in je portemonnee: '+wallet,W/2,414,15,'#7a5238','center');
+    if(PZ.newBest)pzInk('NIEUW RECORD!',W/2,438,14,'#d6336c','center');else pzInk('Beste dag: '+PZ.best,W/2,438,14,'#7a5238','center');
+    pzBtn(W/2-140,468,280,58,'VOLGENDE DAG','#2f9e57',pzBeginDay,{sz:22,main:true});
+    pzBtn(W/2-100,538,200,46,'NAAR HET MENU','#777',goMenu,{sz:15});
+    pzHam(70,606,1.3,'h',0);pzHam(410,606,1.3,'h',0,true);
+  }
+  // deeltjes
+  PZ.pt.forEach(p=>{p.l+=ms;p.x+=p.vx*ms/16;p.y+=p.vy*ms/16;if(p.k==='c')p.vy+=.2*ms/16;const a=Math.max(0,1-p.l/p.m);ctx.save();ctx.globalAlpha=a;if(p.k==='c'){ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,6,6)}else if(p.k==='t')text(p.s,p.x,p.y,24,'#ffd23f');ctx.restore()});
+  PZ.pt=PZ.pt.filter(p=>p.l<p.m)}
+function icSlice(x,yy,s){icBegin(x,yy,s);ctx.fillStyle='#ffcf5a';ctx.beginPath();ctx.moveTo(0,10);ctx.lineTo(-10,-6);ctx.quadraticCurveTo(0,-15,10,-6);ctx.closePath();ctx.fill();ctx.stroke();ctx.strokeStyle='#d99a54';ctx.lineWidth=3.6;ctx.beginPath();ctx.moveTo(-10,-6);ctx.quadraticCurveTo(0,-15,10,-6);ctx.stroke();ctx.fillStyle='#d8342a';ctx.strokeStyle=INK;ctx.lineWidth=1;[[-3,-1],[3,-3],[1,4]].forEach(([a,b])=>{ctx.beginPath();ctx.arc(a,b,2.3,0,7);ctx.fill();ctx.stroke()});ctx.restore()}
 (function loop(){if(mGain&&(state==='studio'||prevSt==='studio'))mGain.gain.value=state==='studio'||userMuted?0:.5;if(state==='studio'){if(!music.paused)music.pause()}else if(prevSt==='studio'){stLeave();try{music.muted=userMuted;const pp=usingWA?null:music.play();if(pp&&pp.catch)pp.catch(()=>{})}catch(e){}}prevSt=state;setTrack(trkSel||autoTrack());if(mode==='fly'||mode==='shoot')syncCoins();if(state==='play')update();else if(state==='shoot')shUpdate();else if(state==='run')runUpdate();draw();petToastDraw();if(trkMsgT>0){trkMsgT--;ctx.save();ctx.globalAlpha=Math.min(1,trkMsgT/20);ctx.font='bold 15px '+FNT;ctx.textAlign='center';const w=ctx.measureText('Muziek: '+TNAME[trkSel||autoTrack()]).width+28;rrect(W/2-w/2,H-64,w,30,15,'rgba(40,10,60,.85)');ctx.fillStyle='#fff';ctx.fillText('Muziek: '+TNAME[trkSel||autoTrack()],W/2,H-44);ctx.restore()}requestAnimationFrame(loop)})();
 </script>
 <div id="a2hs" hidden><img src="icons/icon-192.png" alt=""><div id="a2t"></div><button id="a2b" hidden>INSTALLEER</button><button class="x" id="a2x" aria-label="Sluiten">&#10005;</button></div>
