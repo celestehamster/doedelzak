@@ -458,7 +458,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v59 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v60 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -1562,6 +1562,7 @@ const SD_DIFF=[{k:'easy',n:'Makkelijk',g:42,c:30,col:'#4cc46a'},{k:'mid',n:'Mati
 const SD={puz:null,sol:null,cur:null,notes:null,bad:null,diff:0,sel:-1,nm:false,mist:0,hints:0,t:0,done:false,gave:false,pick:true,gen:0,cheer:null,nextCheer:0,conf:[],btns:[],tl:0,flash:{},earned:0};
 const SD_CHEER=['Goed bezig! Piep!','Jij bent slimmer dan Romano!','Neem je tijd, ik bijt niemand. Bijna niemand.','Ik zou hier alleen maar in bijten.','Wauw, wat een hersens!','Doorgaan! Ik geloof in je!','Psst... kijk eens naar de lege vakjes met weinig opties.','Zelfs een kebab kan dit niet beter.','Knabbel knabbel... ik bedoel: denk denk!','Je bent een echte sudoku-hamster!'];
 const SD_UNIT=['Piep! Die is helemaal klaar!','Yes! Weer eentje vol!','Lekker bezig, chef!','KNAL! Zo doe je dat!'];
+const SD_GEK=['Je ziet er lekker uit vandaag.','Ik heb drie zonnebloempitten gestolen. Niet doorvertellen.','Romano ruikt naar verwarming. Altijd.','Ik denk dat de 7 verliefd is op de 3.','Weet je wat ook vierkant is? Kaas. Denk daar maar over na.','Soms bijt ik in mijn eigen staart om wakker te blijven.','Mijn oma kon dit met haar ogen dicht. Ze was wel een hamster.','Als je deze oplost mag je aan mijn wang voelen.','Ik heb ooit een radiator geknuffeld. Het was warm.','Psst... jij bent mijn favoriete mens.','Wist je dat ik 6 talen spreek? Allemaal piep.','Ik droomde vannacht dat ik een kebab was.'];
 const SD_MIS=['Oeps! Rustig aan, piep.','Niet erg, Romano maakt er veel meer.','Hmm, die klopt niet helemaal...'];
 function sdPop(m){m>>=1;let n=0;while(m){n+=m&1;m>>=1}return n}
 function sdSolve(g,lim,rnd){const a=g.slice(),R=new Array(9).fill(0),C=new Array(9).fill(0),B=new Array(9).fill(0);for(let i=0;i<81;i++){const v=a[i];if(v){const b=1<<v,r=i/9|0,c=i%9;R[r]|=b;C[c]|=b;B[(r/3|0)*3+(c/3|0)]|=b}}let n=0,out=null;
@@ -1575,12 +1576,13 @@ function sdLoad(){try{const o=JSON.parse(localStorage.getItem('doedelzak-sudoku'
 function sdNew(di){SD.pick=false;SD.gen=performance.now();SD.diff=di;SD.puz=null;setTimeout(()=>{const r=sdMake(di);Object.assign(SD,{puz:r.puz,sol:r.sol,cur:r.puz.slice(),notes:new Array(81).fill(0),bad:new Array(81).fill(0),sel:-1,nm:false,mist:0,hints:0,t:0,done:false,gave:false,conf:[],earned:0,flash:{}});SD.gen=0;sdSave();sdSay('Succes! Ik geloof in je!',3.2);SD.nextCheer=performance.now()+ksR(40000,70000)},60)}
 function startSudoku(){hold=false;hid=null;setSound(false);state='sudoku';SD.tl=performance.now();SD.cheer=null;if(!SD.puz||SD.done||SD.gave){if(!sdLoad()){SD.pick=true;SD.puz=null}}else SD.pick=false;SD.nextCheer=performance.now()+ksR(30000,60000)}
 function sdSay(s,d){SD.cheer={s,t:0,d:d||3.6}}
+function sdPoke(){SD.hop=performance.now();blip(1200+Math.random()*300,'triangle',.08,.07);setTimeout(()=>blip(1600,'triangle',.06,.05),70);const g=Math.random()<.38;const L=g?SD_GEK:SD_CHEER;sdSay(L[Math.floor(Math.random()*L.length)],g?3.8:3.2)}
 function sdPeers(i){const r=i/9|0,c=i%9,br=(r/3|0)*3,bc=(c/3|0)*3,p=[];for(let k=0;k<9;k++){p.push(r*9+k,k*9+c,(br+(k/3|0))*9+bc+k%3)}return p}
 function sdUnitDone(i){const r=i/9|0,c=i%9,br=(r/3|0)*3,bc=(c/3|0)*3,ok=a=>a.every(j=>SD.cur[j]===SD.sol[j]);const R=[...Array(9)].map((_,k)=>r*9+k),C=[...Array(9)].map((_,k)=>k*9+c),B=[...Array(9)].map((_,k)=>(br+(k/3|0))*9+bc+k%3),now=performance.now();let any=false;[R,C,B].forEach(u=>{if(ok(u)){any=true;u.forEach((j,n)=>SD.flash[j]=now+n*35)}});return any}
 function sdPlace(v){const i=SD.sel;if(i<0||SD.done||SD.gave||SD.puz[i])return;
   if(SD.nm&&v){if(SD.cur[i])return;SD.notes[i]^=1<<v;blip(900,'triangle',.04,.04);sdSave();return}
   if(!v){SD.cur[i]=SD.puz[i]?SD.cur[i]:0;SD.bad[i]=0;SD.notes[i]=0;blip(300,'triangle',.05,.05);sdSave();return}
-  if(SD.cur[i]===v&&!SD.bad[i])return;SD.cur[i]=v;
+  if(SD.cur[i]===v&&!SD.bad[i])return;SD.cur[i]=v;SD.anim=SD.anim||{};SD.anim[i]={t:performance.now(),bad:v!==SD.sol[i]};
   if(v!==SD.sol[i]){SD.bad[i]=1;SD.mist++;blip(150,'sawtooth',.2,.08);if(SD.mist%3===0||Math.random()<.25)sdSay(SD_MIS[Math.floor(Math.random()*SD_MIS.length)],3)}
   else{SD.bad[i]=0;SD.notes[i]=0;sdPeers(i).forEach(j=>SD.notes[j]&=~(1<<v));blip(660+v*30,'triangle',.08,.06);if(sdUnitDone(i)){blip(1046,'sine',.2,.07);if(Math.random()<.55)sdSay(SD_UNIT[Math.floor(Math.random()*SD_UNIT.length)],2.8)}
     if(SD.cur.every((x,k)=>x===SD.sol[k]))sdWin()}
@@ -1596,8 +1598,9 @@ function drawSudoku(){const now=performance.now(),dt=Math.min(.1,(now-SD.tl)/100
   if(SD.puz&&!SD.done&&!SD.gave&&!SD.pick)SD.t+=dt;
   // kop
   ctx.save();ctx.fillStyle='rgba(90,50,20,.85)';ctx.beginPath();ctx.roundRect(10,12,84,32,16);ctx.fill();ctx.restore();pzT('TERUG',52,33,14);SD.btns.push({x:10,y:12,w:84,h:32,fn:()=>{sdSave();goMenu()}});
-  ctx.save();ctx.font="30px 'Patrick Hand',Fredoka,sans-serif";ctx.textAlign='center';ctx.fillStyle='#6a3a14';ctx.fillText('Hamster Sudoku',W/2+6,38);ctx.restore();
-  ctx.save();ctx.fillStyle='rgba(90,50,20,.85)';ctx.beginPath();ctx.roundRect(W-104,12,94,32,16);ctx.fill();ctx.restore();pzT('NIEUW',W-57,33,14);SD.btns.push({x:W-104,y:12,w:94,h:32,fn:()=>{SD.pick=true}});
+  ctx.save();ctx.font="30px 'Patrick Hand',Fredoka,sans-serif";ctx.textAlign='center';ctx.fillStyle='#6a3a14';ctx.fillText('Hamster Sudoku',W/2-10,38);ctx.restore();
+  {const hp=SD.hop?Math.max(0,1-(now-SD.hop)/450):0,jy=-Math.sin(hp*Math.PI)*14;ctx.save();ctx.fillStyle='rgba(255,255,255,.35)';ctx.beginPath();ctx.ellipse(W-40,74,26,6,0,0,7);ctx.fill();ctx.translate(W-40,52+jy+Math.sin(now/420)*2);ctx.rotate(Math.sin(now/900)*.06);ctx.scale(-1.05,1.05);const ph=PEYE;PEYE=SD.cheer?'h':'n';const hh=hold;hold=!!SD.cheer;hamster(0,0);hold=hh;PEYE=ph;ctx.restore();SD.btns.push({x:W-78,y:10,w:74,h:72,fn:sdPoke});
+   if(!SD.cheer&&!SD.pick&&SD.puz&&Math.floor(now/2600)%5===0){ctx.save();ctx.globalAlpha=.5+.5*Math.sin(now/200);pzT('tik mij!',W-40,92,10,'#7a4a22');ctx.restore()}}
   const d=SD_DIFF[SD.diff];
   if(SD.puz){ctx.save();ctx.fillStyle=d.col;ctx.beginPath();ctx.roundRect(24,54,120,30,15);ctx.fill();ctx.restore();pzT(d.n,84,74,15);const mm=Math.floor(SD.t/60),ss=Math.floor(SD.t%60);pzT((mm<10?'0':'')+mm+':'+(ss<10?'0':'')+ss,W/2,75,18,'#5a3a1a');pzT('fouten: '+SD.mist,W-84,75,15,SD.mist?'#c2381f':'#5a3a1a')}
   // rooster
@@ -1605,39 +1608,45 @@ function drawSudoku(){const now=performance.now(),dt=Math.min(.1,(now-SD.tl)/100
   if(!SD.puz){ctx.save();ctx.fillStyle='rgba(255,250,240,.9)';ctx.beginPath();ctx.roundRect(G.x,G.y,432,432,14);ctx.fill();ctx.restore();if(SD.gen){pzT('Doedelzak bedenkt een sudoku...',W/2,300,18,'#6a3a14');ctx.save();ctx.translate(W/2,370+Math.sin(now/150)*6);ctx.scale(1.4,1.4);const hh=hold;hold=true;hamster(0,0);hold=hh;ctx.restore()}}
   else{ctx.save();ctx.shadowColor='rgba(80,40,10,.3)';ctx.shadowBlur=14;ctx.shadowOffsetY=5;ctx.fillStyle='#fffaf0';ctx.beginPath();ctx.roundRect(G.x-4,G.y-4,440,440,14);ctx.fill();ctx.restore();
     const sel=SD.sel,sv=sel>=0?SD.cur[sel]:0,sr=sel/9|0,sc=sel%9;
+    ctx.save();ctx.beginPath();ctx.roundRect(G.x,G.y,432,432,10);ctx.clip();
     for(let i=0;i<81;i++){const r=i/9|0,c=i%9,x=G.x+c*G.c,y=G.y+r*G.c;let bg=((r/3|0)+(c/3|0))%2?'#fff3dc':'#fffaf0';
-      if(sel>=0&&(r===sr||c===sc||((r/3|0)===(sr/3|0)&&(c/3|0)===(sc/3|0))))bg='#fde2b0';if(sv&&SD.cur[i]===sv)bg='#ffd27a';if(i===sel)bg='#ffb547';
+      if(sel>=0&&(r===sr||c===sc||((r/3|0)===(sr/3|0)&&(c/3|0)===(sc/3|0))))bg='#fde2b0';if(sv&&SD.cur[i]===sv)bg='#ffe3a6';
       const fl=SD.flash[i];if(fl&&now>fl&&now<fl+500)bg=pzMix('#9be78a',bg,(now-fl)/500);
       ctx.fillStyle=bg;ctx.fillRect(x,y,G.c,G.c);
+      if(i===sel){/* selectie wordt los getekend */}
       const v=SD.gave&&!SD.cur[i]?SD.sol[i]:SD.cur[i];
-      if(v){const giv=SD.puz[i],bad=SD.bad[i];ctx.save();ctx.font=(giv?'700 ':'600 ')+"30px Fredoka,Trebuchet MS,sans-serif";ctx.textAlign='center';ctx.fillStyle=giv?'#4a2a10':bad?'#e0302a':SD.gave&&!SD.cur[i]?'#9a8a7a':'#2f6fd0';ctx.fillText(v,x+G.c/2,y+G.c/2+11);ctx.restore()}
+      if(v){const giv=SD.puz[i],bad=SD.bad[i],an=SD.anim&&SD.anim[i],k=an?Math.min(1,(now-an.t)/320):1,eb=1+2.7*Math.pow(k-1,3)+1.7*Math.pow(k-1,2),sc=an?.4+.6*eb:1,sx=an&&an.bad?Math.sin((now-an.t)/22)*7*(1-k):0;ctx.save();ctx.translate(x+G.c/2+sx,y+G.c/2);ctx.scale(sc,sc);ctx.translate(-(x+G.c/2),-(y+G.c/2));ctx.font=(giv?'700 ':'600 ')+"30px Fredoka,Trebuchet MS,sans-serif";ctx.textAlign='center';ctx.fillStyle=giv?'#4a2a10':bad?'#e0302a':SD.gave&&!SD.cur[i]?'#9a8a7a':'#2f6fd0';ctx.fillText(v,x+G.c/2,y+G.c/2+11);ctx.restore()}
       else if(SD.notes[i]){ctx.save();ctx.font="600 12px Fredoka,sans-serif";ctx.textAlign='center';ctx.fillStyle='#8a6a4a';for(let n=1;n<=9;n++)if(SD.notes[i]&(1<<n))ctx.fillText(n,x+9+((n-1)%3)*15,y+14+Math.floor((n-1)/3)*14);ctx.restore()}}
+    ctx.restore();
+    if(sel>=0){const tx=G.x+sc*G.c,ty=G.y+sr*G.c;if(SD.hx==null){SD.hx=tx;SD.hy=ty}const e=1-Math.exp(-dt*22);SD.hx+=(tx-SD.hx)*e;SD.hy+=(ty-SD.hy)*e;ctx.save();ctx.fillStyle='rgba(255,170,60,.28)';ctx.beginPath();ctx.roundRect(SD.hx+2,SD.hy+2,G.c-4,G.c-4,9);ctx.fill();ctx.strokeStyle='#ff9f1a';ctx.lineWidth=3;ctx.shadowColor='rgba(255,150,30,.6)';ctx.shadowBlur=8;ctx.stroke();ctx.restore()}
     ctx.strokeStyle='rgba(120,80,40,.3)';ctx.lineWidth=1;for(let k=1;k<9;k++){if(k%3===0)continue;ctx.beginPath();ctx.moveTo(G.x+k*G.c,G.y);ctx.lineTo(G.x+k*G.c,G.y+432);ctx.moveTo(G.x,G.y+k*G.c);ctx.lineTo(G.x+432,G.y+k*G.c);ctx.stroke()}
-    ctx.strokeStyle='#7a4a22';ctx.lineWidth=3;for(let k=0;k<=9;k+=3){ctx.beginPath();ctx.moveTo(G.x+k*G.c,G.y);ctx.lineTo(G.x+k*G.c,G.y+432);ctx.moveTo(G.x,G.y+k*G.c);ctx.lineTo(G.x+432,G.y+k*G.c);ctx.stroke()}
+    ctx.strokeStyle='#8a5a2c';ctx.lineWidth=2.6;for(let k=3;k<9;k+=3){ctx.beginPath();ctx.moveTo(G.x+k*G.c,G.y);ctx.lineTo(G.x+k*G.c,G.y+432);ctx.moveTo(G.x,G.y+k*G.c);ctx.lineTo(G.x+432,G.y+k*G.c);ctx.stroke()}ctx.lineWidth=3.5;ctx.beginPath();ctx.roundRect(G.x,G.y,432,432,10);ctx.stroke()
     // cijfers
     const cnt=new Array(10).fill(0);SD.cur.forEach((v,k)=>{if(v&&v===SD.sol[k])cnt[v]++});
     for(let n=1;n<=9;n++){const x=24+(n-1)*48,y=538,full=cnt[n]>=9;SD.btns.push({x,y,w:45,h:48,fn:()=>sdPlace(n)});ctx.save();ctx.globalAlpha=full?.35:1;ctx.shadowColor='rgba(0,0,0,.2)';ctx.shadowBlur=4;ctx.shadowOffsetY=2;ctx.fillStyle=SD.nm?'#fff3dc':'#ffffff';ctx.beginPath();ctx.roundRect(x,y,45,48,10);ctx.fill();ctx.restore();ctx.save();ctx.globalAlpha=full?.35:1;ctx.font=(SD.nm?'600 22px ':'700 26px ')+'Fredoka,sans-serif';ctx.textAlign='center';ctx.fillStyle=SD.nm?'#8a6a4a':'#2f6fd0';ctx.fillText(n,x+22.5,y+33);ctx.font='600 9px Fredoka,sans-serif';ctx.fillStyle='#a08a70';ctx.fillText(9-cnt[n],x+38,y+12);ctx.restore()}
-    sdBtn(SD.nm?'POTLOOD AAN':'POTLOOD',24,594,104,38,SD.nm?'#2f6fd0':'#a8783a',()=>{SD.nm=!SD.nm;blip(600,'triangle',.05,.05)},13,SD.nm);
-    sdBtn('GUM',134,594,104,38,'#a8783a',()=>sdPlace(0),14);sdBtn('HINT',244,594,104,38,'#a8783a',()=>sdHint(),14);sdBtn('OPGEVEN',354,594,102,38,'#c2381f',()=>{if(!SD.done&&!SD.gave)SD.ask=1},13)}
+    const bw=82,bx=i=>24+i*(bw+5.5);sdBtn('POTLOOD',bx(0),594,bw,38,SD.nm?'#2f6fd0':'#a8783a',()=>{SD.nm=!SD.nm;blip(600,'triangle',.05,.05)},12,SD.nm);
+    sdBtn('GUM',bx(1),594,bw,38,'#a8783a',()=>sdPlace(0),13);sdBtn('HINT',bx(2),594,bw,38,'#a8783a',()=>sdHint(),13);sdBtn('NIEUW',bx(3),594,bw,38,'#6a7cc4',()=>{SD.pick=true},13);sdBtn('OPGEVEN',bx(4),594,bw,38,'#c2381f',()=>{if(!SD.done&&!SD.gave)SD.ask=1},12)}
   // aanmoediging
   if(SD.puz&&!SD.pick&&now>SD.nextCheer&&!SD.done&&!SD.gave){SD.nextCheer=now+ksR(45000,80000);sdSay(SD_CHEER[Math.floor(Math.random()*SD_CHEER.length)])}
-  if(SD.cheer){const c=SD.cheer;c.t+=dt;const e=Math.min(1,c.t*4,(c.d-c.t)*4);if(c.t>c.d)SD.cheer=null;else{ctx.save();ctx.globalAlpha=Math.max(0,e);ctx.translate(0,(1-e)*-20);ctx.fillStyle='#fff';ctx.strokeStyle='#7a4a22';ctx.lineWidth=2.5;ctx.font='600 15px '+FNT;const w=Math.min(330,ctx.measureText(c.s).width+28);ctx.beginPath();ctx.roundRect(W-80-w,50,w,36,18);ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(W-82,62);ctx.lineTo(W-66,68);ctx.lineTo(W-82,74);ctx.fill();ctx.fillStyle='#4a2a10';ctx.textAlign='center';ctx.fillText(c.s,W-80-w/2,73,w-16);
-      ctx.translate(W-40,74+Math.sin(now/200)*3);ctx.scale(-1.05,1.05);const ph=PEYE;PEYE='h';const hh=hold;hold=true;hamster(0,0);hold=hh;PEYE=ph;ctx.restore()}}
+  if(SD.cheer){const c=SD.cheer;c.t+=dt;const e=Math.min(1,c.t*4,(c.d-c.t)*4);if(c.t>c.d)SD.cheer=null;else{ctx.save();ctx.globalAlpha=Math.max(0,e);ctx.translate(0,(1-e)*-20);ctx.fillStyle='#fff';ctx.strokeStyle='#7a4a22';ctx.lineWidth=2.5;ctx.font='600 14px '+FNT;const L=wrap(c.s,280),w=Math.max(...L.map(l=>ctx.measureText(l).width))+28,bh=L.length*17+16;ctx.beginPath();ctx.roundRect(W-80-w,46,w,bh,16);ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(W-82,58);ctx.lineTo(W-66,64);ctx.lineTo(W-82,70);ctx.fill();ctx.fillStyle='#4a2a10';ctx.textAlign='center';L.forEach((l,k)=>ctx.fillText(l,W-80-w/2,66+k*17));
+      ctx.restore()}}
   // klaar / opgegeven
   if(SD.done||SD.gave){SD.conf.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.25;p.r+=.1;p.l++;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r);ctx.fillStyle=p.c;ctx.fillRect(-4,-2,8,4);ctx.restore()});SD.conf=SD.conf.filter(p=>p.y<H+20);
     ctx.save();ctx.fillStyle='rgba(60,30,10,.82)';ctx.beginPath();ctx.roundRect(40,SD.done?226:440,400,SD.done?190:84,20);ctx.fill();ctx.restore();
     if(SD.done){pzT('OPGELOST!',W/2,272,34,'#ffd23f');const mm=Math.floor(SD.t/60),ss=Math.floor(SD.t%60);pzT(SD_DIFF[SD.diff].n+'  ·  '+mm+':'+(ss<10?'0':'')+ss+'  ·  '+SD.mist+' fouten',W/2,306,16,'#fff');pzT('+'+SD.earned+' munten',W/2,338,20,'#8dff9a');sdBtn('NIEUWE SUDOKU',90,356,300,46,'#2f9e57',()=>{SD.pick=true},18)}
     else{pzT('Opgegeven. Dit was de oplossing.',W/2,466,15,'#fff');sdBtn('NIEUWE SUDOKU',90,476,300,40,'#2f9e57',()=>{SD.pick=true},16)}}
+  if(SD.pb){const k=(now-SD.pb.t)/180;if(k>1)SD.pb=null;else{ctx.save();ctx.globalAlpha=(1-k)*.45;ctx.fillStyle='#fff';ctx.beginPath();ctx.roundRect(SD.pb.x,SD.pb.y,SD.pb.w,SD.pb.h,12);ctx.fill();ctx.restore()}}
+  if(SD.ask&&!SD._ak)SD._ak=now;if(!SD.ask)SD._ak=0;if(SD.pick&&!SD._pk)SD._pk=now;if(!SD.pick)SD._pk=0;
   // opgeven-vraag
-  if(SD.ask){SD.btns=[];ctx.save();ctx.fillStyle='rgba(40,20,5,.7)';ctx.fillRect(0,0,W,H);ctx.fillStyle='#fff7ee';ctx.strokeStyle='#c2381f';ctx.lineWidth=4;ctx.beginPath();ctx.roundRect(50,220,380,190,22);ctx.fill();ctx.stroke();ctx.restore();pzT('Opgeven?',W/2,266,28,'#c2381f');pzT('Je krijgt de oplossing te zien.',W/2,298,15,'#6b5646');
-    sdBtn('NEE',74,334,150,52,'#2f9e57',()=>{SD.ask=0},18);sdBtn('JA, OPGEVEN',256,334,150,52,'#c2381f',()=>{SD.ask=0;sdGiveUp()},16)}
+  if(SD.ask){SD.btns=[];const ea=Math.min(1,(now-SD._ak)/220);ctx.save();ctx.globalAlpha=ea;ctx.translate(0,(1-ea)*24);ctx.fillStyle='rgba(40,20,5,.7)';ctx.fillRect(0,-30,W,H+60);ctx.fillStyle='#fff7ee';ctx.strokeStyle='#c2381f';ctx.lineWidth=4;ctx.beginPath();ctx.roundRect(50,220,380,190,22);ctx.fill();ctx.stroke();pzT('Opgeven?',W/2,266,28,'#c2381f');pzT('Je krijgt de oplossing te zien.',W/2,298,15,'#6b5646');
+    sdBtn('NEE',74,334,150,52,'#2f9e57',()=>{SD.ask=0},18);sdBtn('JA, OPGEVEN',256,334,150,52,'#c2381f',()=>{SD.ask=0;sdGiveUp()},16);ctx.restore()}
   // moeilijkheid kiezen
-  if(SD.pick){SD.btns=[];ctx.save();ctx.fillStyle='rgba(40,20,5,.72)';ctx.fillRect(0,0,W,H);ctx.fillStyle='#fff7ee';ctx.strokeStyle='#7a4a22';ctx.lineWidth=4;ctx.beginPath();ctx.roundRect(40,104,400,452,24);ctx.fill();ctx.stroke();ctx.restore();
+  if(SD.pick){SD.btns=[];const ep=Math.min(1,(now-SD._pk)/260),eo=1-Math.pow(1-ep,3);ctx.save();ctx.globalAlpha=eo;ctx.translate(0,(1-eo)*30);ctx.fillStyle='rgba(40,20,5,.72)';ctx.fillRect(0,-40,W,H+80);ctx.fillStyle='#fff7ee';ctx.strokeStyle='#7a4a22';ctx.lineWidth=4;ctx.beginPath();ctx.roundRect(40,104,400,452,24);ctx.fill();ctx.stroke();
     ctx.save();ctx.font="34px 'Patrick Hand',Fredoka,sans-serif";ctx.textAlign='center';ctx.fillStyle='#6a3a14';ctx.fillText('Kies je niveau',W/2,152);ctx.restore();
     SD_DIFF.forEach((o,i)=>{const y=176+i*70;sdBtn(o.n,70,y,340,58,o.col,()=>{blip(700,'triangle',.1,.06);sdNew(i)},22);pzT('+'+o.c+' munten',360,y+37,12,'rgba(255,255,255,.85)')});
     const run=SD.puz&&!SD.done&&!SD.gave;if(run){sdBtn('VERDER SPELEN',70,462,165,46,'#4f6fe0',()=>{SD.pick=false},15);sdBtn('OPGEVEN',245,462,165,46,'#c2381f',()=>{SD.pick=false;SD.ask=1},15)}else if(SD.puz)sdBtn('TERUG NAAR SUDOKU',70,462,340,46,'#4f6fe0',()=>{SD.pick=false},15);else sdBtn('TERUG NAAR MENU',70,462,340,46,'#8a7a8a',()=>goMenu(),15);
-    pzT('wisselen kan altijd via NIEUW',W/2,536,12,'#8a6a4a')}}
-function sdDown(px,py){initAudio();if(ac&&ac.state==='suspended')ac.resume();for(let i=SD.btns.length-1;i>=0;i--){const b=SD.btns[i];if(px>=b.x&&px<=b.x+b.w&&py>=b.y&&py<=b.y+b.h){b.fn();return}}
+    pzT('wisselen kan altijd via NIEUW',W/2,536,12,'#8a6a4a');ctx.restore()}}
+function sdDown(px,py){initAudio();if(ac&&ac.state==='suspended')ac.resume();for(let i=SD.btns.length-1;i>=0;i--){const b=SD.btns[i];if(px>=b.x&&px<=b.x+b.w&&py>=b.y&&py<=b.y+b.h){SD.pb={x:b.x,y:b.y,w:b.w,h:b.h,t:performance.now()};b.fn();return}}
   if(SD.pick||SD.ask||!SD.puz)return;const G=SDG;if(px>=G.x&&px<G.x+432&&py>=G.y&&py<G.y+432){SD.sel=Math.floor((py-G.y)/G.c)*9+Math.floor((px-G.x)/G.c);blip(520,'triangle',.03,.04)}}
 function sdKey(e){if(SD.pick||SD.ask)return;const c=e.code;let m=/^(Digit|Numpad)([1-9])$/.exec(c);if(m){sdPlace(+m[2]);return}
   if(c==='Backspace'||c==='Delete'||c==='Digit0'||c==='Numpad0'){sdPlace(0);return}if(c==='KeyN'||c==='KeyP'){SD.nm=!SD.nm;return}if(c==='KeyH'){sdHint();return}
