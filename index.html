@@ -458,7 +458,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v60 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v61 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -1589,7 +1589,15 @@ function sdPlace(v){const i=SD.sel;if(i<0||SD.done||SD.gave||SD.puz[i])return;
   sdSave()}
 function sdWin(){SD.done=true;const d=SD_DIFF[SD.diff],c=Math.max(5,Math.round(d.c*Math.pow(.88,SD.hints)));SD.earned=c;addCoins(c);sdSave();for(let i=0;i<120;i++)SD.conf.push({x:W/2,y:300,vx:ksR(-6,6),vy:ksR(-12,-3),c:['#ffd23f','#ff7ab8','#4cc46a','#5ec8ff','#ff8a3d'][i%5],r:ksR(0,6),l:0});sdSay('JAAA! Opgelost! Jij bent een genie!',4);blip(784,'triangle',.2,.08);setTimeout(()=>blip(988,'triangle',.2,.08),120);setTimeout(()=>blip(1318,'triangle',.35,.08),240)}
 function sdGiveUp(){SD.gave=true;SD.pick=false;sdSave();sdSay('Geeft niks! Volgende keer pakken we hem.',3.5)}
-function sdHint(){if(SD.done||SD.gave||!SD.puz)return;let i=SD.sel;if(i<0||SD.puz[i]||SD.cur[i]===SD.sol[i]){const e=[...Array(81).keys()].filter(k=>SD.cur[k]!==SD.sol[k]);if(!e.length)return;i=e[Math.floor(Math.random()*e.length)]}SD.sel=i;SD.hints++;const nm=SD.nm;SD.nm=false;sdPlace(SD.sol[i]);SD.nm=nm;sdSay('Psst! Hier hoort een '+SD.sol[i]+'.',2.6)}
+const SD_TIP=['Tip: vul de lege vakjes in.','Tip: elk cijfer van 1 tot 9. Niet 10. Ik heb het geprobeerd.','Tip: begin ergens. Maakt niet uit waar.','Tip: als je klaar bent, ben je klaar.','Tip: een 6 op zijn kop is een 9. Dat helpt niet, maar het is wel zo.','Tip: kijk naar de cijfers. Niet naar mij.','Tip: niet bijten in je scherm. Ik spreek uit ervaring.','Tip: de goede cijfers zijn de cijfers die kloppen.','Tip: probeer het juiste cijfer op de juiste plek.','Tip: knipper af en toe met je ogen.','Tip: sudoku is Japans voor... ik weet het niet. Sorry.','Tip: als iets niet past, past het niet.','Tip: denk na. Of niet. Dan duurt het wel langer.','Tip: Romano kan dit ook niet, dus geen stress.','Tip: rij, kolom en blok. Dat zijn er drie.','Tip: eet eerst een zonnebloempitje. Helpt bij mij nooit, maar is lekker.'];
+function sdHint(){if(!SD.puz)return;const em=SD.cur.filter((x,k)=>x!==SD.sol[k]).length,i=SD.sel,L=SD_TIP.slice();
+  if(SD.done||SD.gave){L.length=0;L.push('Tip: hij is al klaar. Nu niks meer doen.')}
+  else{L.push('Tip: er zijn nog '+em+' vakjes over. Dat zijn er '+em+'.');
+    if(i>=0&&!SD.puz[i]&&!SD.cur[i])L.push('Tip: in dit vakje hoort een cijfer.','Tip: dit vakje is nog leeg. Dat moet anders.','Tip: in dit vakje hoort NIET een 0.');
+    if(i>=0&&SD.cur[i]&&SD.cur[i]===SD.sol[i])L.push('Tip: hier staat al een '+SD.cur[i]+'. Laat die maar staan.');
+    if(i>=0&&SD.bad[i])L.push('Tip: deze is rood. Rood is meestal niet goed.');
+    if(i<0)L.push('Tip: tik eerst een vakje aan. Of niet, dan gebeurt er ook niks.')}
+  SD.hop=performance.now();blip(1300,'triangle',.06,.05);sdSay(L[Math.floor(Math.random()*L.length)],3.8)}
 function sdBtn(l,x,y,w,h,col,fn,sz,on){SD.btns.push({x,y,w,h,fn});ctx.save();ctx.shadowColor='rgba(0,0,0,.25)';ctx.shadowBlur=6;ctx.shadowOffsetY=2;const g=ctx.createLinearGradient(0,y,0,y+h);g.addColorStop(0,pzMix(col,'#ffffff',.2));g.addColorStop(1,col);ctx.fillStyle=g;ctx.beginPath();ctx.roundRect(x,y,w,h,12);ctx.fill();ctx.shadowColor='transparent';if(on){ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.stroke()}ctx.restore();pzT(l,x+w/2,y+h/2+(sz||15)*.36,sz||15,'#fff')}
 const SDG={x:24,y:96,c:48};
 function sdBg(now){const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#f6e3c0');g.addColorStop(1,'#e8c78f');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
