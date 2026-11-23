@@ -466,8 +466,8 @@ function drawStart(){
   const bp=1+Math.sin(now/180)*.04;ctx.save();ctx.translate(W/2,515);ctx.scale(bp,bp);
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
-  drawMpButton(now);drawShopBtn(now);drawHelpBtn(now);if(helpAuto&&stN>40){helpAuto=false;startHelp()}
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v69 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  drawMpButton(now);drawShopBtn(now);drawHelpBtn(now);if(helpAuto&&stN>40){helpAuto=false;startHelp();HP.forced=true}
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v70 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -1948,12 +1948,12 @@ const HP_S=[
  {t:'Alles wordt bewaard',b:'Je muntjes, outfits, records en je hamster in My Doedelzak worden vanzelf bewaard op dit apparaat. Tip voor iPhone: Delen › Zet op beginscherm, dan heb je Doedelzak als echte app. Updates komen vanzelf.',d(now){ctx.save();ctx.fillStyle='#1d1530';ctx.strokeStyle='#d9b8ff';ctx.lineWidth=4;ctx.beginPath();ctx.roundRect(196,22,88,170,18);ctx.fill();ctx.stroke();ctx.restore();const T=now/1000;for(let i=0;i<9;i++){const x=212+(i%3)*24,y=46+Math.floor(i/3)*28;ctx.fillStyle=i===4?'#ff9a1a':['#4cc46a','#5ec8ff','#ff7ab8','#ffd23f'][i%4];ctx.globalAlpha=i===4?1:.55;ctx.beginPath();ctx.roundRect(x-9,y-9,18,18,5);ctx.fill();ctx.globalAlpha=1}ctx.save();ctx.translate(236,74);ctx.scale(.32,.32);hamster(0,0);ctx.restore();ctx.save();ctx.globalAlpha=.6+.4*Math.sin(T*3);icHeart(240,160,22);ctx.restore()}}
 ];
 let helpAuto=!HP.seen;
-function startHelp(){state='help';HP.i=0;HP.off=0;HP.t0=performance.now();HP.seen=true;try{localStorage.setItem('doedelzak-help','1')}catch(e){}}
-function hpMove(d){const n=HP.i+d;if(n<0||n>=HP_S.length){if(n>=HP_S.length){state='start'}return}HP.i=n;HP.off=d*90;HP.t0=performance.now();blip(520+HP.i*40,'triangle',.08,.06)}
+function startHelp(){HP.forced=false;state='help';HP.i=0;HP.off=0;HP.t0=performance.now();HP.seen=true;try{localStorage.setItem('doedelzak-help','1')}catch(e){}}
+function hpMove(d){if(HP.forced&&d<0)return;const n=HP.i+d;if(n<0||n>=HP_S.length){if(n>=HP_S.length){state='start';HP.forced=false}return}HP.i=n;HP.off=d*90;HP.t0=performance.now();blip(520+HP.i*40,'triangle',.08,.06)}
 function drawHelp(){const now=performance.now(),s=HP_S[HP.i],e=Math.min(1,(now-HP.t0)/280),eo=1-Math.pow(1-e,3);HP.btns=[];
   const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#1b0a38');g.addColorStop(.6,'#5b1a78');g.addColorStop(1,'#c2306f');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
   ctx.save();ctx.globalAlpha=.07;ctx.fillStyle='#fff';ctx.translate(W/2,260);ctx.rotate(now/9000);for(let i=0;i<10;i++){ctx.rotate(Math.PI/5);ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(-40,-520);ctx.lineTo(40,-520);ctx.fill()}ctx.restore();
-  ctx.save();ctx.fillStyle='rgba(0,0,0,.35)';ctx.beginPath();ctx.roundRect(10,12,92,36,18);ctx.fill();ctx.restore();text('‹ TERUG',56,37,15);HP.btns.push({x:10,y:12,w:92,h:36,fn:()=>{state='start'}});
+  if(!HP.forced){ctx.save();ctx.fillStyle='rgba(0,0,0,.35)';ctx.beginPath();ctx.roundRect(10,12,92,36,18);ctx.fill();ctx.restore();text('‹ TERUG',56,37,15);HP.btns.push({x:10,y:12,w:92,h:36,fn:()=>{state='start'}})}
   HP_S.forEach((q,i)=>{ctx.fillStyle=i===HP.i?'#ffd23f':'rgba(255,255,255,.35)';ctx.beginPath();ctx.arc(W/2+(i-(HP_S.length-1)/2)*18,30,i===HP.i?6:4,0,7);ctx.fill()});
   text('Hoe werkt het?',W/2,84,30,'#ffd23f');text((HP.i+1)+' / '+HP_S.length,W-50,37,13,'rgba(255,255,255,.7)');
   ctx.save();ctx.globalAlpha=eo;ctx.translate(HP.off*(1-eo),0);
@@ -1962,10 +1962,10 @@ function drawHelp(){const now=performance.now(),s=HP_S[HP.i],e=Math.min(1,(now-H
   text(s.t,W/2,388,26,'#fff');ctx.save();ctx.font='500 16px '+FNT;ctx.textAlign='center';ctx.fillStyle='#ffe9f4';wrap(s.b,392).forEach((l,k)=>ctx.fillText(l,W/2,422+k*23));ctx.restore();
   ctx.restore();
   // pijlen
-  [[30,-1],[W-30,1]].forEach(([x,d])=>{const dis=(d<0&&HP.i===0);if(dis)return;const pu=1+Math.sin(now/220)*.05;ctx.save();ctx.translate(x,226);ctx.scale(pu,pu);ctx.fillStyle='#ffd23f';ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,22,0,7);ctx.fill();ctx.stroke();ctx.fillStyle='#2a1030';ctx.beginPath();ctx.moveTo(d*8,0);ctx.lineTo(-d*6,-11);ctx.lineTo(-d*6,11);ctx.closePath();ctx.fill();ctx.restore();HP.btns.push({x:x-28,y:198,w:56,h:56,fn:()=>hpMove(d)})});
+  if(!HP.forced)[[30,-1],[W-30,1]].forEach(([x,d])=>{const dis=(d<0&&HP.i===0);if(dis)return;const pu=1+Math.sin(now/220)*.05;ctx.save();ctx.translate(x,226);ctx.scale(pu,pu);ctx.fillStyle='#ffd23f';ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,22,0,7);ctx.fill();ctx.stroke();ctx.fillStyle='#2a1030';ctx.beginPath();ctx.moveTo(d*8,0);ctx.lineTo(-d*6,-11);ctx.lineTo(-d*6,11);ctx.closePath();ctx.fill();ctx.restore();HP.btns.push({x:x-28,y:198,w:56,h:56,fn:()=>hpMove(d)})});
   const last=HP.i===HP_S.length-1,bp=1+Math.sin(now/180)*.03;ctx.save();ctx.translate(W/2,566);ctx.scale(bp,bp);ctx.shadowColor='#ffb300';ctx.shadowBlur=18;ctx.fillStyle=last?'#2f9e57':'#d6336c';ctx.beginPath();ctx.roundRect(-110,-26,220,52,20);ctx.fill();ctx.shadowBlur=0;ctx.lineWidth=4;ctx.strokeStyle='#ffd23f';ctx.stroke();ctx.restore();text(last?'KLAAR!':'VOLGENDE',W/2,575,24);HP.btns.push({x:W/2-110,y:540,w:220,h:52,fn:()=>hpMove(1)})}
 function helpDown(e,px,py){initAudio();HP.sx=px;for(let i=HP.btns.length-1;i>=0;i--){const b=HP.btns[i];if(px>=b.x&&px<=b.x+b.w&&py>=b.y&&py<=b.y+b.h){HP.sx=null;b.fn();return}}}
-addEventListener('pointerup',e=>{if(state!=='help'||HP.sx==null)return;const r=cv.getBoundingClientRect(),px=(e.clientX-r.left)*W/r.width,dx=px-HP.sx;HP.sx=null;if(Math.abs(dx)>45)hpMove(dx<0?1:-1)});
+addEventListener('pointerup',e=>{if(state!=='help'||HP.sx==null||HP.forced)return;const r=cv.getBoundingClientRect(),px=(e.clientX-r.left)*W/r.width,dx=px-HP.sx;HP.sx=null;if(Math.abs(dx)>45)hpMove(dx<0?1:-1)});
 function drawHelpBtn(now){const x=148,y=30;ctx.save();if(!HP.seen){const p=(now/1200)%1;ctx.strokeStyle='rgba(255,210,63,'+(1-p)+')';ctx.lineWidth=3;ctx.beginPath();ctx.arc(x,y,18+p*14,0,7);ctx.stroke()}ctx.fillStyle='rgba(0,0,0,.32)';ctx.strokeStyle='rgba(255,255,255,.8)';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(x,y,17,0,7);ctx.fill();ctx.stroke();ctx.restore();text('?',x,y+8,22,'#ffd23f');if(!HP.seen){ctx.save();ctx.globalAlpha=.75+.25*Math.sin(now/300);text('hoe werkt dit?',x,y+32,11,'#ffe9f4');ctx.restore()}}
 const ST_TABS=['PIANO','DRUMS','BAS','SOUND'];
 // ===== STUDIO (liedjes maken) =====
