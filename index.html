@@ -467,7 +467,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);drawHelpBtn(now);if(helpAuto&&stN>40){helpAuto=false;startHelp();HP.forced=true}
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v71 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v72 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -1436,7 +1436,7 @@ function drawSelect(now){const o=SELM[SEL.i],e=Math.min(1,(now-SEL.t0)/260);
   SELM.forEach((q,i)=>{ctx.fillStyle=i===SEL.i?o.ac:'rgba(255,255,255,.4)';ctx.beginPath();ctx.arc(W/2+(i-(SELM.length-1)/2)*20,34,i===SEL.i?6:4,0,7);ctx.fill()});
   ctx.save();ctx.globalAlpha=.4+.6*e;ctx.translate(SEL.off*(1-e),0);
   // titel in eigen lettertype
-  ctx.font=o.sz+'px '+o.f;ctx.textAlign='center';ctx.lineJoin='round';ctx.lineWidth=9;ctx.strokeStyle='rgba(20,5,40,.75)';ctx.strokeText(o.n,W/2,112);ctx.shadowColor=o.ac;ctx.shadowBlur=14;ctx.fillStyle=o.ac;ctx.fillText(o.n,W/2,112);ctx.shadowBlur=0;ctx.fillStyle='#fff';ctx.font='24px '+o.f;ctx.lineWidth=5;ctx.strokeText(o.tag,W/2,148);ctx.fillText(o.tag,W/2,148);
+  {let z=o.sz;ctx.font=z+'px '+o.f;while(ctx.measureText(o.n).width>420&&z>18){z--;ctx.font=z+'px '+o.f}}ctx.textAlign='center';ctx.lineJoin='round';ctx.lineWidth=9;ctx.strokeStyle='rgba(20,5,40,.75)';ctx.strokeText(o.n,W/2,112);ctx.shadowColor=o.ac;ctx.shadowBlur=14;ctx.fillStyle=o.ac;ctx.fillText(o.n,W/2,112);ctx.shadowBlur=0;ctx.fillStyle='#fff';{let z=24;ctx.font=z+'px '+o.f;while(ctx.measureText(o.tag).width>420&&z>13){z--;ctx.font=z+'px '+o.f}}ctx.lineWidth=5;ctx.strokeText(o.tag,W/2,148);ctx.fillText(o.tag,W/2,148);
   // voorbeeld
   {const fx=40,fy=178,fw=400,fh=306;ctx.save();ctx.shadowColor='rgba(0,0,0,.45)';ctx.shadowBlur=22;ctx.shadowOffsetY=8;ctx.fillStyle='#000';ctx.beginPath();ctx.roundRect(fx,fy,fw,fh,26);ctx.fill();ctx.restore();
    ctx.save();ctx.beginPath();ctx.roundRect(fx,fy,fw,fh,26);ctx.clip();ctx.translate(fx,fy);ctx.scale(fw/480,fw/480);try{selScene(o.m,now)}catch(err){console.error(err)}ctx.restore();
