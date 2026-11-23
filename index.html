@@ -468,7 +468,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);drawHelpBtn(now);if(helpAuto&&stN>40){helpAuto=false;startHelp();HP.forced=true}
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v77 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v78 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -1527,7 +1527,7 @@ function ksRomano(x,y,np,st,now,caught,ct){ctx.save();const up=caught?Math.min(1
   if(!caught){const tr=st==='warn'?Math.sin(now/35)*.035:0,top=hy-176+np*0+ (1-np)*118;ctx.save();ctx.translate(x,top+58);ctx.rotate(tr);
     ctx.fillStyle='rgba(0,0,0,.25)';ctx.beginPath();ctx.roundRect(-64,-56,132,118,4);ctx.fill();
     g=ctx.createLinearGradient(-64,0,64,0);g.addColorStop(0,'#e9e2d0');g.addColorStop(.5,'#f7f2e4');g.addColorStop(1,'#ddd4bf');ctx.fillStyle=g;ctx.beginPath();ctx.roundRect(-66,-60,132,118,3);ctx.fill();ctx.strokeStyle='rgba(0,0,0,.18)';ctx.beginPath();ctx.moveTo(0,-60);ctx.lineTo(0,58);ctx.stroke();
-    ctx.fillStyle='#2a2a2a';ctx.font='bold 11px Georgia,serif';ctx.textAlign='center';ctx.fillText('DE HAMSTER',-33,-44);ctx.fillText('POST',33,-44);ctx.fillRect(-60,-38,120,1.5);
+    ctx.fillStyle='#f7f2e4';ctx.fillRect(-62,-56,124,18);ctx.fillStyle='#2a2a2a';{let z=13;ctx.font='bold '+z+'px Georgia,serif';while(ctx.measureText('DE HAMSTER POST').width>112&&z>7){z-=.5;ctx.font='bold '+z+'px Georgia,serif'}}ctx.textAlign='center';ctx.fillText('DE HAMSTER POST',0,-43);ctx.fillRect(-60,-38,120,1.5);
     ctx.fillStyle='rgba(40,40,40,.45)';for(let c=0;c<4;c++)for(let r=0;r<11;r++)ctx.fillRect(-60+c*31,-30+r*8,25-(r%3)*3,2.4);ctx.fillStyle='rgba(60,60,60,.35)';ctx.fillRect(-58,-30,24,22);
     ctx.fillStyle='#d9a47c';ctx.beginPath();ctx.arc(-66,10,8,0,7);ctx.arc(66,10,8,0,7);ctx.fill();ctx.restore()}
   else{ctx.save();ctx.translate(x-60,hy+40+Math.min(1,ct*2)*30);ctx.rotate(-.6-ct);ctx.fillStyle='#efe8d6';ctx.fillRect(-40,-30,80,60);ctx.restore()}
