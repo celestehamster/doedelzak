@@ -1,4 +1,4 @@
-const V='doedelzak-v66';
+const V='doedelzak-v67';
 const CORE=['./','index.html','manifest.webmanifest','icons/icon-192.png','icons/icon-512.png','icons/icon-maskable-512.png','icons/apple-touch-icon.png'];
 const MEDIA=['theme2.mp3','stardew.mp3','turk.mp3','pou.mp3','ac.mp3','mulab.mp3'];
 self.addEventListener('install',e=>{e.waitUntil((async()=>{const c=await caches.open(V);await c.addAll(CORE);await Promise.all(MEDIA.map(u=>c.add(u).catch(()=>{})));self.skipWaiting()})())});
