@@ -468,7 +468,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);drawHelpBtn(now);if(helpAuto&&stN>40){helpAuto=false;startHelp();HP.forced=true}
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v81 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v82 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -2756,7 +2756,7 @@ function mkStep(){
     if(act&&now%7<1)blip(250+Math.random()*150,'sine',.04,.02)}
    MK.ac+=((P.down?act:0)-MK.ac)*.15;P.lx=P.x;P.ly=P.y;
    if(tool){const g=tool==='mask'||tool==='rin1'?MK.gm:MK.gc;let k=0;if(tool==='eye')MK.sprog=MK.ep===0?0:MK.ep===1?clamp01((now-MK.ept)/2200):.5+.25*(MK.pst.filter(v=>v>=2).length);else if(tool==='wash')MK.sprog=MK.wp;else if(tool==='pim')MK.sprog=MK.pim.filter(v=>v===2).length/7;else{for(let i=0;i<N;i++)k+=tool==='mask'||tool==='cream'?(g[i]>.6?1:0):g[i];MK.sprog=tool==='mask'||tool==='cream'?Math.min(1,k/N/.84):1-Math.min(1,k/N*1.2)}}}
-  if(!MK.judge&&now>MK.nextCrush){MK.nextCrush=now+40000+Math.random()*30000;
+  if(false&&!MK.judge&&now>MK.nextCrush){MK.nextCrush=now+40000+Math.random()*30000;
     if(MK.sayT<=0&&!MK.ptr.down){MK.say=MKCRUSH[Math.floor(Math.random()*MKCRUSH.length)];MK.sayT=230;MK.re={k:'blush',t0:now,dur:1600,kiss:false};for(let i=0;i<7;i++)MK.sp.push({x:240+(Math.random()-.5)*160,y:120+Math.random()*60,vx:(Math.random()-.5)*.8,vy:-.8-Math.random(),l:0,m:60,c:'#ff6b8b',r:5+Math.random()*4,h:1});blip(900,'sine',.1,.05);setTimeout(()=>blip(1200,'sine',.1,.05),120)}else MK.nextCrush=now+8000}
   // mond: praten, kus
   const talking=MK.sayT>0&&!MK.judge,tm=talking?.55+.4*(.5+.5*Math.sin(now/85)):.86+.04*Math.sin(now/760);
@@ -2764,7 +2764,7 @@ function mkStep(){
   MK.mo+=((tm*(1-.8*kiss))-MK.mo)*.22;
   if(MK.re&&MK.re.k==='lips'&&!MK.re.kiss&&now-MK.re.t0>380){MK.re.kiss=true;for(let i=0;i<5;i++)MK.sp.push({x:240+(Math.random()-.5)*30,y:252,vx:(Math.random()-.5)*1.6,vy:-1.2-Math.random()*1.6,l:0,m:55,c:'#ff6b8b',r:5+Math.random()*3,h:1});blip(1000,'sine',.08,.06)}
   // knipoog en oorrukje
-  if(!MK.judge){if(!MK.wk&&now>MK.nextWink)mkWink(Math.random()<.5?-1:1);
+  if(!MK.judge){
     if(!MK.tw&&now>MK.nextTw){MK.tw={side:Math.random()<.5?-1:1,t0:now};MK.nextTw=now+10000+Math.random()*8000}}
   if(MK.wk&&!MK.wk.sp&&now-MK.wk.t0>320){MK.wk.sp=true;const s=MK.wk.side;for(let i=0;i<6;i++){const a=Math.random()*6.28;MK.sp.push({x:240+s*84,y:166,vx:Math.cos(a)*1.4+s*.6,vy:Math.sin(a)*1.4-.8,l:0,m:38,c:i%2?'#ffe28a':'#ffffff',r:3+Math.random()*3})}blip(1500,'sine',.06,.04)}
   // veer voor accessoires
