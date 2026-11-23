@@ -1793,7 +1793,7 @@ const LG_NONE=['Niks. Helemaal niks. Ook dat is informatie.','Geen enkele letter
 function lgR(a){return a[Math.floor(Math.random()*a.length)]}
 function lgNew(){const L=LG_LV[LG.lv];LG.word=lgPickWord();LG.rows=[];LG.cur='';LG.st='play';LG.rv=null;LG.keys={};LG.known=new Array(L.L).fill('');LG.known[0]=LG.word[0];LG.ball=null;LG.tleft=L.tm;LG.rowT=performance.now();LG.conf=[];lgSay(lgR(LG_START).replace('{L}',LG.word[0].toUpperCase()),3.6)}
 function lgStart(i){LG.lv=i;LG.pick=false;LG.streak=0;LG.words=0;LG.used={};lgNew();lgSay(lgR(LG_HI)+' '+LG.say.s,5)}
-const LG_INTRO=['Goedenavond dames en heren, en van harte welkom bij LINGO!','Ik ben uw presentator, Doedelzak. Ja, die bijtende hamster. Vanavond bijt ik alleen in woorden.','De regels: rood betekent goede letter op de goede plek. Een gele bol: de letter zit erin, maar ergens anders.','Raad het woord en verdien muntjes. Kies eerst maar hoe moeilijk je het wilt. Applaus!'];
+const LG_INTRO=['Goedenavond dames en heren, en van harte welkom bij LINGO!','Ik ben uw presentator, Doedelzak. Ja, die bijtende hamster. Vanavond bijt ik alleen in woorden.','De regels: rood betekent goede letter op de goede plek. Een gele bol: de letter zit erin, maar ergens anders.','Elk geraden woord levert muntjes op, en daarna trek je nog een bonusbal voor extra muntjes. Kies maar hoe moeilijk je het wilt. Applaus!'];
 function startLingo(){hold=false;hid=null;setSound(false);state='lingo';LG.tl=performance.now();LG.pick=false;LG.word='';LG.say=null;LG.intro={t0:performance.now(),i:0,ti:performance.now(),conf:[]};
   [523,659,784,1046,784,1046,1318].forEach((f,i)=>setTimeout(()=>{if(state==='lingo'&&LG.intro)blip(f,'triangle',.22,.08)},250+i*150))}
 function lgIntroNext(){const I=LG.intro;if(!I)return;if(I.i<LG_INTRO.length-1){I.i++;I.ti=performance.now();blip(880,'triangle',.05,.04)}else{LG.intro=null;LG.pick=true;LG._pk=0;lgSay('Kies je niveau! Ik ben benieuwd.',5);blip(1046,'triangle',.1,.06)}}
@@ -1901,8 +1901,8 @@ function drawLingo(){const now=performance.now(),dt=Math.min(.1,(now-LG.tl)/1000
     // toetsenbord / knoppen
     if(LG.st==='play')lgKeyboard(now);
     else{const won=LG.st==='won';
-      if(won){const k=Math.min(1,(now-LG.wonT)/400);ctx.save();ctx.globalAlpha=k;pzT('+'+LG.wc+' muntjes',W/2,500,20,'#8dff9a');ctx.restore();
-        if(!LG.ball)lgBigBtn('TREK EEN LINGO-BAL',W/2,560,290,54,'#e8202a',()=>lgDrawBall(),now);else if(LG.ball.paid)lgBigBtn('VOLGEND WOORD',W/2,560,260,54,'#2f7bff',()=>lgNew(),now)}
+      if(won){const k=Math.min(1,(now-LG.wonT)/400);ctx.save();ctx.globalAlpha=k;pzCoin(W/2-118,494,10);pzT('+'+LG.wc+' muntjes verdiend!',W/2+12,500,19,'#8dff9a');if(!LG.ball)pzT('trek nog een bonusbal voor extra muntjes',W/2,524,12,'#cfe0ff');ctx.restore();
+        if(!LG.ball)lgBigBtn('TREK EEN BONUSBAL',W/2,566,290,50,'#e8202a',()=>lgDrawBall(),now);else if(LG.ball.paid)lgBigBtn('VOLGEND WOORD',W/2,560,260,54,'#2f7bff',()=>lgNew(),now)}
       else{pzT('Je reeks is weer 0.',W/2,500,15,'#cfe0ff');lgBigBtn('VOLGEND WOORD',W/2,560,260,54,'#2f7bff',()=>lgNew(),now)}}
     if(LG.ball)lgBallMachine(now)}
   if(LG.pick)lgPicker(now);
