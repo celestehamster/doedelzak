@@ -441,7 +441,7 @@ function drawStart(){
   const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#1b0a38');g.addColorStop(.5,'#5b1a78');g.addColorStop(.8,'#c2306f');g.addColorStop(1,'#ff8a3d');
   ctx.fillStyle=g;ctx.fillRect(-20,-20,W+40,H+40);
   // draaiende lichtstralen
-  ctx.save();ctx.translate(W/2,262);ctx.globalAlpha=.09;ctx.fillStyle='#ffd23f';ctx.rotate(now/6000);
+  ctx.save();ctx.translate(W/2,290);ctx.globalAlpha=.09;ctx.fillStyle='#ffd23f';ctx.rotate(now/6000);
   for(let i=0;i<12;i++){ctx.rotate(Math.PI/6);ctx.beginPath();ctx.moveTo(0,0);ctx.lineTo(-34,-560);ctx.lineTo(34,-560);ctx.fill()}
   ctx.restore();
   // automatische explosies
@@ -461,19 +461,19 @@ function drawStart(){
     ctx.shadowColor='#ff9a1a';ctx.shadowBlur=14;ctx.fillStyle=i%2?'#ffd23f':'#ff9a1a';ctx.fillText(c,0,0);ctx.restore();x+=ws[i]});
   text('de bijtende hamster',W/2,156,22,'#ffe9f4');
   // hamster op een zachte gloed
-  {const gl=ctx.createRadialGradient(W/2,268,10,W/2,268,150);gl.addColorStop(0,'rgba(255,200,230,.45)');gl.addColorStop(1,'rgba(255,200,230,0)');ctx.fillStyle=gl;ctx.fillRect(0,110,W,320)}
-  ctx.save();ctx.translate(W/2-8,268+Math.sin(now/260)*8);ctx.scale(2.2,2.2);
+  {const gl=ctx.createRadialGradient(W/2,290,10,W/2,290,175);gl.addColorStop(0,'rgba(255,200,230,.45)');gl.addColorStop(1,'rgba(255,200,230,0)');ctx.fillStyle=gl;ctx.fillRect(0,110,W,360)}
+  ctx.save();ctx.translate(W/2+4,308+Math.sin(now/260)*8);ctx.scale(2.8,2.8);
   const hh=hold;hold=true;biteT=Math.floor(now/260)%2?14:0;hamster(0,0);hold=hh;biteT=0;ctx.restore();
   // Romano gluurt van opzij
-  ctx.save();ctx.translate(436,300);ctx.rotate(Math.sin(now/200)*.12-.15);
+  ctx.save();ctx.translate(440,318);ctx.rotate(Math.sin(now/200)*.12-.15);
   if(headImg.complete&&headImg.naturalWidth)ctx.drawImage(headImg,-27,-37,54,74);ctx.restore();
-  icDrop(410,262+Math.sin(now/120)*4,18);icDrop(422,282+Math.cos(now/100)*3,13);
+  icDrop(414,280+Math.sin(now/120)*4,18);icDrop(426,300+Math.cos(now/100)*3,13);
   // play-knop
   const bp=1+Math.sin(now/180)*.04;ctx.save();ctx.translate(W/2,468);ctx.scale(bp,bp);
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);drawHelpBtn(now);if(helpAuto&&stN>40){helpAuto=false;startHelp();HP.forced=true}
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v93 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v94 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
