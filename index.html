@@ -464,7 +464,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v65 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v66 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -1347,7 +1347,7 @@ const SELM=[
  {m:'kiss',n:'STIEKEM KUSSEN',f:"'Dancing Script',Pacifico,cursive",sz:50,c1:'#241048',c2:'#ff6f91',ac:'#ffd1e8',tag:'laat je niet betrappen!',d:'',h:''},
  {m:'sudoku',n:'SUDOKU',f:"'Patrick Hand',Fredoka,sans-serif",sz:60,c1:'#5a3414',c2:'#f2c879',ac:'#fff3c4',tag:'hersenkrakers voor hamsters',d:'',h:''},
  {m:'dam',n:'DAMMEN',f:"'Cinzel Decorative',Georgia,serif",sz:48,c1:'#1c100b',c2:'#8a4f26',ac:'#ffd9a0',tag:'versla Doedelzak op het bord',d:'',h:''},
- {m:'medium',n:'MEDIUM DOEDELZAK',f:"'Cinzel Decorative',Georgia,serif",sz:32,c1:'#120626',c2:'#5a2a8a',ac:'#d9b8ff',tag:'vraag het aan de glazen bol',d:'',h:''},
+ {m:'medium',n:'MEDIUM DOEDELZAK',f:"'Cinzel Decorative',Georgia,serif",sz:32,c1:'#120626',c2:'#5a2a8a',ac:'#d9b8ff',tag:'stel je vraag aan Medium Doedelzak',d:'',h:''},
  {m:'pizza',n:'PIZZERIA',f:"Lobster,Fredoka,cursive",sz:56,c1:'#b3261e',c2:'#ffb25a',ac:'#fff3dc',tag:'bestel, bouw, bak, snijd!',d:'Bestellingen opnemen, bouwen, bakken en snijden. Pim, Romano, Yindi, Celeste en hamsters hebben honger!',h:'tik en sleep'}
 ];
 try{document.fonts&&SELM.forEach(o=>document.fonts.load('40px '+o.f.split(',')[0]))}catch(e){}
@@ -1827,16 +1827,56 @@ const MD_A={ja:['Ja. De bol is er heel zeker van.','Absoluut ja. Ik voel het in 
   hvl:['7.','42. Dat is altijd het antwoord.','Drie. Of vier. De bol telt slecht.','Heel veel. Echt heel veel.','Precies 1.','Nul. Sorry.','13. Spannend getal.'],
   wat:['Een pizza met extra kaas.','Iets wat begint met een K.','Een grote verrassing.','Iets lekkers.','Een hamster in een jasje.','Liefde. En een beetje chaos.','Een gouden munt.','Iets wat je allang weet.'],
   welk:['De eerste.','De linker.','De rode.','De laatste die je ziet.','De grootste.','De kleinste, geloof me.']};
-function mdAnswer(q){const t=q.trim().toLowerCase().replace(/\?+$/,''),h=mdHash(t),w=t.split(/[\s,]+/);
-  const ix=t.lastIndexOf(' of ');if(ix>0&&!/^(wie|wat|waar|wanneer|waarom|hoe)\b/.test(t.slice(ix+4))){const A=t.slice(0,ix).trim().split(/\s+/).pop(),B=t.slice(ix+4).trim().split(/\s+/)[0];if(A&&B)return mdPick(['De bol kiest... ','Zonder twijfel: ','Mijn snorharen zeggen: ','De sterren fluisteren: '],h,3)+(h%2?B:A).replace(/[?.!,]/g,'')+'.'}
-  const f=w[0],g=f+' '+(w[1]||'');let L;
-  if(f==='wie'||f==='wiens')L=MD_A.wie;else if(f==='wanneer'||f==='hoelang'||g==='hoe lang')L=MD_A.wan;else if(f.startsWith('waar')&&f!=='waarom'&&f!=='waarmee'&&f!=='waarover'&&f!=='waarvoor')L=MD_A.waar;else if(f==='waarom'||f==='hoezo')L=MD_A.waarom;else if(f==='hoeveel')L=MD_A.hvl;else if(f==='hoe')L=MD_A.hoe;else if(f==='welke'||f==='welk')L=MD_A.welk;else if(f==='wat'||f.startsWith('waar'))L=MD_A.wat;
-  else{const r=h%10;L=r<4?MD_A.ja:r<8?MD_A.nee:MD_A.mis}
-  return mdPick(L,h,5)}
+const MDX={pron:{ik:'jij',mij:'jou',me:'jou',mijn:'jouw',"m'n":'jouw',jij:'ik',jou:'mij',jouw:'mijn',u:'ik',uw:'mijn',wij:'jullie',we:'jullie',ons:'jullie',onze:'jullie',mezelf:'jezelf',mijzelf:'jezelf',jezelf:'mezelf'},
+  subj:['ik','jij','je','u','hij','zij','ze','het','wij','we','jullie','er','dat','dit','iemand','niemand','alles','iedereen'],
+  det:['de','het','een','mijn',"m'n",'jouw','je','zijn','haar','onze','ons','hun','die','dat','deze','dit','mn'],
+  stop:['de','het','een','ik','jij','je','u','is','ben','wordt','word','ga','gaat','en','of','van','in','op','met','voor','naar','te','dat','die','wel','niet','nog','ooit','mijn','jouw','zijn','haar','er','ook','dan','als','maar','zo','heel','erg','echt','wat','hoe','wie','waar','wanneer','waarom','welke','hoeveel'],
+  date:['dinsdag de 31e','volgende week donderdag','tweede kerstdag','de dag dat het kaas regent','5 maart om 04:12','een vrijdag in een jaar met veel duiven','over precies 1001 nachten','zondag, net na het avondeten'],
+  place:['in de vriezer van een Turkse bakker','onder de derde stoeptegel links','in Romano zijn verwarming','bij de Action, achter de kaarsen','in een grot op de Veluwe','in je eigen kussensloop','in een kebabzaak in Apeldoorn','helemaal achterin de koelkast, naast de augurken'],
+  name:['Romano','Pim','Yindi','Celeste','Doedelzak','de buurman','een kip uit Zwolle','je oma','een boze cavia','Romano zijn verwarming'],
+  thing:['een natte kebab','zeven augurken','een tweedehands radiator','een hamster in een pak','een emmer koude soep','een gouden zonnebloempit','een sok vol mayonaise','een boze duif','een rol plakband','een mysterieuze lasagne'],
+  reason:['er elke nacht een hamster op je hoofd zit te breien','Romano je energie steelt via de radiator','je in een vorig leven een kroket was','de maan boos op je is sinds dinsdag','er een duif is die alles van je weet','iemand jouw naam drie keer tegen een magnetron heeft gefluisterd'],
+  how:['door elke ochtend tegen een cavia te schreeuwen','met een lepel, veel geduld en een verdachte snor','door drie dagen alleen maar kaas te eten','door Romano om hulp te vragen (doe het niet)','door heel hard "PIEP" te roepen in een supermarkt','met een geheime dans die ik je niet mag leren'],
+  twist:['Daarna gaat er een kip in brand. Niet jouw schuld.','Romano gaat ervan huilen. Van geluk. Denk ik.','De duiven weten het al.','Er zit ook een kebab in het verhaal. Vraag niet waarom.','Ik heb er kippenvel van op mijn staart.','Vertel het aan niemand. Behalve aan je koelkast.','Dit kost je wel één sok.','En je hoort de hele tijd vioolmuziek. Niemand weet waar het vandaan komt.']};
+function mdConj(v,s){const x={ben:'bent',heb:'hebt',doe:'doet',ga:'gaat',sta:'staat',zie:'ziet',sla:'slaat'};
+  if(s==='jij'){if(x[v])return x[v];if(['kan','zal','mag','wil','was','had','kon','zou','mocht','wou','werd','ging','kreeg','kwam','moest'].includes(v)||/t$/.test(v))return v;return v+'t'}
+  if(s==='ik'){const y={bent:'ben',hebt:'heb',is:'ben',heeft:'heb',kunt:'kan',kun:'kan',zult:'zal',wordt:'word',gaat:'ga',doet:'doe',komt:'kom',vindt:'vind',krijgt:'krijg',wilt:'wil',moet:'moet',ziet:'zie',weet:'weet'};if(y[v])return y[v];if(/[^t]t$/.test(v)&&v.length>3)return v.slice(0,-1);return v}
+  return v}
+function mdSwap(ws){return ws.map(w=>MDX.pron[w]||w)}
+function mdParse(q){const raw=q.trim().replace(/[?!.]+$/,''),t=raw.toLowerCase().replace(/[“”"]/g,''),w=t.split(/[\s,]+/).filter(Boolean);let qw='',i=0;
+  if(['wie','wat','waar','wanneer','waarom','hoe','welke','welk','hoeveel','hoezo','hoelang','wiens','waarmee','waarover','waarvoor','waarheen','waarin','waarop'].includes(w[0])){qw=w[0];i=1;if(qw==='hoe'&&w[1]==='lang'){qw='wanneer';i=2}if(qw==='wat'&&w[1]==='voor'){qw='welke';i=2}if(qw==='hoelang')qw='wanneer';if(qw==='hoezo')qw='waarom';if(qw.startsWith('waar')&&qw.length>6&&qw!=='waarom')qw='wat'}
+  let X='';if(qw==='hoeveel'||qw==='welke'||qw==='welk'){const xs=[];while(i<w.length-1&&!MD_VB.includes(w[i])&&!['is','zijn','heb','hebben','moet','zal','kan','krijg','komen','wonen','eet'].includes(w[i])){xs.push(w[i]);i++}X=xs.join(' ')}
+  const v=w[i]||'';i++;let S=[];
+  if(qw!=='wie'&&!(qw==='wat'&&['is','zijn','was','waren','betekent'].includes(v))){if(MDX.subj.includes(w[i])){S=[w[i]==='je'?'jij':w[i]];i++}else if(MDX.det.includes(w[i])){S=[w[i],w[i+1]];i+=2;if(w[i]&&/(e|en)$/.test(w[i-1])&&!MD_VB.includes(w[i])&&w.length-i>1){S.push(w[i]);i++}}else if(w[i]&&w[i].length>1&&!MD_VB.includes(w[i])&&qw!=='wat'){S=[w[i]];i++}}
+  let R=w.slice(i);if(qw==='wat'&&['is','zijn','was','waren','betekent'].includes(v)){S=R;R=[]}
+  S=mdSwap(S.filter(Boolean));R=mdSwap(R);const s0=S.join(' ')==='ik'?'ik':S.join(' ')==='jij'?'jij':'x';const V=s0==='x'?v:mdConj(v,s0);
+  const words=w.filter(x=>!MDX.stop.includes(x)&&x.length>2);const K=words.sort((a,b)=>b.length-a.length)[0]||w[w.length-1]||'dat';
+  return{qw,v,V,S:S.join(' '),R:R.join(' '),X,K,raw}}
+function mdCap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+function mdJoin(){return [...arguments].filter(x=>x&&x.trim()).join(' ').replace(/\s+/g,' ').trim()}
+function mdNeg(p){if(/^een /.test(p.R))return mdJoin(p.S,p.V,'geen',p.R.slice(4));return p.R?mdJoin(p.S,p.V,'niet',p.R):mdJoin(p.S,p.V,'niet')}
+function mdAnswer(q){const t=q.trim().toLowerCase().replace(/\?+$/,''),h=mdHash(t),P=(L,k)=>mdPick(L,h,k),p=mdParse(q),tw=P(MDX.twist,7);
+  const ix=t.lastIndexOf(' of ');if(ix>0&&!/^(wie|wat|waar|wanneer|waarom|hoe)\b/.test(t.slice(ix+4))){const A=t.slice(0,ix).trim().split(/\s+/).pop().replace(/[?.!,]/g,''),B=t.slice(ix+4).trim().split(/\s+/)[0].replace(/[?.!,]/g,'');if(A&&B){const win=h%2?B:A,lose=h%2?A:B;return P(['De bol kiest ','Zonder twijfel: ','Mijn snorharen schreeuwen: '],3)+win.toUpperCase()+'! '+mdCap(lose)+' is vervloekt. '+P(['Kijk er niet eens naar.','Ik zag '+lose+' in de bol en de bol werd zwart.','Wie voor '+lose+' kiest, krijgt natte sokken voor altijd.'],5)}}
+  const full=mdJoin(p.S,p.V,p.R);
+  if(!p.v)return'Ik zie "'+p.K+'"... het is nat en het beweegt. Meer kan ik niet zeggen. '+tw;
+  switch(p.qw){
+    case'wanneer':return mdCap(full)+' op '+P(MDX.date,2)+'. '+P(['Precies om '+(h%24)+':'+String(h%60).padStart(2,'0')+'.','Neem een paraplu en een rauwe ui mee.','Ik zag het in de bol. Er was ook een kameel bij.'],4)+' '+tw;
+    case'waar':return mdCap(mdJoin(p.S,p.V,p.R))+' '+P(MDX.place,2)+'. '+P(['Ik zie een gele deur en een man die naar uien ruikt.','Kijk daar morgen om middernacht. Alleen.','Volg de geur van gebakken kaas.'],4);
+    case'wie':{const n=P(MDX.name,2);return mdCap(mdJoin(n,p.v,p.R))+'. '+P(['Ik zie '+n+' met een kroon van kaas.','Het staat in de bol, in grote letters. Met glitters.',mdCap(n)+' weet het zelf nog niet. Zeg niks.'],4)+' '+tw}
+    case'waarom':return mdCap(full)+' omdat '+P(MDX.reason,2)+'. '+tw;
+    case'hoe':return mdCap(full)+' '+P(MDX.how,2)+'. '+tw;
+    case'hoeveel':{const n=P(['precies 7','42','drie en een halve','meer dan je denkt: 1.312','nul. Helemaal nul','13','een stuk of honderdduizend'],2);return mdCap(n)+(p.X?' '+p.X:'')+'. '+P(['En één daarvan is een hamster.','De bol heeft ze persoonlijk geteld.','Ik heb ze allemaal een naam gegeven. De eerste heet Klaas.'],4)}
+    case'welke':case'welk':return(p.X?'De '+p.X:'Die')+' met de '+P(['paarse vlekken','rare geur','kleine deurtjes','bijtende neiging','gouden randjes'],2)+'. '+P(['Vertrouw me.','De bol twijfelt niet.','Alle andere zijn vervloekt.'],4);
+    case'wat':{if(['is','zijn','was','waren','betekent'].includes(p.v)&&p.S)return mdCap(p.S)+' '+p.v+' '+P(MDX.thing,2)+'. '+P(['Dat wist je diep vanbinnen al.','Schrijf het op je arm.','De wetenschap is het met me eens.'],4);
+      const r=p.R.split(' ');const th=P(MDX.thing,2);const body=r.length>1?mdJoin(p.S,p.V,r.slice(0,-1).join(' '),th,r[r.length-1]):mdJoin(p.S,p.V,th,p.R);return mdCap(body)+'. '+tw}
+    default:{const r=h%10;
+      if(r<4)return P(['JA! ','Ja. ','Absoluut. ','De bol schreeuwt JA. '],2)+mdCap(full)+', '+P(['en de hele straat gaat klappen. Ook de duiven.','maar alleen als je drie zonnebloempitten onder je kussen legt.','al gaat het anders dan je denkt. Met meer kaas.','en ik ga er een liedje over zingen onder de douche.'],4)+' '+tw;
+      if(r<8)return P(['NEE. ','Nee. ','Haha. Nee. ','Ik zie het... nee. '],2)+mdCap(mdNeg(p))+'. '+P(['Ik moest er even van huilen in mijn wangzakken.','In plaats daarvan krijg je een zak natte sokken.','De bol lacht je zelfs een beetje uit.','Romano wist het al. Hij zei niks. Typisch.'],4);
+      return P(['Half. ','De bol twijfelt. '],2)+mdCap(full)+P([', maar alleen op schrikkeldagen om 03:12.',', voor ongeveer 40 procent. De rest is kaas.',', zolang niemand het tegen Romano zegt.'],4)}}}
 function mdHum(){if(!ac)return;try{const t0=ac.currentTime,v=userMuted?0:1;[220,277,330].forEach((f,i)=>{const o=ac.createOscillator(),g=ac.createGain(),l=ac.createOscillator(),lg=ac.createGain();o.type='sine';o.frequency.value=f;l.frequency.value=5+i;lg.gain.value=4;l.connect(lg);lg.connect(o.frequency);g.gain.setValueAtTime(.0001,t0);g.gain.linearRampToValueAtTime(.05*v,t0+.4);g.gain.linearRampToValueAtTime(.0001,t0+2.3);o.connect(g);g.connect(ac.destination);o.start(t0);l.start(t0);o.stop(t0+2.4);l.stop(t0+2.4)})}catch(e){}}
 function mdChime(){[1046,1318,1568,2093].forEach((f,i)=>setTimeout(()=>blip(f,'sine',.5,.05),i*90))}
 function mdUI(on){if(!on){if(MD.el){MD.el.remove();MD.el=null}return}if(MD.el)return;const d=document.createElement('div');d.id='mdbox';d.style.cssText='position:fixed;z-index:50;display:flex;gap:8px;align-items:center;box-sizing:border-box';
-  d.innerHTML='<input id="mdq" maxlength="90" autocomplete="off" placeholder="Stel je vraag aan de bol..." style="flex:1;min-width:0;box-sizing:border-box;font:500 16px Fredoka,Trebuchet MS,sans-serif;padding:11px 16px;border-radius:22px;border:2px solid rgba(217,184,255,.6);background:rgba(20,8,40,.82);color:#f3e8ff;outline:none;box-shadow:0 0 18px rgba(170,110,255,.35) inset"><button id="mdb" style="border:0;border-radius:22px;padding:11px 16px;font:700 15px Fredoka,Trebuchet MS,sans-serif;color:#2a0f4a;background:linear-gradient(#f3e3ff,#c9a2ff);box-shadow:0 0 16px rgba(190,140,255,.6);cursor:pointer">VRAAG</button>';
+  d.innerHTML='<input id="mdq" maxlength="90" autocomplete="off" placeholder="Stel je vraag aan Medium Doedelzak..." style="flex:1;min-width:0;box-sizing:border-box;font:500 16px Fredoka,Trebuchet MS,sans-serif;padding:11px 16px;border-radius:22px;border:2px solid rgba(217,184,255,.6);background:rgba(20,8,40,.82);color:#f3e8ff;outline:none;box-shadow:0 0 18px rgba(170,110,255,.35) inset"><button id="mdb" style="border:0;border-radius:22px;padding:11px 16px;font:700 15px Fredoka,Trebuchet MS,sans-serif;color:#2a0f4a;background:linear-gradient(#f3e3ff,#c9a2ff);box-shadow:0 0 16px rgba(190,140,255,.6);cursor:pointer">VRAAG</button>';
   document.body.appendChild(d);MD.el=d;const inp=d.querySelector('#mdq'),go=()=>{mdAsk(inp.value);};d.querySelector('#mdb').addEventListener('click',e=>{e.preventDefault();go()});inp.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'){e.preventDefault();go()}});['pointerdown','pointerup','touchstart'].forEach(ev=>d.addEventListener(ev,e=>e.stopPropagation()))}
 function mdPlace(){if(!MD.el)return;const r=cv.getBoundingClientRect(),sx=r.width/W,sy=r.height/H;MD.el.style.left=(r.left+22*sx)+'px';MD.el.style.top=(r.top+566*sy)+'px';MD.el.style.width=(436*sx)+'px';MD.el.style.display=MD.st==='think'?'none':'flex'}
 function mdAsk(v){const q=(v||'').trim();if(!q||MD.st==='think')return;initAudio();if(ac&&ac.state==='suspended')ac.resume();MD.q=q;
@@ -1877,8 +1917,8 @@ function drawMedium(){const now=performance.now(),dt=Math.min(.1,(now-MD.tl)/100
   ctx.save();ctx.font="30px 'Cinzel Decorative',Georgia,serif";ctx.textAlign='center';ctx.shadowColor='#b47aff';ctx.shadowBlur=14;ctx.fillStyle='#f0dcff';ctx.fillText('Medium Doedelzak',W/2,46);ctx.restore();
   ctx.save();ctx.fillStyle='rgba(255,230,255,.12)';ctx.strokeStyle='rgba(217,184,255,.5)';ctx.lineWidth=1.5;ctx.beginPath();ctx.roundRect(10,62,84,30,15);ctx.fill();ctx.stroke();ctx.restore();pzT('TERUG',52,82,13,'#f0dcff');
   if(MD.q&&MD.st!=='idle'){ctx.save();ctx.font='italic 500 14px '+FNT;ctx.textAlign='center';ctx.fillStyle='rgba(240,220,255,.85)';const L=wrap('“'+MD.q+'”',400);L.slice(0,2).forEach((l,k)=>ctx.fillText(l,W/2,112+k*18));ctx.restore()}
-  if(MD.st==='think'){pzT('De bol raadplegen'+'...'.slice(0,1+Math.floor(now/350)%3),W/2,604,16,'#e8d0ff')}
-  else if(MD.st==='idle'){ctx.save();ctx.globalAlpha=.6+.4*Math.sin(now/600);pzT('Stel Doedelzak een vraag over de toekomst',W/2,548,13,'#e8d0ff');ctx.restore()}
+  if(MD.st==='think'){pzT('Medium Doedelzak kijkt in de bol'+'...'.slice(0,1+Math.floor(now/350)%3),W/2,604,16,'#e8d0ff')}
+  else if(MD.st==='idle'){ctx.save();ctx.globalAlpha=.6+.4*Math.sin(now/600);pzT('Stel Medium Doedelzak een vraag over de toekomst',W/2,548,13,'#e8d0ff');ctx.restore()}
   mdPlace()}
 function mdDown(px,py){if(px<100&&py>58&&py<96){goMenu();return}}
 const ST_TABS=['PIANO','DRUMS','BAS','SOUND'];
