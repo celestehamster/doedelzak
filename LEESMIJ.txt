@@ -1,4 +1,4 @@
-DOEDELZAK DE BIJTGRAGE HAMSTER - webapp (v96)
+DOEDELZAK DE BIJTGRAGE HAMSTER - webapp (v97)
 
 Dit is een complete webapp (PWA). Zet de HELE map op een gewone website met https en iedereen kan het spelen:
 - Netlify Drop: sleep deze map naar https://app.netlify.com/drop  (je krijgt direct een https-link)
