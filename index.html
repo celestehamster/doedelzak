@@ -483,7 +483,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);drawHelpBtn(now);if(helpAuto&&stN>40){helpAuto=false;startHelp();HP.forced=true}
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v108 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v109 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -3545,18 +3545,18 @@ function pzNewOrder(){const d=PZ.day,unl=pzUnl(),kinds=Math.min(unl,1+Math.ceil(
 function pzNewOrderS(){const o=pzNewOrder();pzSpots(o);return o}
 function pzOrdLines(o){const L=o.tops.map(t=>t.n+'× '+PZ_TOPS.find(x=>x.k===t.k).n+(t.half==='L'?' (links)':t.half==='R'?' (rechts)':''));L.push((o.sauceL>1?'extra ':'')+'saus en '+(o.cheeseL>1?'extra ':'')+'kaas');L.push('bakken '+o.T+' sec, snij in '+o.slices);return L}
 function pzMsg(s,t){PZ.msg=s;PZ.msgT=t||2}
-function startPizza(){hold=false;hid=null;setSound(false);PZ.tut=pzTutSeen?null:0;PZ.tutT=performance.now();PZ.ph='play';PZ.st='order';PZ.t=0;PZ.spawned=0;PZ.N=Math.min(16,6+PZ.day*2);PZ.nextArr=2;while(PZ.slots.length<(PZ.day>=3?3:2))PZ.slots.push({tk:null,set:10,run:false,t:0,ding:false});PZ.queue=[];PZ.leaving=[];PZ.tix=[];PZ.slots.forEach(s=>{s.tk=null;s.run=false;s.t=0;s.ding=false;s.set=10});PZ.sel=null;PZ.tool=null;PZ.drag=null;PZ.cd=null;PZ.modal=null;PZ.no=0;PZ.stats={served:0,lost:0,pct:0,earn:0};PZ.seen={};PZ.dtp=performance.now();PZ.lastId=null;state='pizza';pzMsg('Dag '+PZ.day+': de eerste klant komt zo!',3)}
+function startPizza(){hold=false;hid=null;setSound(false);PZ.tut=null;PZ.gd=pzTutSeen?null:0;PZ.gdT=performance.now();PZ.tutT=performance.now();PZ.ph='play';PZ.st='order';PZ.t=0;PZ.spawned=0;PZ.N=Math.min(16,6+PZ.day*2);PZ.nextArr=2;while(PZ.slots.length<(PZ.day>=3?3:2))PZ.slots.push({tk:null,set:10,run:false,t:0,ding:false});PZ.queue=[];PZ.leaving=[];PZ.tix=[];PZ.slots.forEach(s=>{s.tk=null;s.run=false;s.t=0;s.ding=false;s.set=10});PZ.sel=null;PZ.tool=null;PZ.drag=null;PZ.cd=null;PZ.modal=null;PZ.no=0;PZ.stats={served:0,lost:0,pct:0,earn:0};PZ.seen={};PZ.dtp=performance.now();PZ.lastId=null;state='pizza';pzMsg('Dag '+PZ.day+': de eerste klant komt zo!',3)}
 function pzSpawn(){const hum=Math.random()<.4,used=PZ.queue.concat(PZ.tix.map(t=>t.c)).map(c=>c.def.id);let pool=(hum?PZ_HUM:PZ_HAM).filter(d=>!used.includes(d.id)&&d.id!==PZ.lastId);if(!pool.length)pool=PZ_HAM;const def=pool[Math.floor(Math.random()*pool.length)];PZ.lastId=def.id;
-  PZ.queue.push({def,ord:pzNewOrder(),x:-140,tx:240,sc:1.4,pat:60,patMax:60,bob:Math.random()*6});PZ.spawned++}
+  PZ.queue.push({def,ord:PZ.gd!=null?{tops:[{k:'pep',half:'all',n:3}],sauceL:1,cheeseL:1,slices:4,T:8}:pzNewOrder(),x:-140,tx:240,sc:1.4,pat:60,patMax:60,bob:Math.random()*6});PZ.spawned++}
 function pzDrop(tk){const i=PZ.tix.indexOf(tk);if(i<0)return;PZ.tix.splice(i,1);PZ.slots.forEach(s=>{if(s.tk===tk){s.tk=null;s.run=false;s.t=0;s.ding=false}});if(PZ.sel===tk.id)PZ.sel=null;PZ.stats.lost++;pzMsg(tk.c.def.n+' heeft niet meer gewacht!',3);blip(180,'sawtooth',.25,.08)}
 function pzUpdate(dt){if(PZ.ph!=='play'||PZ.modal||PZ.rst||PZ.tut!=null)return;PZ.t+=dt;
-  if(PZ.spawned<PZ.N&&PZ.t>=PZ.nextArr&&PZ.queue.length<3){pzSpawn();PZ.nextArr=PZ.t+Math.max(7,20-PZ.day*2)+Math.random()*6;blip(880,'sine',.1,.06);setTimeout(()=>blip(1175,'sine',.12,.05),90)}
-  PZ.queue.forEach((c,i)=>{const tx=[240,86,394][i],ts=i?.85:1.4,k=Math.min(1,dt*4);c.x+=(tx-c.x)*k;c.sc+=(ts-c.sc)*k;c.pat-=dt});
+  if(PZ.spawned<PZ.N&&PZ.t>=PZ.nextArr&&PZ.queue.length<3&&(PZ.gd==null||PZ.spawned===0)){pzSpawn();PZ.nextArr=PZ.t+Math.max(7,20-PZ.day*2)+Math.random()*6;blip(880,'sine',.1,.06);setTimeout(()=>blip(1175,'sine',.12,.05),90)}
+  PZ.queue.forEach((c,i)=>{const tx=[240,86,394][i],ts=i?.85:1.4,k=Math.min(1,dt*4);c.x+=(tx-c.x)*k;c.sc+=(ts-c.sc)*k;if(PZ.gd==null)c.pat-=dt});
   for(let i=PZ.queue.length-1;i>=0;i--){const c=PZ.queue[i];if(c.pat<=0){PZ.queue.splice(i,1);c.tx=-190;c.mad=true;PZ.leaving.push(c);PZ.stats.lost++;pzMsg(c.def.n+' is boos weggelopen!',2.5);blip(180,'sawtooth',.25,.08)}}
   PZ.leaving.forEach(c=>{c.x+=((c.tx)-c.x)*Math.min(1,dt*3.5)});PZ.leaving=PZ.leaving.filter(c=>Math.abs(c.x-c.tx)>14);
-  PZ.tix.slice().forEach(tk=>{tk.pat-=dt;if(tk.pat<=0)pzDrop(tk)});
+  PZ.tix.slice().forEach(tk=>{if(PZ.gd==null)tk.pat-=dt;if(tk.pat<=0)pzDrop(tk)});
   PZ.slots.forEach(s=>{if(s.run&&s.tk){s.t+=dt;if(!s.ding&&s.t>=s.set){s.ding=true;blip(1320,'sine',.3,.12);setTimeout(()=>blip(1760,'sine',.4,.1),180);pzMsg('Ding! Pizza #'+s.tk.no+' is klaar',2.2)}}});
-  if(PZ.spawned>=PZ.N&&!PZ.queue.length&&!PZ.leaving.length&&!PZ.tix.length)pzDayEnd()}
+  if(PZ.gd==null&&PZ.spawned>=PZ.N&&!PZ.queue.length&&!PZ.leaving.length&&!PZ.tix.length)pzDayEnd()}
 function pzTake(){const c=PZ.queue[0];if(!c||Math.abs(c.x-240)>10)return;PZ.queue.shift();PZ.no++;const pat=Math.max(85,150-PZ.day*6);
   const tk={id:PZ.no,no:PZ.no,c,ord:c.ord,stage:'build',pz:{sauce:[],chl:0,cheese:[],tops:[]},pat,patMax:pat,slot:-1,bake:0,cuts:[]};PZ.tix.push(tk);c.tx=570;PZ.leaving.push(c);if(!PZ.sel||!PZ.tix.find(t=>t.id===PZ.sel))PZ.sel=tk.id;
   blip(660,'triangle',.1,.08);setTimeout(()=>blip(990,'triangle',.1,.06),90);if(PZ.tix.filter(t=>t.stage==='build').length===1&&!PZ.seen.first){PZ.seen.first=1;PZ.st='build';pzMsg('Bouw de pizza: kies saus, kaas en beleg',3)}else pzMsg('Ticket #'+tk.no+' hangt op de rail',2)}
@@ -3632,14 +3632,14 @@ function pzApply(tk,k,px,py,now){const q=pzInPizza(px,py,240,296,106);if(!q)retu
 let pzTkOnly=null;
 
 function pzServe(tk){const o=tk.ord,p=tk.pz;let ts=0;const ex={};p.tops.forEach(t=>{ex[t.k]=ex[t.k]||{a:0,l:0,r:0};ex[t.k].a++;t.x<0?ex[t.k].l++:ex[t.k].r++});let pen=0;
-  const mt=pzMatch(tk);o.tops.forEach(t=>{const e=ex[t.k]||{a:0},ok=Math.min(t.n,mt[t.k]||0),off=Math.max(0,e.a-ok);ts+=Math.max(0,ok/t.n-off*.12)});ts/=o.tops.length;Object.keys(ex).forEach(k=>{if(!o.tops.find(t=>t.k===k))pen+=ex[k].a*.1});ts=Math.max(0,ts-pen);
+  const mt=pzMatch(tk);let flaw=null;o.tops.forEach(t=>{const e=ex[t.k]||{a:0},ok=Math.min(t.n,mt[t.k]||0),off=Math.max(0,e.a-ok);ts+=Math.max(0,ok/t.n-off*.25);if(!flaw&&(e.a!==t.n||off>0)){const nm=PZ_TOPS.find(x=>x.k===t.k).n;flaw=e.a>t.n?'"Ik zei '+t.n+'× '+nm+', niet '+e.a+'! Kun je niet tellen?"':e.a<t.n?'"Er missen '+nm+'s! Ik vroeg er '+t.n+'."':'"De '+nm+' ligt er maar een beetje rommelig op..."'}});Object.keys(ex).forEach(k=>{if(!flaw&&!o.tops.find(t=>t.k===k))flaw='"Waarom ligt er '+PZ_TOPS.find(x=>x.k===k).n+' op? Dat heb ik niet besteld!"'});ts/=o.tops.length;Object.keys(ex).forEach(k=>{if(!o.tops.find(t=>t.k===k))pen+=ex[k].a*.1});ts=Math.max(0,ts-pen);
   const sauce=p.sauce.length===o.sauceL?1:p.sauce.length===0?0:.55,cheese=p.chl===o.cheeseL?1:p.chl===0?0:.55,bake=Math.max(0,Math.min(1,1-Math.abs(tk.bake/o.T-1)/.45));
   const L=o.slices/2,cs=tk.cuts.map(c=>((c.a%Math.PI)+Math.PI)%Math.PI).sort((a,b)=>a-b);let cut=0;if(cs.length){const ideal=Math.PI/L;let err=0;for(let i=0;i<cs.length;i++){const g=i<cs.length-1?cs[i+1]-cs[i]:cs[0]+Math.PI-cs[i];err+=Math.abs(g-ideal)/ideal}err=cs.length>1?err/cs.length:1;cut=Math.max(0,1-err*.8)*Math.min(1,cs.length/L)}
-  const tot=ts*.3+sauce*.1+cheese*.1+bake*.25+cut*.25,pct=Math.round(tot*100),stars=Math.max(1,Math.min(5,Math.round(tot*5))),mood=pct>=85?2:pct>=65?1:pct>=45?0:pct>=35?-1:-2;
+  if(!flaw&&(p.sauce.length!==o.sauceL||p.chl!==o.cheeseL))flaw=p.sauce.length>o.sauceL||p.chl>o.cheeseL?'"Wel erg veel saus en kaas zo..."':'"Er mist wat saus of kaas."';const tot=ts*.3+sauce*.1+cheese*.1+bake*.25+cut*.25,pct=Math.min(flaw?82:100,Math.round(tot*100)),stars=Math.max(1,Math.min(5,Math.round(tot*5))),mood=pct>=85?2:pct>=65?1:pct>=45?0:pct>=35?-1:-2;
   const wait=Math.max(0,tk.pat/tk.patMax),tip=pct>=85?2+Math.round(wait*3):pct>=65?Math.round(wait*2):0,refuse=pct<25,earn=refuse?0:Math.round((8+PZ.day)*tot*1.6)+tip,d=tk.c.def,pool=pct>=80?d.lines.g:pct>=55?d.lines.o:pct>=35?d.lines.b:(d.lines.x||d.lines.b);
   PZ.money+=earn;PZ.stats.served++;PZ.stats.pct+=pct;PZ.stats.earn+=earn;addCoins(earn);pzSave();
   const i=PZ.tix.indexOf(tk);if(i>=0)PZ.tix.splice(i,1);PZ.sel=null;
-  PZ.modal={tk,res:{tops:ts,sc:(sauce+cheese)/2,bake,cut,pct,stars,mood,earn,tip,say:pzGripe(tk,pct,ts,sauce,cheese,cut)||pool[Math.floor(Math.random()*pool.length)],refuse},t0:performance.now()};if(pct<35){blip(95,'sawtooth',.45,.14);setTimeout(()=>blip(70,'sawtooth',.5,.14),160);setTimeout(()=>blip(120,'square',.25,.08),360)}blip(pct>=65?880:300,pct>=65?'sine':'sawtooth',.2,.08);if(pct>=65)setTimeout(()=>blip(1320,'sine',.2,.07),120)}
+  PZ.modal={tk,res:{tops:ts,sc:(sauce+cheese)/2,bake,cut,pct,stars,mood,earn,tip,say:pzGripe(tk,pct,ts,sauce,cheese,cut)||(flaw&&pct<85?flaw:null)||pool[Math.floor(Math.random()*pool.length)],refuse},t0:performance.now()};if(pct<35){blip(95,'sawtooth',.45,.14);setTimeout(()=>blip(70,'sawtooth',.5,.14),160);setTimeout(()=>blip(120,'square',.25,.08),360)}blip(pct>=65?880:300,pct>=65?'sine':'sawtooth',.2,.08);if(pct>=65)setTimeout(()=>blip(1320,'sine',.2,.07),120)}
 function pzDrawModal(now){const m=PZ.modal,r=m.res,tk=m.tk,e=Math.min(1,(now-m.t0)/400);ctx.save();ctx.fillStyle='rgba(20,8,30,'+(.88*e)+')';ctx.fillRect(0,0,W,H);ctx.restore();
   ctx.save();ctx.globalAlpha=e;ctx.translate(0,(1-e)*40);
   if(r.mood<=-2){const el=(now-m.t0)/1000,sh=Math.sin(now/30)*Math.max(1.5,6-el*3);const rg=ctx.createRadialGradient(110,270,10,110,270,170);rg.addColorStop(0,'rgba(255,40,20,.5)');rg.addColorStop(1,'rgba(255,40,20,0)');ctx.fillStyle=rg;ctx.fillRect(0,100,300,300);ctx.save();ctx.translate(sh,0);pzCust(110,330,1.15,tk.c,-1);ctx.restore();
@@ -3696,6 +3696,7 @@ function drawPizza(now){PZ.btns=[];const dt=Math.min(.05,(now-PZ.dtp)/1000);PZ.d
   if(PZ.ph==='day'){pzDrawDay(now);pzRstBtn(W-30,30);if(PZ.rst)pzDrawReset(now);return}
   pzUpdate(dt);const st=PZ.st;if(st==='order')pzDrawOrder(now);else if(st==='build')pzDrawBuild(now);else if(st==='oven')pzDrawOven(now);else pzDrawCut(now);
   if(!PZ.modal){pzRail(now);}else{pzRail(now)}pzHud();if(!PZ.modal){pzRstBtn(290,21);pzHelpBtn(148,21)}pzTabs();
+  if(PZ.gd!=null&&PZ.tut==null&&!PZ.rst&&!PZ.bon){PZ.msgT=0;pzGdDraw(now)}
   if(PZ.bon&&!PZ.modal)pzDrawBon(now);
   if(PZ.modal)pzDrawModal(now);
   if(PZ.modal)PZ.msgT=0;if(PZ.msgT>0){PZ.msgT-=dt;ctx.save();ctx.globalAlpha=Math.min(1,PZ.msgT*2);rrect(W/2-160,H/2-30,320,38,19,'rgba(30,12,40,.88)');ctx.restore();pzT(PZ.msg,W/2,H/2-5,14,'#fff')}
@@ -4084,6 +4085,40 @@ function pzDrawBon(now){const tk=PZ.tix.find(t=>t.id===PZ.bon);if(!tk){PZ.bon=nu
   ctx.save();ctx.textAlign='left';ctx.font='700 20px '+FNT;ctx.fillStyle='#c4583a';ctx.fillText('Bon #'+tk.no,x+96,y+46);ctx.font='600 15px '+FNT;ctx.fillStyle='#6b5646';ctx.fillText(tk.c.def.n,x+96,y+70);
   ctx.font='600 16px '+FNT;ctx.fillStyle='#3a2414';L.forEach((l,i)=>ctx.fillText('• '+l,x+24,y+124+i*24));ctx.restore();
   ctx.restore();PZ.btns.push({x:0,y:0,w:W,h:H,fn:()=>{PZ.bon=null}});pzT('tik om te sluiten',W/2,y+h+30,13,'#ffe9c2')}
+
+// ---- begeleide eerste bestelling
+const PZ_GD=[
+ {st:'order',t:'Daar komt je eerste klant! Tik op BESTELLING OPNEMEN.',tg:()=>PZ.queue[0]&&Math.abs(PZ.queue[0].x-240)<10?[90,500,300,58]:null,ok:()=>PZ.tix.length>0},
+ {st:'build',t:'Tik op SAUS om de saus te pakken.',tg:()=>pzGdSlot('sauce'),ok:tk=>PZ.tool==='sauce'||tk.pz.sauce.length>0},
+ {st:'build',t:'Tik nu op de pizza om de saus te smeren.',tg:()=>['c',240,296,112],ok:tk=>tk.pz.sauce.length>0},
+ {st:'build',t:'Tik op KAAS.',tg:()=>pzGdSlot('cheese'),ok:tk=>PZ.tool==='cheese'||tk.pz.chl>0},
+ {st:'build',t:'Tik op de pizza voor de kaas.',tg:()=>['c',240,296,112],ok:tk=>tk.pz.chl>0},
+ {st:'build',t:'Tik op PEPPERONI.',tg:()=>pzGdSlot('pep'),ok:tk=>PZ.tool==='pep'},
+ {st:'build',t:'Leg de pepperoni precies op de 3 stippellijntjes.',tg:()=>['c',240,296,112],ok:tk=>(pzMatch(tk).pep||0)>=3},
+ {st:'build',t:'Mooi! Tik op NAAR DE OVEN.',tg:()=>[136,548,336,40],ok:tk=>tk.stage!=='build'},
+ {st:'oven',t:'De klant wil hem 8 seconden. Tik op − tot de timer op 8 s staat.',tg:tk=>pzGdOven(tk,'min'),ok:tk=>{const s=PZ.slots[tk.slot];return !s||s.set===8||s.run}},
+ {st:'oven',t:'Tik op START.',tg:tk=>pzGdOven(tk,'go'),ok:tk=>{const s=PZ.slots[tk.slot];return !s||s.run}},
+ {st:'oven',t:'Even wachten tot je DING! hoort...',tg:()=>null,ok:tk=>{const s=PZ.slots[tk.slot];return !s||s.ding}},
+ {st:'oven',t:'DING! Tik op UIT DE OVEN.',tg:tk=>pzGdOven(tk,'go'),ok:tk=>tk.stage==='cut'},
+ {st:'cut',t:'Veeg met je vinger dwars door het midden van de pizza. Doe het 2 keer, kruislings.',tg:()=>['c',240,296,112],ok:tk=>tk.cuts.length>=2},
+ {st:'cut',t:'Tik op SERVEER!',tg:()=>[136,548,336,40],ok:()=>PZ.stats.served>0},
+ {st:null,t:'Top gedaan! Nu sta je er alleen voor. Weet je het niet meer? Tik bovenin op de ?.',tg:()=>null,ok:()=>false,end:true}];
+function pzGdSlot(k){const s=(PZ.slots_||[]).find(q=>q.k===k);return s?[s.x,s.y,s.w,s.h]:null}
+function pzGdOven(tk,b){if(tk.slot<0)return null;const n=PZ.slots.length,w=(464-(n-1)*8)/n,x=8+tk.slot*(w+8),py=408;return b==='min'?[x+8,py+82,40,32]:[x+8,py+120,w-16,40]}
+function pzGdTk(){return PZ.tix.find(t=>t.id===1)||PZ.tix[0]}
+function pzGdDraw(now){const g=PZ_GD[PZ.gd];if(!g)return;const tk=pzGdTk();
+  if(!g.end&&PZ.gd>0&&PZ.gd<13&&!tk){return}
+  if(g.ok(tk)){PZ.gd++;PZ.gdT=now;blip(880,'triangle',.06,.05);return}
+  if(PZ.modal)return;
+  let txt=g.t,tg=g.tg(tk);const names={order:'BESTELLEN',build:'BOUWEN',oven:'OVEN',cut:'SNIJDEN'};
+  if(g.st&&PZ.st!==g.st){const i=['order','build','oven','cut'].indexOf(g.st);tg=[6+i*118,594,112,42];txt='Tik onderin op '+names[g.st]+'.'}
+  ctx.save();if(tg){ctx.fillStyle='rgba(20,6,10,.45)';ctx.beginPath();ctx.rect(0,0,W,H);if(tg[0]==='c')ctx.arc(tg[1],tg[2],tg[3]+6,0,7,true);else ctx.roundRect(tg[0]-6,tg[1]-6,tg[2]+12,tg[3]+12,16);ctx.fill('evenodd');
+    const p=.5+.5*Math.sin(now/180);ctx.strokeStyle='rgba(255,215,106,'+(.6+.4*p)+')';ctx.lineWidth=3+p*2;ctx.shadowColor='#ffd76a';ctx.shadowBlur=14;ctx.beginPath();if(tg[0]==='c')ctx.arc(tg[1],tg[2],tg[3]+6+p*4,0,7);else ctx.roundRect(tg[0]-6-p*3,tg[1]-6-p*3,tg[2]+12+p*6,tg[3]+12+p*6,16);ctx.stroke()}ctx.restore();
+  const ty=tg?(tg[0]==='c'?tg[2]:tg[1]+tg[3]/2):300,top=ty>330,h=g.end?150:84,cy=PZ.st==='order'&&!g.end?392:top?120:452;
+  const e=Math.min(1,(now-(PZ.gdT||0))/250);ctx.save();ctx.globalAlpha=e;ctx.translate(0,(1-e)*(top?-12:12));ctx.shadowColor='rgba(0,0,0,.4)';ctx.shadowBlur=16;ctx.shadowOffsetY=6;const cg=ctx.createLinearGradient(0,cy,0,cy+h);cg.addColorStop(0,'#fffdf6');cg.addColorStop(1,'#fbf1dc');ctx.fillStyle=cg;ctx.beginPath();ctx.roundRect(16,cy,448,h,18);ctx.fill();ctx.shadowColor='transparent';ctx.strokeStyle='#c4583a';ctx.lineWidth=2.5;ctx.stroke();
+  ctx.save();ctx.translate(56,cy+h/2+10);ctx.scale(.85,.85);const hh=hold,bt=biteT;hold=false;biteT=Math.floor(now/160)%2?10:0;hamster(0,0);hold=hh;biteT=bt;ctx.restore();
+  ctx.font='700 11px '+FNT;ctx.fillStyle='#c4583a';ctx.textAlign='left';ctx.fillText('CHEF DOEDELZAK · stap '+Math.min(PZ.gd+1,PZ_GD.length)+'/'+PZ_GD.length,98,cy+22);ctx.font='600 15px '+FNT;ctx.fillStyle='#3a2414';wrap(txt,346).slice(0,3).forEach((l,k)=>ctx.fillText(l,98,cy+44+k*19));ctx.restore();
+  if(g.end){pzBtn('AAN DE SLAG!',140,cy+h-52,200,42,'#3f8f4a',()=>{PZ.gd=null;pzTutSeen=true;try{localStorage.setItem('doedelzak-pz-tut','1')}catch(er){}PZ.nextArr=PZ.t+3;blip(1046,'triangle',.1,.06)},17)}}
 // ---- invoer
 function pzPtr(e){const r=cv.getBoundingClientRect();return[(e.clientX-r.left)*W/r.width,(e.clientY-r.top)*H/r.height]}
 function pzDown(px,py){const now=performance.now();
