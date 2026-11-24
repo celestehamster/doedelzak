@@ -487,7 +487,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);drawHelpBtn(now);drawSvBtn(now);if(helpAuto&&stN>40){helpAuto=false;startHelp();HP.forced=true}
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v110 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v111 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -2018,6 +2018,11 @@ function lgPreview(now){if(!lgBG)lgBuildBG();ctx.drawImage(lgBG,0,0,W,H);lgLogo(
   if(shown===3){const k=Math.min(1,(T-2.4)/.4);ctx.save();ctx.globalAlpha=k;pzT('LINGO!',290,310,34,'#ffd23f');ctx.restore()}}
 
 // ===== KLANTENSERVICE (Joost) =====
+function kbPlace(el,inpId,x,y,w){const r=cv.getBoundingClientRect(),sx=r.width/W,sy=r.height/H,vv=window.visualViewport,inp=document.getElementById(inpId),foc=inp&&document.activeElement===inp;
+  if(foc&&vv&&vv.height<window.innerHeight*.85){const h=el.offsetHeight||48;el.style.left=(vv.offsetLeft+10)+'px';el.style.width=(vv.width-20)+'px';el.style.top=(vv.offsetTop+vv.height-h-10)+'px';el.style.padding='8px';el.style.borderRadius='26px';el.style.background='rgba(20,12,36,.88)';el.style.boxShadow='0 4px 20px rgba(0,0,0,.4)';return}
+  el.style.left=(r.left+x*sx)+'px';el.style.top=(r.top+y*sy)+'px';el.style.width=(w*sx)+'px';el.style.padding='0';el.style.background='none';el.style.boxShadow='none'}
+if(window.visualViewport){const f=()=>{if(MD.el)mdPlace();if(SV.el)svPlace()};visualViewport.addEventListener('resize',f);visualViewport.addEventListener('scroll',f)}
+
 const SV={msgs:[],typing:0,el:null,n:0,no:0,lead:false,t0:0,used:{},survey:false,done:0,scroll:0};
 function svPick(k,a){SV.used[k]=SV.used[k]||[];let pool=a.filter((x,i)=>!SV.used[k].includes(i));if(!pool.length){SV.used[k]=[];pool=a}const v=pool[Math.floor(Math.random()*pool.length)];SV.used[k].push(a.indexOf(v));return v}
 const SV_TOPICS=[
@@ -2062,7 +2067,7 @@ function svUI(on){if(!on){if(SV.el){SV.el.remove();SV.el=null}return}if(SV.el)re
   document.body.appendChild(d);SV.el=d;const inp=d.querySelector('#svq'),go=()=>svSend(inp.value);d.querySelector('#svb').addEventListener('click',e=>{e.preventDefault();go()});inp.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'){e.preventDefault();go()}});['pointerdown','pointerup','touchstart'].forEach(ev=>d.addEventListener(ev,e=>e.stopPropagation()))}
 addEventListener('pointermove',e=>{if(state!=='support'||SV.dragY==null)return;const r=cv.getBoundingClientRect(),py=(e.clientY-r.top)*H/r.height;SV.scroll=(SV.scroll||0)+(py-SV.dragY);SV.dragY=py});
 addEventListener('pointerup',()=>{SV.dragY=null});addEventListener('wheel',e=>{if(state==='support'){SV.scroll=(SV.scroll||0)-e.deltaY*.6}},{passive:true});
-function svPlace(){if(!SV.el)return;const r=cv.getBoundingClientRect(),sx=r.width/W,sy=r.height/H;SV.el.style.left=(r.left+14*sx)+'px';SV.el.style.top=(r.top+584*sy)+'px';SV.el.style.width=(452*sx)+'px';SV.el.style.display=SV.survey?'none':'flex'}
+function svPlace(){if(!SV.el)return;kbPlace(SV.el,'svq',14,584,452);SV.el.style.display=SV.survey?'none':'flex'}
 function svJoost(x,y,s,talk,now){const def={id:'joost',hair:'bald',skin:'#f1c9a5',shirt:'#24324f',glasses:true};ctx.save();pzChar(x,y,s,def,talk&&Math.floor(now/140)%2?2:1);ctx.translate(x,y);ctx.scale(s,s);
   // wit overhemd + stropdas
   ctx.fillStyle='#f4f6fa';ctx.beginPath();ctx.moveTo(-12,-2);ctx.lineTo(12,-2);ctx.lineTo(0,30);ctx.closePath();ctx.fill();ctx.fillStyle='#b8262c';ctx.beginPath();ctx.moveTo(-4,0);ctx.lineTo(4,0);ctx.lineTo(3,6);ctx.lineTo(6,30);ctx.lineTo(0,38);ctx.lineTo(-6,30);ctx.lineTo(-3,6);ctx.closePath();ctx.fill();ctx.fillStyle='rgba(255,255,255,.25)';[10,18,26].forEach(yy=>{ctx.fillRect(-4,yy,8,1.6)});
@@ -2345,7 +2350,7 @@ function mdChime(){[1046,1318,1568,2093].forEach((f,i)=>setTimeout(()=>blip(f,'s
 function mdUI(on){if(!on){if(MD.el){MD.el.remove();MD.el=null}return}if(MD.el)return;const d=document.createElement('div');d.id='mdbox';d.style.cssText='position:fixed;z-index:50;display:flex;gap:8px;align-items:center;box-sizing:border-box';
   d.innerHTML='<input id="mdq" maxlength="90" autocomplete="off" placeholder="Stel je vraag aan Medium Doedelzak..." style="flex:1;min-width:0;box-sizing:border-box;font:500 16px Fredoka,Trebuchet MS,sans-serif;padding:11px 16px;border-radius:22px;border:2px solid rgba(217,184,255,.6);background:rgba(20,8,40,.82);color:#f3e8ff;outline:none;box-shadow:0 0 18px rgba(170,110,255,.35) inset"><button id="mdb" style="border:0;border-radius:22px;padding:11px 16px;font:700 15px Fredoka,Trebuchet MS,sans-serif;color:#2a0f4a;background:linear-gradient(#f3e3ff,#c9a2ff);box-shadow:0 0 16px rgba(190,140,255,.6);cursor:pointer">VRAAG</button>';
   document.body.appendChild(d);MD.el=d;const inp=d.querySelector('#mdq'),go=()=>{mdAsk(inp.value);};d.querySelector('#mdb').addEventListener('click',e=>{e.preventDefault();go()});inp.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'){e.preventDefault();go()}});['pointerdown','pointerup','touchstart'].forEach(ev=>d.addEventListener(ev,e=>e.stopPropagation()))}
-function mdPlace(){if(!MD.el)return;const r=cv.getBoundingClientRect(),sx=r.width/W,sy=r.height/H;MD.el.style.left=(r.left+22*sx)+'px';MD.el.style.top=(r.top+566*sy)+'px';MD.el.style.width=(436*sx)+'px';MD.el.style.display=MD.st==='think'?'none':'flex'}
+function mdPlace(){if(!MD.el)return;kbPlace(MD.el,'mdq',22,566,436);MD.el.style.display=MD.st==='think'?'none':'flex'}
 function mdAsk(v){const q=(v||'').trim();if(!q||MD.st==='think')return;initAudio();if(ac&&ac.state==='suspended')ac.resume();MD.q=q;
   if(!mdIsQ(q)){MD.st='nope';MD.t=0;MD.a='Weet je wat een vraag is of niet?';blip(180,'sawtooth',.25,.08);return}
   MD.st='think';MD.t=0;MD.a=mdAnswer(q);mdHum();const i=document.getElementById('mdq');if(i){i.value='';i.blur()}}
