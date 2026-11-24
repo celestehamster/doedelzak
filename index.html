@@ -487,7 +487,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);drawHelpBtn(now);drawSvBtn(now);if(helpAuto&&stN>40){helpAuto=false;startHelp();HP.forced=true}
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v115 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v116 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -2114,7 +2114,7 @@ function drawSupport(){const now=performance.now();svPlace();
   {ctx.save();ctx.shadowColor='rgba(16,30,70,.18)';ctx.shadowBlur=14;ctx.shadowOffsetY=5;const g=ctx.createLinearGradient(0,76,0,164);g.addColorStop(0,'#ffffff');g.addColorStop(1,'#f1f5fc');ctx.fillStyle=g;ctx.beginPath();ctx.roundRect(12,76,456,88,20);ctx.fill();ctx.shadowColor='transparent';ctx.strokeStyle='rgba(201,164,65,.55)';ctx.lineWidth=1.5;ctx.stroke();ctx.restore()}
   svAvatar(56,120,30,now,SV.typing>now);
   {const on=SV.typing>now;ctx.save();ctx.fillStyle='#2f9e57';ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(80,144,6,0,7);ctx.fill();ctx.stroke();ctx.restore()}
-  ctx.save();ctx.textAlign='left';ctx.font='700 20px Fredoka,sans-serif';ctx.fillStyle='#16367c';ctx.fillText('Joost',100,106);ctx.font='500 12px Fredoka,sans-serif';ctx.fillStyle='#5a6680';ctx.fillText(SV.lead?'Teamleider Klantrelaties':'Senior Customer Experience Officer',100,124);
+  ctx.save();ctx.textAlign='left';ctx.font='700 20px Fredoka,sans-serif';ctx.fillStyle='#16367c';ctx.fillText('Joost',100,106);const jw=ctx.measureText('Joost ').width;ctx.font='italic 500 13px Fredoka,sans-serif';ctx.fillStyle='#5a6680';ctx.fillText('(hij kan het weten)',100+jw,106);ctx.font='500 12px Fredoka,sans-serif';ctx.fillStyle='#5a6680';ctx.fillText(SV.lead?'Teamleider Klantrelaties':'Senior Customer Experience Officer',100,124);
   const st=SV.typing>now?'aan het typen...':'online';ctx.font='600 11px Fredoka,sans-serif';const sw=ctx.measureText(st).width+18;ctx.fillStyle='rgba(47,158,87,.12)';ctx.beginPath();ctx.roundRect(100,133,sw,18,9);ctx.fill();ctx.fillStyle='#2f9e57';ctx.fillText(st,109,146);ctx.restore();
   if(SV.no){ctx.save();ctx.font='600 10px Fredoka,sans-serif';const tw=ctx.measureText('DZ-'+SV.no).width+16;ctx.fillStyle='rgba(31,74,168,.08)';ctx.beginPath();ctx.roundRect(456-tw,86,tw,18,9);ctx.fill();ctx.fillStyle='#1f4aa8';ctx.textAlign='center';ctx.fillText('DZ-'+SV.no,456-tw/2,99);ctx.restore()}
   if(SV.n>0&&!SV.survey){svGloss(350,124,106,30,15,'#ef6a6a','#c93a3a','#8a1f1f','#fff');text('BEËINDIGEN',403,144,12,'#fff')}
