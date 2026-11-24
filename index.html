@@ -483,7 +483,7 @@ function drawStart(){
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
   drawMpButton(now);drawShopBtn(now);drawHelpBtn(now);if(helpAuto&&stN>40){helpAuto=false;startHelp();HP.forced=true}
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v107 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v108 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -1378,7 +1378,7 @@ const SELM=[
  {m:'lingo',n:'LINGO',f:"'Russo One',Fredoka,sans-serif",sz:64,c1:'#04103a',c2:'#1f55c8',ac:'#ffd23f',tag:'raad het woord met presentator Doedelzak',d:'',h:''},
  {m:'dam',n:'DAMMEN',f:"'Cinzel Decorative',Georgia,serif",sz:48,c1:'#1c100b',c2:'#8a4f26',ac:'#ffd9a0',tag:'versla Doedelzak op het bord',d:'',h:''},
  {m:'medium',n:'MEDIUM DOEDELZAK',f:"'Cinzel Decorative',Georgia,serif",sz:32,c1:'#120626',c2:'#5a2a8a',ac:'#d9b8ff',tag:'stel je vraag aan Medium Doedelzak',d:'',h:''},
- {m:'pizza',n:'PIZZERIA',f:"Lobster,Fredoka,cursive",sz:56,c1:'#b3261e',c2:'#ffb25a',ac:'#fff3dc',tag:'bestel, bouw, bak, snijd!',d:'Bestellingen opnemen, bouwen, bakken en snijden. Pim, Romano, Yindi, Celeste en hamsters hebben honger!',h:'tik en sleep'}
+ {m:'pizza',n:'PIZZERIA',f:"Lobster,Fredoka,cursive",sz:58,c1:'#3a0f16',c2:'#c4583a',ac:'#ffd76a',tag:'bestel, bouw, bak, snijd!',d:'Bestellingen opnemen, bouwen, bakken en snijden. Pim, Romano, Yindi, Celeste en hamsters hebben honger!',h:'tik en sleep'}
 ];
 try{document.fonts&&SELM.forEach(o=>document.fonts.load('40px '+o.f.split(',')[0]))}catch(e){}
 const SEL={i:0,off:0,t0:0,sx:null,demo:null};
@@ -1483,12 +1483,16 @@ function selScene(m,now){const T=now/1000,SW=480,SH=367,ot=t;t=Math.floor(now/16
       ctx.save();if(Q.glow){ctx.shadowColor=Q.thick;ctx.shadowBlur=8}ctx.strokeStyle=Q.thick;ctx.lineWidth=2.5;for(let k=0;k<=9;k+=3){ctx.beginPath();ctx.moveTo(gx+k*cs,gy);ctx.lineTo(gx+k*cs,gy+cs*9);ctx.moveTo(gx,gy+k*cs);ctx.lineTo(gx+cs*9,gy+k*cs);ctx.stroke()}ctx.restore()};
     scene(i0);if(fe>0){ctx.save();ctx.globalAlpha=fe;scene((i0+1)%N);ctx.restore()}sdTh=oth;
     ctx.save();ctx.translate(430,310+Math.sin(T*3)*5);ctx.scale(-1.3,1.3);const ph=PEYE;PEYE='h';hold=true;hamster(0,0);hold=false;PEYE=ph;ctx.restore();ctx.fillStyle='#fff';ctx.strokeStyle='#7a4a22';ctx.lineWidth=2;ctx.beginPath();ctx.roundRect(380,236,92,30,14);ctx.fill();ctx.stroke();pzT('Goed bezig!',426,256,12,'#4a2a10')}
-  else{ctx.fillStyle='#ffc678';ctx.fillRect(0,0,SW,SH);for(let i=0;i<10;i++){ctx.fillStyle=i%2?'#fff3dc':'#d8352a';ctx.beginPath();ctx.moveTo(i*50,0);ctx.lineTo(i*50+50,0);ctx.lineTo(i*50+50,22);ctx.arc(i*50+25,22,25,0,3.1416);ctx.fill()}
-    pzLights(66,now,7);pzChk(0,262,SW,105,35,'#d8352a','#fff3dc');
+  else{if(!pzSBG)pzSBG=pzBuildShop();if(!pzCBG)pzCBG=pzBuildCounter();ctx.drawImage(pzSBG,0,200,960,734,0,0,SW,SH);
+    ctx.save();ctx.translate(0,-100);pzMenuBoard();pzNeon(now);pzLamp(96,186,now);pzLights(116,now,9);ctx.restore();
     if(!SEL.demo){const cheese=[];for(let i=0;i<120;i++){const a=i*2.39,r=Math.sqrt(i/120)*104;cheese.push({x:Math.cos(a)*r,y:Math.sin(a)*r,a:i,d:0,t0:-1e6})}const tops=[];['pep','mus','pep','oni','pep','mus','pep','oni','pep'].forEach((k,i)=>tops.push({k,x:Math.cos(i*1.9)*(30+(i*29)%70),y:Math.sin(i*1.9)*(30+(i*29)%70),r:i,t0:-1e6}));SEL.demo={pz:{sauce:[{t0:-1e6}],chl:1,cheese,tops},c:{def:PZ_HAM[1]||PZ_HAM[0]}}}
-    pzHam(110,262,1.1,SEL.demo.c,Math.sin(T)>0?1:0);ctx.fillStyle='#a8683a';ctx.fillRect(0,270,SW,97);pzChk(0,270,SW,28,28,'#d8352a','#fff3dc');
-    pzPizza2(335,180,112,SEL.demo.pz,Math.min(1,(T%6)/4),null,now,null);
-    ctx.fillStyle='#fffdf6';ctx.strokeStyle='#8a5a2a';ctx.lineWidth=2.5;ctx.beginPath();ctx.roundRect(36,92,170,58,12);ctx.fill();ctx.stroke();ctx.beginPath();ctx.moveTo(100,150);ctx.lineTo(92,168);ctx.lineTo(118,150);ctx.fill();text('Hoi! Ik wil graag:',121,114,13,'#5a3a1a');text('3× pepperoni',121,136,14,'#c2381f')}
+    ctx.save();ctx.fillStyle='rgba(60,20,5,.18)';ctx.beginPath();ctx.ellipse(232,358,76,10,0,0,7);ctx.fill();ctx.restore();
+    pzHam(232,334+Math.sin(T*2.6)*1.5,1.05,SEL.demo.c,Math.sin(T)>0?2:1);
+    ctx.drawImage(pzCBG,0,0,960,400,0,340,SW,200);
+    {const x=372,y=300;ctx.save();ctx.shadowColor='rgba(40,15,0,.45)';ctx.shadowBlur=14;ctx.shadowOffsetY=6;const g=ctx.createRadialGradient(x-14,y-18,6,x,y,66);g.addColorStop(0,'#e2ac70');g.addColorStop(1,'#9a6232');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,66,0,7);ctx.fill();ctx.restore();
+      pzPizza2(x,y,58,SEL.demo.pz,Math.min(1,(T%6)/3),null,now,null);
+      ctx.save();for(let k=0;k<4;k++){const p=((T*.6)+k/4)%1;ctx.globalAlpha=(1-p)*.4*Math.sin(p*Math.PI);ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(x-24+k*16+Math.sin(p*6+k)*6,y-30-p*70,7+p*10,0,7);ctx.fill()}ctx.restore()}
+    pzBubble(140,112,200,['Hoi! Ik wil graag:','3× pepperoni'],232)}
   t=ot;ctx.restore()}
 const NOCOIN={studio:1,medium:1,makeup:1};
 function coinBadge(x,y,r,earn,now){ctx.save();ctx.translate(x,y);const bob=earn?Math.sin(now/300)*.06:0;ctx.rotate(bob);
