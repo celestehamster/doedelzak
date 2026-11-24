@@ -172,6 +172,7 @@ addEventListener('keydown',e=>{
   if(state==='lingo'){e.preventDefault();if(!e.repeat||e.code==='Backspace')lgKey(e);return}
   if(state==='dam'){e.preventDefault();return}
   if(state==='medium'){if(e.code==='Enter'||e.key&&e.key.length===1){const i=document.getElementById('mdq');if(i)i.focus()}return}
+  if(state==='support'){if(!homeAsk&&(e.code==='Enter'||e.key&&e.key.length===1)){const i=document.getElementById('svq');if(i)i.focus()}return}
   if(state==='makeup'){e.preventDefault();return}
   if(state==='studio'){e.preventDefault();if(!e.repeat)stKey(e.code);return}
   if(state==='pizza'){e.preventDefault();return}
@@ -200,6 +201,7 @@ cv.addEventListener('pointerdown',e=>{e.preventDefault();
   if(state==='lingo'){lgDown(px,py);return}
   if(state==='dam'){dmDown(px,py);return}
   if(state==='medium'){mdDown(px,py);return}
+  if(state==='support'){svDown(px,py);return}
   if(state==='kiss'){initAudio();if(ac&&ac.state==='suspended')ac.resume();if(KS.choose){ksChooseDown(px,py);return}if(KS.over){if(KS.ct>2){if(py>470&&py<520&&Math.abs(px-W/2)<130)startKiss(true);else startKiss()}return}KS.hold=true;return}
   if(state==='makeup'){mkDown(px,py);return}
   if(state==='studio'){stDown(px,py);return}
@@ -218,6 +220,7 @@ cv.addEventListener('pointerdown',e=>{e.preventDefault();
   if(state==='start'){initAudio();if(ac&&ac.state==='suspended')ac.resume();
     if(px>366&&px<466&&py>13&&py<47){boom(px,py,.9);thud(.25);openShop();return}
     if(px>246&&px<358&&py>13&&py<47){boom(px,py,.9);thud(.25);startCloset(1);return}
+    if(Math.hypot(px-198,py-30)<22){thud(.25);startSupport();return}
     if(Math.hypot(px-148,py-30)<24||(!HP.seen&&px>110&&px<190&&py>12&&py<70)){thud(.25);startHelp();return}
     if(px>102&&px<378&&py>568&&py<602){boom(px,py,.5);mpSoon();return}
     if(Math.abs(px-W/2)<100&&Math.abs(py-468)<40){boom(px,py,1.6);thud();selOpen()}else{boom(px,py,1.2+Math.random()*.6);thud()}
@@ -341,6 +344,7 @@ function draw(){
   if(state==='lingo'){drawLingo();return}
   if(state==='dam'){drawDam();return}
   if(state==='medium'){drawMedium();return}
+  if(state==='support'){drawSupport();return}
   if(state==='outfit'){drawOutfitScreen();return}
   if(state==='story'){drawStory();return}
   if(state==='makeup'){drawMakeup();return}
@@ -482,8 +486,8 @@ function drawStart(){
   const bp=1+Math.sin(now/180)*.04;ctx.save();ctx.translate(W/2,468);ctx.scale(bp,bp);
   ctx.shadowColor='#ffb300';ctx.shadowBlur=24;ctx.fillStyle='#d6336c';ctx.beginPath();ctx.roundRect(-100,-34,200,68,24);ctx.fill();
   ctx.shadowBlur=0;ctx.lineWidth=5;ctx.strokeStyle='#ffd23f';ctx.stroke();icTri(-58,1,28,1);text('PLAY',14,12,34);ctx.restore();
-  drawMpButton(now);drawShopBtn(now);drawHelpBtn(now);if(helpAuto&&stN>40){helpAuto=false;startHelp();HP.forced=true}
-  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v109 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
+  drawMpButton(now);drawShopBtn(now);drawHelpBtn(now);drawSvBtn(now);if(helpAuto&&stN>40){helpAuto=false;startHelp();HP.forced=true}
+  ctx.font='11px monospace';ctx.textAlign='left';ctx.fillStyle='#ffffff99';ctx.fillText('muziek: '+mStatus,8,H-8);ctx.textAlign='right';ctx.fillText('v110 · '+(netAvail()?'samen spelen aan':'solo-versie'),W-8,H-8);ctx.textAlign='left';
   if(!unlocked&&Math.floor(now/500)%2){icSpeaker(W/2-108,62,20,true,'#ffe9c2');text('tik of druk ergens voor geluid',W/2+10,68,15,'#ffe9c2')}
   if(flash>.01){ctx.fillStyle=`rgba(255,225,160,${flash*.35})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88}
   ctx.restore();
@@ -928,7 +932,7 @@ function drawShop(){
 }
 // menu
 let homeAsk=0,homeSnap=null,homeBtns=[];
-function askHome(){if(['start','select','help','shop','outfit','pet'].includes(state)){if(state==='pet'&&typeof petSave==='function')petSave();goMenu();return}if(homeAsk)return;homeSnap=document.createElement('canvas');homeSnap.width=cv.width;homeSnap.height=cv.height;homeSnap.getContext('2d').drawImage(cv,0,0);homeAsk=performance.now();hold=false;try{blip(520,'triangle',.08,.05)}catch(e){}}
+function askHome(){if(['start','select','help','shop','outfit','pet','support'].includes(state)){if(state==='pet'&&typeof petSave==='function')petSave();goMenu();return}if(homeAsk)return;homeSnap=document.createElement('canvas');homeSnap.width=cv.width;homeSnap.height=cv.height;homeSnap.getContext('2d').drawImage(cv,0,0);homeAsk=performance.now();hold=false;try{blip(520,'triangle',.08,.05)}catch(e){}}
 function homeYes(){homeAsk=0;if(state==='pet'&&typeof petSave==='function')petSave();if(state==='lingo')LG.intro=null;goMenu();try{thud(.25)}catch(e){}}
 function drawHomeAsk(){const now=performance.now(),e=Math.min(1,(now-homeAsk)/240),eo=1-Math.pow(1-e,3);homeBtns=[];ctx.save();ctx.drawImage(homeSnap,0,0,W,H);ctx.fillStyle='rgba(20,8,30,'+(.6*eo)+')';ctx.fillRect(0,0,W,H);ctx.globalAlpha=eo;ctx.translate(W/2,H/2);ctx.scale(.9+.1*eo,.9+.1*eo);ctx.translate(-W/2,-H/2);
   const x=50,y=196,w=380,h=250;ctx.shadowColor='rgba(0,0,0,.5)';ctx.shadowBlur=30;ctx.shadowOffsetY=10;ctx.fillStyle='#fff8f0';ctx.beginPath();ctx.roundRect(x,y,w,h,26);ctx.fill();ctx.shadowColor='transparent';ctx.strokeStyle='#ffd23f';ctx.lineWidth=4;ctx.stroke();
@@ -1151,6 +1155,9 @@ function drawRaceEnd(){
 }
 function icFriends(x,y,s){icBegin(x,y,s);[[-6,'#ffd23f'],[6,'#7fd0ff']].forEach(([dx,c])=>{ctx.fillStyle=c;ctx.beginPath();ctx.arc(dx,-4,5,0,7);ctx.fill();ctx.stroke();ctx.beginPath();ctx.ellipse(dx,8,7,5,0,Math.PI,0);ctx.fill();ctx.stroke()});ctx.restore()}
 let soonAt=-1e9;function mpSoon(){soonAt=performance.now();blip(180,'square',.12,.05)}
+function drawSvBtn(now){const x=198,y=30;ctx.save();ctx.fillStyle='rgba(0,0,0,.32)';ctx.strokeStyle='rgba(255,255,255,.8)';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(x,y,17,0,7);ctx.fill();ctx.stroke();
+  ctx.strokeStyle='#ffd23f';ctx.lineWidth=2.6;ctx.lineCap='round';ctx.beginPath();ctx.arc(x,y+1,8,Math.PI*1.05,Math.PI*1.95);ctx.stroke();ctx.fillStyle='#ffd23f';ctx.beginPath();ctx.roundRect(x-10.5,y-1,5,8,2);ctx.fill();ctx.beginPath();ctx.roundRect(x+5.5,y-1,5,8,2);ctx.fill();ctx.beginPath();ctx.moveTo(x+8,y+7);ctx.quadraticCurveTo(x+7,y+11,x+1,y+11);ctx.stroke();ctx.beginPath();ctx.arc(x,y+11,1.8,0,7);ctx.fill();ctx.restore();
+  if(HP.seen){ctx.save();ctx.globalAlpha=.85;text('klantenservice',x,y+32,10,'#ffe9f4');ctx.restore()}}
 function drawMpButton(now){
   ctx.save();ctx.fillStyle='#6d6878';ctx.strokeStyle='rgba(255,255,255,.45)';ctx.lineWidth=2.5;ctx.beginPath();ctx.roundRect(102,568,276,34,17);ctx.fill();ctx.stroke();ctx.globalAlpha=.55;ctx.restore();
   ctx.save();ctx.globalAlpha=.5;icFriends(134,585,26);ctx.restore();text('MET EEN VRIEND',248,591,16,'#cfcad8');icLock(356,581,'#e8e4f0');
@@ -2009,6 +2016,96 @@ function lgPreview(now){if(!lgBG)lgBuildBG();ctx.drawImage(lgBG,0,0,W,H);lgLogo(
   const T=(now/1000)%6,shown=Math.min(3,Math.floor(T/1.2)+1);
   for(let r=0;r<4;r++)for(let i=0;i<5;i++){const x=gx+i*44,y=gy+r*44;if(r<shown){const g=G[r],res=lgEval(g,w);lgTile(x,y,s,g[i],res[i])}else if(r===shown&&r<3)lgTile(x,y,s,i===0?'a':'',0,null,true,i===1);else lgTile(x,y,s,'',0)}
   if(shown===3){const k=Math.min(1,(T-2.4)/.4);ctx.save();ctx.globalAlpha=k;pzT('LINGO!',290,310,34,'#ffd23f');ctx.restore()}}
+
+// ===== KLANTENSERVICE (Joost) =====
+const SV={msgs:[],typing:0,el:null,n:0,no:0,lead:false,t0:0,used:{},survey:false,done:0,scroll:0};
+function svPick(k,a){SV.used[k]=SV.used[k]||[];let pool=a.filter((x,i)=>!SV.used[k].includes(i));if(!pool.length){SV.used[k]=[];pool=a}const v=pool[Math.floor(Math.random()*pool.length)];SV.used[k].push(a.indexOf(v));return v}
+const SV_TOPICS=[
+ [/geld terug|terugbetal|compensat|schadevergoed|vergoed/,'uw verzoek om compensatie','Compensatie is op dit moment niet aan de orde, nu er formeel nog niet is vastgesteld dat er sprake is van schade.'],
+ [/sorry|excuus|excuses|verontschuldig/,'uw verzoek om excuses','Excuses aanbieden zou suggereren dat er iets is misgegaan. Dat kunnen wij op dit moment niet vaststellen. Wel betreuren wij het dat u het zo heeft ervaren.'],
+ [/munt|geld|coin|betal|duur|prijs|shop|winkel|skin|outfit/,'de muntjeshuishouding','De waarde van muntjes wordt bepaald door de markt. Doedelzak™ volgt de markt, maar is uitdrukkelijk niet de markt.'],
+ [/bijt|beet|gebeten|tand|knaag/,'het bijtgedrag van Doedelzak','Voor zover er gebeten is, gebeurde dat op persoonlijke titel. Doedelzak was op dat moment niet in functie.'],
+ [/pizza|oven|beleg|champignon|pepperoni|kaas|saus|ananas|kebab|bestelling/,'de gang van zaken in de pizzeria','De klanten in de pizzeria zijn zelfstandige ondernemers met eigen verwachtingen. Doedelzak™ faciliteert slechts de oven.'],
+ [/bug|crash|vast|hangt|werkt niet|kapot|fout|error|laad|traag|langzaam|scherm/,'de technische werking van de app','Wij herkennen ons niet in het beeld dat er een fout in de app zit. Wel zien wij dat uw apparaat de app mogelijk anders interpreteert dan door ons bedoeld.'],
+ [/muziek|geluid|liedje|lied|volume|hard|stil/,'de geluidsbeleving','Het volume is een gedeelde verantwoordelijkheid van u, uw telefoon en de natuurkunde. Doedelzak™ is daarin hooguit een van de partijen.'],
+ [/kus|zoen|romano|krant/,'het kusincident','Over individuele kussen doen wij geen uitspraken. Dat is een privéaangelegenheid tussen de betrokken hamsters.'],
+ [/sudoku|dam|lingo|woord|puzzel|letter/,'het puzzelaanbod','Of een woord wel of niet bestaat, is uiteindelijk een taalkundige kwestie. Daar gaat Doedelzak™ niet over; dat is aan de Nederlandse taal zelf.'],
+ [/shooter|kraai|vliegen|vlieg|dood|game over|verlies|verloren|verlor|moeilijk|te snel/,'uw recente verlies','Verliezen is een vast onderdeel van het spel. Dat het u overkwam, is het gevolg van keuzes die u zelf heeft gemaakt, en die respecteren wij volledig.'],
+ [/medium|voorspel|toekomst|waarzeg/,'de uitspraken van Medium Doedelzak','Medium Doedelzak treedt op als zelfstandig adviseur. Zijn voorspellingen komen niet voor rekening van Doedelzak™.'],
+ [/studio|piano|drum|bas|opname/,'de studio','De studio wordt verhuurd op basis van eigen risico. Wat daar wordt opgenomen, valt onder de artistieke vrijheid van de gebruiker.'],
+ [/saai|lelijk|slecht|stom|kut|waardeloos|haat|irritant|vervelend|rot/,'uw algehele beleving','Uw beleving is uw beleving, en die laten wij nadrukkelijk bij u.'],
+ [/hamster|doedelzak/,'het gedrag van onze mascotte','Doedelzak is een zelfstandig opererende hamster. Wij hebben geen zeggenschap over zijn persoonlijke opvattingen of zijn vleugels.']];
+const SV_OPEN=['Dank u voor uw bericht.','Hartelijk dank voor het delen van uw ervaring.','Ik waardeer het zeer dat u de moeite neemt om contact met ons op te nemen.','Allereerst dank voor uw geduld.','Goed dat u dit bij ons meldt.'];
+const SV_ACK=['Ik begrijp dat {S} bij u zorgen oproept.','Ik hoor wat u zegt over {S}, en ik neem dat uiterst serieus.','Ik kan mij goed voorstellen dat {S} bij u vragen oproept.','Laat ik helder zijn: {S} heeft onze volle aandacht.'];
+const SV_GEN=['Laat ik vooropstellen dat Doedelzak™ zich altijd aan alle geldende afspraken houdt, ook aan de afspraken die nog niet zijn gemaakt.','Ik heb daar op dit moment geen actieve herinnering aan.','Daar ga ik niet over. Dat ligt bij een andere afdeling, die op dit moment wordt gereorganiseerd.','Het is niet aan mij om daar met terugwerkende kracht een oordeel over te vellen.','Wij moeten nu vooral vooruitkijken, in plaats van achterom.','Er zijn fouten gemaakt, maar niet door ons.','Het beleid was op het moment van uitvoering volledig in lijn met het beleid.','Ik wil daar niet op vooruitlopen, omdat het proces nog loopt.','Ik zie in het dossier geen aanwijzingen die uw lezing van de gebeurtenissen ondersteunen.','Wij herkennen ons niet in dat beeld.'];
+const SV_PROM=['Wij nemen uw signaal mee in een breder evaluatietraject.','Ik zet uw klacht door naar de werkgroep Klachten, die in het voorjaar opnieuw bijeenkomt.','Uw klacht is geregistreerd en krijgt de aandacht die zij verdient.','Wij gaan hier de komende periode zorgvuldig naar kijken, in samenhang met andere signalen.','Ik neem dit persoonlijk mee naar het eerstvolgende overleg, dat nog moet worden ingepland.'];
+const SV_CLOSE=['Ik dank u voor uw vertrouwen in Doedelzak™.','Is er verder nog iets waarmee ik u niet kan helpen?','Fijne dag nog, namens het voltallige Doedelzak™-team.','Wij blijven graag met u in gesprek.'];
+function svReply(q){const l=q.toLowerCase().trim();
+  if(!l||/^[?!. ]+$/.test(l))return 'Ik ontvang een leeg bericht. Ik ga ervan uit dat dit betekent dat u volledig tevreden bent. Dat noteren wij graag.';
+  if(/^(hoi|hallo|hey|hee|hi|goedemorgen|goedemiddag|goedenavond|dag|yo)\b[ !.]*$/.test(l))return 'Goedendag. Wat fijn dat u er bent. Waar wilt u vandaag een klacht over indienen?';
+  if(/^(dank|bedankt|thanks|top|oke|ok|prima)\b/.test(l))return 'Graag gedaan. Ik ben blij dat wij er samen niet uit zijn gekomen. '+svPick('c',SV_CLOSE);
+  let S='deze kwestie',spec='Ik heb van deze kwestie geen dossier gezien, en kan daar dan ook geen uitspraken over doen.';for(const[r,s,sp]of SV_TOPICS)if(r.test(l)){S=s;spec=sp;break}
+  const parts=[svPick('o',SV_OPEN),svPick('a',SV_ACK).replace('{S}',S),spec];
+  if(/\b(als|stel dat|wat als|zou)\b/.test(l)&&/\?/.test(q))parts.push('U stelt mij een hypothetische vraag. Daar ga ik, met alle respect, niet op in.');else if(/\?/.test(q))parts.push(svPick('q',['Dat is een terechte vraag, en ik ga die dan ook zeer zorgvuldig niet beantwoorden.','Op die vraag kan ik op dit moment geen antwoord geven, mede gelet op lopende procedures.','Ik ga die vraag niet beantwoorden, maar ik wil wel benadrukken dat het een goede vraag is.']));else parts.push(svPick('g',SV_GEN));
+  parts.push(svPick('p',SV_PROM));if(SV.n===1){SV.no=SV.no||Math.floor(10000+Math.random()*89999);parts.push('Uw klachtnummer is DZ-'+SV.no+'.')}else parts.push(svPick('c',SV_CLOSE));
+  return parts.join(' ')}
+function svSay(txt,who,delay){SV.typing=performance.now()+delay;SV.pending=(SV.pending||[]);SV.pending.push({txt,who,at:performance.now()+delay})}
+function startSupport(){hold=false;hid=null;setSound(false);state='support';SV.msgs=[];SV.pending=[];SV.n=0;SV.no=0;SV.lead=false;SV.t0=performance.now();SV.survey=false;SV.done=0;SV.used={};
+  SV.msgs.push({who:'sys',txt:'U bent nummer 3 in de wachtrij...'});setTimeout(()=>{if(state==='support')SV.msgs.push({who:'sys',txt:'U bent nummer 1 in de wachtrij...'})},1300);
+  svSay('Goedendag, u spreekt met Joost van de afdeling Klantrelaties van Doedelzak™. Dit gesprek kan worden opgenomen voor trainingsdoeleinden. Waar wilt u een klacht over indienen?','j',3200);svUI(true)}
+function svSend(v){const q=(v||'').trim().slice(0,160);if(SV.typing>performance.now()||SV.survey)return;initAudio();if(ac&&ac.state==='suspended')ac.resume();SV.msgs.push({who:'u',txt:q||'...'});blip(880,'sine',.06,.04);if(SV.el){const i=SV.el.querySelector('#svq');if(i)i.value=''}
+  SV.n++;const esc=/leidinggevende|manager|baas|chef|hoger|teamleider/.test(q.toLowerCase())||SV.n===4&&!SV.lead;
+  if(esc&&!SV.lead){SV.lead=true;svSay('Ik begrijp dat u wilt escaleren. Ik verbind u door met mijn leidinggevende. Een ogenblik geduld alstublieft.','j',1800);SV.pending.push({txt:'U wordt doorverbonden...',who:'sys',at:performance.now()+3600});svSay('Goedendag, u spreekt met Joost, teamleider Klantrelaties. Mijn collega Joost heeft mij volledig gebriefd. Ik kan u zeggen dat ik mij volledig achter de eerdere beantwoording van mijn collega schaar. Wat kan ik nog meer niet voor u doen?','j',6200);return}
+  svSay(svReply(q),'j',1500+Math.min(2600,q.length*25))}
+function svUI(on){if(!on){if(SV.el){SV.el.remove();SV.el=null}return}if(SV.el)return;const d=document.createElement('div');d.id='svbox';d.style.cssText='position:fixed;z-index:50;display:flex;gap:8px;align-items:center;box-sizing:border-box';
+  d.innerHTML='<input id="svq" maxlength="160" autocomplete="off" placeholder="Beschrijf uw klacht..." style="flex:1;min-width:0;box-sizing:border-box;font:500 16px Fredoka,Trebuchet MS,sans-serif;padding:11px 16px;border-radius:22px;border:2px solid #c9d3e6;background:#ffffff;color:#1f2a44;outline:none"><button id="svb" style="border:0;border-radius:22px;padding:11px 16px;font:700 14px Fredoka,Trebuchet MS,sans-serif;color:#fff;background:linear-gradient(#3a6fd8,#1f4aa8);box-shadow:0 3px 0 #163a80;cursor:pointer">INDIENEN</button>';
+  document.body.appendChild(d);SV.el=d;const inp=d.querySelector('#svq'),go=()=>svSend(inp.value);d.querySelector('#svb').addEventListener('click',e=>{e.preventDefault();go()});inp.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'){e.preventDefault();go()}});['pointerdown','pointerup','touchstart'].forEach(ev=>d.addEventListener(ev,e=>e.stopPropagation()))}
+addEventListener('pointermove',e=>{if(state!=='support'||SV.dragY==null)return;const r=cv.getBoundingClientRect(),py=(e.clientY-r.top)*H/r.height;SV.scroll=(SV.scroll||0)+(py-SV.dragY);SV.dragY=py});
+addEventListener('pointerup',()=>{SV.dragY=null});addEventListener('wheel',e=>{if(state==='support'){SV.scroll=(SV.scroll||0)-e.deltaY*.6}},{passive:true});
+function svPlace(){if(!SV.el)return;const r=cv.getBoundingClientRect(),sx=r.width/W,sy=r.height/H;SV.el.style.left=(r.left+14*sx)+'px';SV.el.style.top=(r.top+584*sy)+'px';SV.el.style.width=(452*sx)+'px';SV.el.style.display=SV.survey?'none':'flex'}
+function svJoost(x,y,s,talk,now){const def={id:'joost',hair:'bald',skin:'#f1c9a5',shirt:'#24324f',glasses:true};ctx.save();pzChar(x,y,s,def,talk&&Math.floor(now/140)%2?2:1);ctx.translate(x,y);ctx.scale(s,s);
+  // wit overhemd + stropdas
+  ctx.fillStyle='#f4f6fa';ctx.beginPath();ctx.moveTo(-12,-2);ctx.lineTo(12,-2);ctx.lineTo(0,30);ctx.closePath();ctx.fill();ctx.fillStyle='#b8262c';ctx.beginPath();ctx.moveTo(-4,0);ctx.lineTo(4,0);ctx.lineTo(3,6);ctx.lineTo(6,30);ctx.lineTo(0,38);ctx.lineTo(-6,30);ctx.lineTo(-3,6);ctx.closePath();ctx.fill();ctx.fillStyle='rgba(255,255,255,.25)';[10,18,26].forEach(yy=>{ctx.fillRect(-4,yy,8,1.6)});
+  // naamplaatje
+  ctx.fillStyle='#fff';ctx.strokeStyle='#c9a441';ctx.lineWidth=1.5;ctx.beginPath();ctx.roundRect(20,22,34,14,3);ctx.fill();ctx.stroke();ctx.fillStyle='#24324f';ctx.font='bold 8px '+FNT;ctx.textAlign='center';ctx.fillText('JOOST',37,32);
+  // headset
+  ctx.strokeStyle='#2a2a30';ctx.lineWidth=4;ctx.beginPath();ctx.arc(0,-66,42,Math.PI*1.1,Math.PI*1.9);ctx.stroke();ctx.fillStyle='#2a2a30';ctx.beginPath();ctx.roundRect(-46,-72,12,22,5);ctx.fill();ctx.beginPath();ctx.roundRect(34,-72,12,22,5);ctx.fill();ctx.strokeStyle='#2a2a30';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(-40,-52);ctx.quadraticCurveTo(-36,-32,-16,-30);ctx.stroke();ctx.fillStyle='#4a4a55';ctx.beginPath();ctx.ellipse(-13,-30,5,3.5,0,0,7);ctx.fill();ctx.restore()}
+function drawSupport(){const now=performance.now();svPlace();
+  if(SV.pending&&SV.pending.length&&now>=SV.pending[0].at){const m=SV.pending.shift();SV.msgs.push({who:m.who,txt:m.txt,t:now});if(m.who==='j'){blip(660,'sine',.08,.05);setTimeout(()=>blip(990,'sine',.08,.04),80)}}
+  let g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#eef2f8');g.addColorStop(1,'#dfe6f1');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+  // kop
+  g=ctx.createLinearGradient(0,0,0,58);g.addColorStop(0,'#1f4aa8');g.addColorStop(1,'#16367c');ctx.fillStyle=g;ctx.fillRect(0,0,W,58);ctx.fillStyle='#c9a441';ctx.fillRect(0,58,W,2);
+  ctx.save();ctx.fillStyle='rgba(255,255,255,.15)';ctx.beginPath();ctx.roundRect(10,13,84,32,16);ctx.fill();ctx.restore();text('TERUG',52,34,14,'#fff');
+  ctx.save();ctx.font="700 19px Fredoka,sans-serif";ctx.textAlign='center';ctx.fillStyle='#fff';ctx.fillText('Doedelzak™ Klantenservice',W/2+30,30);ctx.font='500 11px Fredoka,sans-serif';ctx.fillStyle='rgba(255,255,255,.75)';ctx.fillText('Wij staan altijd voor u klaar*',W/2+30,47);ctx.restore();
+  // medewerker-kaart
+  ctx.save();ctx.shadowColor='rgba(20,40,90,.15)';ctx.shadowBlur=10;ctx.shadowOffsetY=3;ctx.fillStyle='#fff';ctx.beginPath();ctx.roundRect(12,70,456,92,16);ctx.fill();ctx.restore();
+  ctx.save();ctx.beginPath();ctx.roundRect(22,78,76,76,14);ctx.clip();ctx.fillStyle='#dfe8f8';ctx.fillRect(22,78,76,76);svJoost(60,172,.6,SV.typing>now,now);ctx.restore();
+  ctx.save();ctx.textAlign='left';ctx.font='700 20px Fredoka,sans-serif';ctx.fillStyle='#1f2a44';ctx.fillText('Joost',112,104);ctx.font='500 12px Fredoka,sans-serif';ctx.fillStyle='#5a6680';ctx.fillText(SV.lead?'Teamleider Klantrelaties':'Senior Customer Experience Officer',112,123);ctx.fillStyle='#2f9e57';ctx.beginPath();ctx.arc(116,140,4.5,0,7);ctx.fill();ctx.fillStyle='#2f9e57';ctx.font='600 12px Fredoka,sans-serif';ctx.fillText(SV.typing>now?'Joost is aan het typen...':'online',126,144);ctx.restore();
+  ctx.save();ctx.font='600 10px Fredoka,sans-serif';ctx.textAlign='right';ctx.fillStyle='#8a94a8';ctx.fillText(SV.no?'klacht DZ-'+SV.no:'',458,92);ctx.restore();
+  // einde-knop
+  if(SV.n>0&&!SV.survey){ctx.save();ctx.fillStyle='#fff';ctx.strokeStyle='#c94040';ctx.lineWidth=1.5;ctx.beginPath();ctx.roundRect(348,124,110,28,14);ctx.fill();ctx.stroke();ctx.restore();text('BEËINDIGEN',403,143,12,'#c94040')}
+  // chat
+  const top=172,bot=574;ctx.save();ctx.beginPath();ctx.rect(0,top,W,bot-top);ctx.clip();
+  const lay=[];ctx.font='500 14px Fredoka,sans-serif';SV.msgs.forEach(m=>{if(m.who==='sys'){lay.push({m,h:26,L:[m.txt]});return}const L=wrap(m.txt,m.who==='u'?280:312);lay.push({m,h:L.length*18+18,L})});
+  const dots=SV.typing>now&&(!SV.pending.length||SV.pending[0].who==='j');let tot=lay.reduce((a,b)=>a+b.h+10,0)+(dots?44:0);const mx=Math.max(0,tot-(bot-top-16));if(SV.msgs.length!==SV.lastN){SV.lastN=SV.msgs.length;SV.scroll=0}SV.scroll=Math.max(0,Math.min(mx,SV.scroll||0));let y=Math.min(top+8,bot-8-tot)+SV.scroll;
+  lay.forEach(o=>{const m=o.m,a=m.t?Math.min(1,(now-m.t)/250):1;ctx.save();ctx.globalAlpha=a;
+    if(m.who==='sys'){ctx.font='italic 500 12px Fredoka,sans-serif';ctx.textAlign='center';ctx.fillStyle='#7a849a';ctx.fillText(m.txt,W/2,y+16)}
+    else{const me=m.who==='u',w=Math.min(me?300:332,Math.max(...o.L.map(l=>ctx.measureText(l).width))+24),x=me?W-14-w:14;ctx.shadowColor='rgba(20,40,90,.12)';ctx.shadowBlur=6;ctx.shadowOffsetY=2;ctx.fillStyle=me?'#3a6fd8':'#ffffff';ctx.beginPath();ctx.roundRect(x,y,w,o.h,[14,14,me?4:14,me?14:4]);ctx.fill();ctx.shadowColor='transparent';
+      ctx.font='500 14px Fredoka,sans-serif';ctx.textAlign='left';ctx.fillStyle=me?'#fff':'#1f2a44';o.L.forEach((l,k)=>ctx.fillText(l,x+12,y+22+k*18))}
+    ctx.restore();y+=o.h+10});
+  if(dots){ctx.save();ctx.fillStyle='#fff';ctx.beginPath();ctx.roundRect(14,y,66,34,[14,14,14,4]);ctx.fill();for(let k=0;k<3;k++){ctx.fillStyle='rgba(90,102,128,'+(.35+.65*Math.max(0,Math.sin(now/180-k*.8)))+')';ctx.beginPath();ctx.arc(32+k*15,y+17,4,0,7);ctx.fill()}ctx.restore()}
+  ctx.restore();
+  ctx.save();ctx.font='500 9px Fredoka,sans-serif';ctx.textAlign='center';ctx.fillStyle='#8a94a8';ctx.fillText('*binnen redelijke grenzen, uitsluitend op werkdagen, behoudens overmacht',W/2,634);ctx.restore();
+  if(SV.survey)svSurvey(now)}
+function svSurvey(now){const e=Math.min(1,(now-SV.survey)/250);ctx.save();ctx.fillStyle='rgba(15,25,50,'+(.55*e)+')';ctx.fillRect(0,0,W,H);ctx.globalAlpha=e;ctx.fillStyle='#fff';ctx.beginPath();ctx.roundRect(40,200,400,230,22);ctx.fill();
+  ctx.textAlign='center';ctx.font='700 20px Fredoka,sans-serif';ctx.fillStyle='#1f2a44';ctx.fillText(SV.done?'Bedankt voor uw beoordeling!':'Hoe tevreden bent u over Joost?',W/2,246);
+  if(!SV.done){for(let i=0;i<5;i++){ctx.font='40px serif';ctx.fillStyle='#c9d3e6';ctx.fillText('★',W/2-100+i*50,312)}ctx.font='500 12px Fredoka,sans-serif';ctx.fillStyle='#8a94a8';ctx.fillText('tik op een ster',W/2,350)}
+  else{ctx.font='40px serif';ctx.fillStyle='#f2b51e';ctx.fillText('★★★★★',W/2,306);ctx.font='500 14px Fredoka,sans-serif';ctx.fillStyle='#3a4560';wrap('Uw beoordeling is door ons systeem verwerkt als 5 sterren. Wij zijn blij dat u zo tevreden bent.',340).forEach((l,k)=>ctx.fillText(l,W/2,340+k*19));ctx.font='600 12px Fredoka,sans-serif';ctx.fillStyle='#1f4aa8';ctx.fillText('tik om terug te gaan',W/2,410)}ctx.restore()}
+function svDown(px,py){if(SV.survey){if(SV.done){if(performance.now()-SV.done>600)goMenu();return}if(py>270&&py<330&&px>W/2-130&&px<W/2+130){SV.done=performance.now();[784,988,1175,1568].forEach((f,i)=>setTimeout(()=>blip(f,'triangle',.15,.06),i*80))}return}
+  if(px<100&&py<52){goMenu();return}
+  if(SV.n>0&&px>348&&px<458&&py>124&&py<152){SV.survey=performance.now();return}
+  if(py>172&&py<574){SV.dragY=py;return}
+  if(SV.el){const i=SV.el.querySelector('#svq');if(i)i.focus()}}
 
 // ===== DAMMEN TEGEN DOEDELZAK =====
 const DM_LV=[{n:'Makkelijk',d:'Doedelzak heeft net leren dammen',col:'#4cc46a',c:15},{n:'Gemiddeld',d:'Hij heeft er een boekje over gelezen',col:'#ffb52e',c:30},{n:'Moeilijk',d:'Hij oefent stiekem elke nacht',col:'#ff6a3d',c:60},{n:'Grootmeester',d:'Hamster-wereldkampioen. Veel succes.',col:'#c63bd6',c:100}];
@@ -4415,7 +4512,7 @@ addEventListener('pagehide',()=>bgAudio(true));addEventListener('pageshow',()=>{
     if(pi>=plan.length&&!done){done=true;tx.textContent='Klaar!';setTimeout(()=>{b.style.opacity='0';setTimeout(()=>b.remove(),480)},260)}
     requestAnimationFrame(frame)}
   requestAnimationFrame(frame)}catch(e){const x=document.getElementById('boot');if(x)x.remove()}})();
-(function loop(){if(state!=='medium'&&MD.el)mdUI(false);{const kb=document.getElementById('k'),bt=document.getElementById('b'),pl=state==='play'||state==='shoot';if(kb)kb.style.display=state==='play'?'':'none';if(bt)bt.style.display=pl?'':'none'}if(mGain&&(state==='studio'||prevSt==='studio'))mGain.gain.value=state==='studio'||userMuted?0:.5;if(state==='studio'){if(!music.paused)music.pause()}else if(prevSt==='studio'){stLeave();try{music.muted=userMuted;const pp=usingWA?null:music.play();if(pp&&pp.catch)pp.catch(()=>{})}catch(e){}}prevSt=state;setTrack(trkSel||autoTrack());if(state!=='pet'&&(PET.shower||PET.singSrc))petShower(false);if(mode==='fly'||mode==='shoot')syncCoins();if(homeAsk)drawHomeAsk();else{if(state==='play')update();else if(state==='shoot')shUpdate();else if(state==='run')runUpdate();draw()}pzVig();petToastDraw();if(trkMsgT>0){trkMsgT--;ctx.save();ctx.globalAlpha=Math.min(1,trkMsgT/20);ctx.font='bold 15px '+FNT;ctx.textAlign='center';const w=ctx.measureText('Muziek: '+TNAME[trkSel||autoTrack()]).width+28;rrect(W/2-w/2,H-64,w,30,15,'rgba(40,10,60,.85)');ctx.fillStyle='#fff';ctx.fillText('Muziek: '+TNAME[trkSel||autoTrack()],W/2,H-44);ctx.restore()}requestAnimationFrame(loop)})();
+(function loop(){if(state!=='medium'&&MD.el)mdUI(false);if(state!=='support'&&SV.el)svUI(false);{const kb=document.getElementById('k'),bt=document.getElementById('b'),pl=state==='play'||state==='shoot';if(kb)kb.style.display=state==='play'?'':'none';if(bt)bt.style.display=pl?'':'none'}if(mGain&&(state==='studio'||prevSt==='studio'))mGain.gain.value=state==='studio'||userMuted?0:.5;if(state==='studio'){if(!music.paused)music.pause()}else if(prevSt==='studio'){stLeave();try{music.muted=userMuted;const pp=usingWA?null:music.play();if(pp&&pp.catch)pp.catch(()=>{})}catch(e){}}prevSt=state;setTrack(trkSel||autoTrack());if(state!=='pet'&&(PET.shower||PET.singSrc))petShower(false);if(mode==='fly'||mode==='shoot')syncCoins();if(homeAsk)drawHomeAsk();else{if(state==='play')update();else if(state==='shoot')shUpdate();else if(state==='run')runUpdate();draw()}pzVig();petToastDraw();if(trkMsgT>0){trkMsgT--;ctx.save();ctx.globalAlpha=Math.min(1,trkMsgT/20);ctx.font='bold 15px '+FNT;ctx.textAlign='center';const w=ctx.measureText('Muziek: '+TNAME[trkSel||autoTrack()]).width+28;rrect(W/2-w/2,H-64,w,30,15,'rgba(40,10,60,.85)');ctx.fillStyle='#fff';ctx.fillText('Muziek: '+TNAME[trkSel||autoTrack()],W/2,H-44);ctx.restore()}requestAnimationFrame(loop)})();
 </script>
 <div id="a2hs" hidden><img src="icons/icon-192.png" alt=""><div id="a2t"></div><button id="a2b" hidden>INSTALLEER</button><button class="x" id="a2x" aria-label="Sluiten">&#10005;</button></div>
 <script>
